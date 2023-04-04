@@ -3,7 +3,7 @@ package org.nico.quoted;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class QuoteController {
     @FXML
     private Label welcomeText;
 

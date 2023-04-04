@@ -2,10 +2,10 @@ package org.nico.quoted.domain;
 
 import java.util.Set;
 
-public class URL implements Quotable {
+public class Article implements Quotable {
     private String url;
 
-    public URL(String url) {
+    public Article(String url) {
         this.url = url;
     }
 
@@ -17,8 +17,8 @@ public class URL implements Quotable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        URL url = (URL) o;
-        return this.url.equalsIgnoreCase(url.url);
+        Article article = (Article) o;
+        return this.url.equalsIgnoreCase(article.url);
     }
 
     @Override

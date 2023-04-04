@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'org.nico.quoted'
-    mainClass = 'org.nico.quoted.HelloApplication'
+    mainClass = 'org.nico.quoted.QuoteApplication'
 }
 
 javafx {
