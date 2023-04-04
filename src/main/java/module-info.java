@@ -1,8 +1,7 @@
-module com.example.quoted {
+module org.nico.quoted {
     requires javafx.controls;
     requires javafx.fxml;
 
-
-    opens com.example.quoted to javafx.fxml;
-    exports com.example.quoted;
+    opens org.nico.quoted to javafx.fxml;
+    exports org.nico.quoted;
 }

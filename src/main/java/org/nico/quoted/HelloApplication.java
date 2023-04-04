@@ -1,4 +1,4 @@
-package com.example.quoted;
+package org.nico.quoted;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

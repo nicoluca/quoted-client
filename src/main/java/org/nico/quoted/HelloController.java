@@ -1,4 +1,4 @@
-package com.example.quoted;
+package org.nico.quoted;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

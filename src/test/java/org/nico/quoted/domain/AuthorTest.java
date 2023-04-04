@@ -1,0 +1,19 @@
+package org.nico.quoted.domain;
+
+import org.junit.jupiter.api.Test;
+import org.nico.quoted.domain.Author;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class AuthorTest {
+
+    @Test
+    void testEquals() {
+        Author author1 = new Author("J.R.R.", "Tolkien");
+        Author author2 = new Author("J.r.r.", "tolkien");
+        Author author3 = new Author("J.R.R.", "T");
+
+        assertTrue(author1.equals(author2));
+        assertFalse(author1.equals(author3));
+    }
+}
