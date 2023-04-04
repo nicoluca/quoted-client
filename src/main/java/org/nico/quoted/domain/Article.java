@@ -3,14 +3,12 @@ package org.nico.quoted.domain;
 import java.util.Set;
 
 public class Article implements Quotable {
+    private String title;
     private String url;
 
-    public Article(String url) {
+    public Article(String title, String url) {
+        this.title = title;
         this.url = url;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     @Override
@@ -22,8 +20,12 @@ public class Article implements Quotable {
     }
 
     @Override
-    public Set<Quote> getQuotes() {
-        // TODO
-        return null;
+    public String getTitle() {
+        return this.title;
+    }
+
+    @Override
+    public String getOrigin() {
+        return this.url;
     }
 }

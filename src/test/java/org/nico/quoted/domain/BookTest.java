@@ -27,7 +27,7 @@ class BookTest {
     @Test
     void getAuthor() {
         Author author1 = new Author("j.r.r.", "Tolkien");
-        assert book1.getAuthor().equals(author1);
-        assert book2.getAuthor().equals(author1);
+        assert book1.getOrigin().equalsIgnoreCase(author1.toString());
+        assert book2.getOrigin().equalsIgnoreCase(author1.toString());
     }
 }

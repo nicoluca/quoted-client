@@ -21,8 +21,9 @@ public class Book implements Quotable {
         return title;
     }
 
-    public Author getAuthor() {
-        return author;
+    @Override
+    public String getOrigin() {
+        return this.author.toString();
     }
 
     @Override
@@ -33,11 +34,5 @@ public class Book implements Quotable {
         Book book = (Book) o;
         return this.title.equals(book.title)
                 && this.author.equals(book.author);
-    }
-
-    @Override
-    public Set<Quote> getQuotes() {
-        // TODO
-        return null;
     }
 }

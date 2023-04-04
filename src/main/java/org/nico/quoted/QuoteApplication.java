@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import static org.nico.quoted.config.Config.*;
+import static org.nico.quoted.config.Constants.*;
 
 public class QuoteApplication extends Application {
     @Override

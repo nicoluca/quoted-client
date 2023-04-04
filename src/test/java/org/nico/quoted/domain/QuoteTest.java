@@ -12,7 +12,7 @@ class QuoteTest {
                 new Book("The Hobbit", new Author("J.R.R.", "Tolkien"), "12345", "abcd"));
         quote2 = new Quote("Hello World!",
                 new Book("The Hobbit", new Author("J.R.R.", "Tolkien"), "12345", "abcd"));
-        quote3 = new Quote("Hello World!", new Article("https://www.google.com"));
+        quote3 = new Quote("Hello World!", new Article("Google", "https://www.google.com"));
     }
 
     @Test

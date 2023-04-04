@@ -17,4 +17,9 @@ public class Author {
         return this.firstName.equalsIgnoreCase(author.firstName)
                 && this.lastName.equalsIgnoreCase(author.lastName);
     }
+
+    @Override
+    public String toString() {
+        return this.firstName + " " + this.lastName;
+    }
 }
