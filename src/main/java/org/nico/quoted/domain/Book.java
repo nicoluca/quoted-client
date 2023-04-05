@@ -44,4 +44,8 @@ public class Book implements Quotable {
     public String toString() {
         return this.title + " (" + this.author + ")";
     }
+
+    public Author getAuthor() {
+        return author;
+    }
 }

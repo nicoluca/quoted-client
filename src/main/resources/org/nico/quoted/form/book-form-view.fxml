@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="333.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nico.quoted.ui.controller.form.BookFormViewController">
    <children>
       <GridPane layoutX="207.0" layoutY="46.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -22,6 +21,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Title">
@@ -32,7 +32,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Author" GridPane.rowIndex="1">
+            <Label text="Author (First Name)" GridPane.rowIndex="1">
                <padding>
                   <Insets top="10.0" />
                </padding>
@@ -40,39 +40,46 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Cover" GridPane.rowIndex="2">
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
+            <TextField fx:id="titleTextField" text="*" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="authorFirstNameTextField" text="*" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <Button fx:id="coverPathButton" mnemonicParsing="false" onAction="#onCoverPathButtonClicked" text="Open Cover" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirmButtonClicked" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="10.0" right="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Label text="Author (Last Name)" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </GridPane.margin>
             </Label>
-            <Button fx:id="exitDeleteButton" mnemonicParsing="false" text="Exit/Delete" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </Button>
-            <TextField fx:id="titleTextField" GridPane.columnIndex="1">
+            <TextField fx:id="authorLastNameTextField" text="*" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="authorTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="coverPathTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="coverFilePathButton" mnemonicParsing="false" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
+            <Label fx:id="errorLabel" style="-fx-text-fill: red;" styleClass="ErrorClass" text="Error Message" GridPane.rowIndex="4">
+               <padding>
                   <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="confirmButton" mnemonicParsing="false" text="Confirm" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets right="10.0" />
-               </GridPane.margin>
-            </Button>
+               </padding>
+            </Label>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -1,6 +1,7 @@
 package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,13 +9,14 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import org.nico.quoted.config.Logger;
 import org.nico.quoted.domain.Quotable;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
 public class SourceTableViewController extends BaseController {
 
     @FXML
-    private Button addResourceButton;
+    private Button addBookButton;
 
     @FXML
     private TableView<Quotable> sourceTableView;
@@ -35,7 +37,19 @@ public class SourceTableViewController extends BaseController {
     void initialize() {
         checkAssertions();
         initializeTableView();
+        watchForChanges();
+        bindSelectedSource();
+    }
 
+    private void bindSelectedSource() {
+        model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
+    }
+
+    private void watchForChanges() {
+        sourceTableView.itemsProperty().addListener((observable, oldValue, newValue) -> {
+            sourceTableView.refresh();
+            Logger.LOGGER.log(Logger.INFO, "Source list changed");
+        });
     }
 
     private void initializeTableView() {
@@ -74,7 +88,7 @@ public class SourceTableViewController extends BaseController {
     }
 
     private void checkAssertions() {
-        assert addResourceButton != null : "fx:id=\"addResourceButton\" was not injected: check your FXML file 'source-table-view.fxml'.";
+        assert addBookButton != null : "fx:id=\"addResourceButton\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert editButtonColumn != null : "fx:id=\"editButtonColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert originColumn != null : "fx:id=\"originColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert sourceTableView != null : "fx:id=\"sourceTableView\" was not injected: check your FXML file 'source-table-view.fxml'.";
@@ -82,7 +96,7 @@ public class SourceTableViewController extends BaseController {
         assert typeColumn != null : "fx:id=\"typeColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
     }
 
-    public void onAddResourceButtonClicked(ActionEvent actionEvent) {
+    public void onAddBookButtonClick(ActionEvent actionEvent) {
         new BookFormView().show();
     }
 }

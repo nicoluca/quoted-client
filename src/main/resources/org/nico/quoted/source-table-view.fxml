@@ -22,7 +22,7 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="addResourceButton" mnemonicParsing="false" text="Add Source" onAction="#onAddResourceButtonClicked">
+            <Button fx:id="addBookButton" mnemonicParsing="false" text="Add Book" onAction="#onAddBookButtonClick">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
