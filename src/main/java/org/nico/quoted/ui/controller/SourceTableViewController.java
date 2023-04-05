@@ -1,6 +1,7 @@
 package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -8,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.nico.quoted.domain.Quotable;
+import org.nico.quoted.ui.controller.form.BookFormView;
 
 public class SourceTableViewController extends BaseController {
 
@@ -80,4 +82,7 @@ public class SourceTableViewController extends BaseController {
         assert typeColumn != null : "fx:id=\"typeColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
     }
 
+    public void onAddResourceButtonClicked(ActionEvent actionEvent) {
+        new BookFormView().show();
+    }
 }
