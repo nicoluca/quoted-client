@@ -4,10 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import org.nico.quoted.config.Logger;
 import org.nico.quoted.domain.Quotable;
@@ -15,6 +12,8 @@ import org.nico.quoted.ui.controller.form.BookFormView;
 
 public class SourceTableViewController extends BaseController {
 
+    @FXML
+    private TextField searchTextField;
     @FXML
     private Button addBookButton;
 
@@ -94,6 +93,7 @@ public class SourceTableViewController extends BaseController {
         assert sourceTableView != null : "fx:id=\"sourceTableView\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert titleColumn != null : "fx:id=\"titleColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert typeColumn != null : "fx:id=\"typeColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
+        assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'source-table-view.fxml'.";
     }
 
     public void onAddBookButtonClick(ActionEvent actionEvent) {
