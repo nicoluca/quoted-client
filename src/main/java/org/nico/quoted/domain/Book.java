@@ -1,8 +1,7 @@
 package org.nico.quoted.domain;
 
-import java.util.Set;
-
 public class Book implements Quotable {
+    public static final QuotableType type = QuotableType.BOOK;
     private String title;
     private Author author;
 
@@ -27,6 +26,11 @@ public class Book implements Quotable {
     }
 
     @Override
+    public String getType() {
+        return type.toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         // TODO Replace with ISBN
         if (this == o) return true;
@@ -34,5 +38,10 @@ public class Book implements Quotable {
         Book book = (Book) o;
         return this.title.equals(book.title)
                 && this.author.equals(book.author);
+    }
+
+    @Override
+    public String toString() {
+        return this.title + " (" + this.author + ")";
     }
 }

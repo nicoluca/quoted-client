@@ -3,6 +3,7 @@ package org.nico.quoted.domain;
 import java.util.Set;
 
 public class Article implements Quotable {
+    public static final QuotableType type = QuotableType.ARTICLE;
     private String title;
     private String url;
 
@@ -27,5 +28,10 @@ public class Article implements Quotable {
     @Override
     public String getOrigin() {
         return this.url;
+    }
+
+    @Override
+    public String getType() {
+        return type.toString();
     }
 }

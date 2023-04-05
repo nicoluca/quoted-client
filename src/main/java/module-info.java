@@ -4,4 +4,6 @@ module org.nico.quoted {
 
     opens org.nico.quoted to javafx.fxml;
     exports org.nico.quoted;
+    exports org.nico.quoted.ui.controller;
+    opens org.nico.quoted.ui.controller to javafx.fxml;
 }
