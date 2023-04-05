@@ -26,15 +26,37 @@
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Book" />
-                  <CheckBox fx:id="toggleURL" mnemonicParsing="false" onAction="#toggleUrlField" text="URL" GridPane.rowIndex="1" />
-                  <TextField fx:id="urlInputField" text="https://..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ChoiceBox fx:id="bookChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
+                  <Label text="Book">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></Label>
+                  <CheckBox fx:id="toggleURL" mnemonicParsing="false" onAction="#toggleUrlField" text="URL" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin></CheckBox>
+                  <TextField fx:id="urlInputField" text="https://..." GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin></TextField>
+                  <ChoiceBox fx:id="bookChoiceBox" prefHeight="26.0" prefWidth="290.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin></ChoiceBox>
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#onAddButtonClick" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="85.0" style="-fx-text-fill: red;" text="Error Message" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="10.0" />
+                     </GridPane.margin>
+                  </Label>
                </children>
             </GridPane>
-            <Button fx:id="addButton" mnemonicParsing="false" text="Add" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
