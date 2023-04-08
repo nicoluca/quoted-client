@@ -30,7 +30,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </VBox>
-            <Button fx:id="nextQuoteButton" mnemonicParsing="false" text="Next">
+            <Button fx:id="nextQuoteButton" mnemonicParsing="false" text="Next" onAction="#onNextQuoteButtonClicked">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

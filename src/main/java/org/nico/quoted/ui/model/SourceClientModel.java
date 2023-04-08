@@ -28,6 +28,7 @@ public class SourceClientModel {
     public final ObservableList<Quote> quotes = FXCollections.observableArrayList(BackendConstants.defaultQuotes());
     private final ObjectProperty<SourceInterface> selectedSource = new SimpleObjectProperty<>();
     private final ObjectProperty<Quote> selectedQuote = new SimpleObjectProperty<>();
+    private static Quote lastRandomQuote = null;
 
     public void setSelectedQuote(Quote selectedQuote) {
         this.selectedQuote.set(selectedQuote);
@@ -101,5 +102,14 @@ public class SourceClientModel {
 
     public void deleteQuote() {
         quotes.remove(selectedQuote.get());
+    }
+
+    public Quote getRandomQuote() {
+        Quote randomQuote;
+        do {
+            randomQuote = quotes.get((int) (Math.random() * quotes.size()));
+        } while (lastRandomQuote != null && randomQuote.equals(lastRandomQuote));
+        lastRandomQuote = randomQuote;
+        return randomQuote;
     }
 }
