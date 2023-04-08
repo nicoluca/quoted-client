@@ -1,9 +1,7 @@
 package org.nico.quoted.ui.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
@@ -11,7 +9,7 @@ import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
 
-public class BrowseViewController extends BaseController {
+public class BrowseViewController extends MainController {
 
     @FXML
     private TableView<Quote> quoteTableView;
@@ -19,11 +17,6 @@ public class BrowseViewController extends BaseController {
     private TableView<SourceInterface> sourceTableView;
     @FXML
     private TextField searchTextField;
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private TableColumn<Quote, Button> editQuoteColumn;
@@ -40,10 +33,18 @@ public class BrowseViewController extends BaseController {
     @FXML
     void initialize() {
         checkAssertions();
-        fillSourceTable();
-        fillQuoteTable();
+        fillSourceTable(model.getSources());
+        fillQuoteTable(model.getQuotes());
         bindSourceSelection();
         bindQuoteSelection();
+        bindSearch();
+    }
+
+    private void bindSearch() {
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            fillQuoteTable(model.getQuotesBySearch(newValue));
+            fillSourceTable(model.getSourcesBySearch(newValue));
+        });
     }
 
     private void bindQuoteSelection() {
@@ -52,40 +53,42 @@ public class BrowseViewController extends BaseController {
 
     private void bindSourceSelection() {
         model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
+        // Listen for changes in selected source and update quotes
+        model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
+            // TODO this does not work
+            if (newValue == null)
+                fillQuoteTable(model.getQuotes());
+
+        });
     }
 
-    private void fillQuoteTable() {
-        quoteTableView.setItems(model.quotes);
+    private void fillQuoteTable(ObservableList<Quote> currentQuotes) {
+        quoteTableView.setItems(currentQuotes);
         quoteColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getText()));
         fillEditQuoteColumn();
         fillDeleteQuoteColumn();
     }
 
     private void fillDeleteQuoteColumn() {
-        deleteQuoteColumn.setCellFactory(new Callback<TableColumn<Quote, Button>, TableCell<Quote, Button>>() {
-            @Override
-            public TableCell<Quote, Button> call(TableColumn<Quote, Button> bookButtonTableColumn) {
-                TableCell<Quote, Button> cell = new TableCell<>() {
+        deleteQuoteColumn.setCellFactory(bookButtonTableColumn -> {
+            TableCell<Quote, Button> cell = new TableCell<>() {
 
-                    Button deleteButton = new Button("Delete");
-                    @Override
-                    protected void updateItem(Button button, boolean empty) {
-                        if (empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            // wenn button gedrückt, führe event handler aus
-                            deleteButton.setOnAction(event -> {
-                                deleteQuote();
-                            });
-                            setText(null);
-                            setGraphic(deleteButton);
-                        }
+                Button deleteButton = new Button("Delete");
+                @Override
+                protected void updateItem(Button button, boolean empty) {
+                    if (empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        // wenn button gedrückt, führe event handler aus
+                        deleteButton.setOnAction(event -> deleteQuote());
+                        setText(null);
+                        setGraphic(deleteButton);
                     }
-                };
+                }
+            };
 
-                return cell;
-            }
+            return cell;
         });
     }
 
@@ -126,8 +129,8 @@ public class BrowseViewController extends BaseController {
         new QuoteFormView().show();
     }
 
-    private void fillSourceTable() {
-        sourceTableView.setItems(model.sources);
+    private void fillSourceTable(ObservableList<SourceInterface> currentSources) {
+        sourceTableView.setItems(currentSources);
         sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigin()));
         // TODO why here origin and not title -> make clear
     }
@@ -141,5 +144,7 @@ public class BrowseViewController extends BaseController {
         assert deleteQuoteColumn != null : "fx:id=\"deleteQuoteColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'browse-view.fxml'.";
     }
+
+
 
 }

@@ -1,6 +1,8 @@
 package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,7 +11,7 @@ import org.nico.quoted.config.Logger;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
-public class SourceTableViewController extends BaseController {
+public class SourceTableViewController extends MainController {
 
     @FXML
     private TableColumn deleteButtonColumn;
@@ -36,9 +38,20 @@ public class SourceTableViewController extends BaseController {
     @FXML
     void initialize() {
         checkAssertions();
-        initializeTableView();
+        fillTableView(model.getSources());
         watchForChanges();
         bindSelectedSource();
+        setUpSearchField();
+        bindResetListener();
+    }
+
+    private void bindResetListener() {
+        model.resetFormProperty().addListener((observable, oldValue, newValue) -> sourceTableView.getSelectionModel().clearSelection());
+    }
+
+    private void setUpSearchField() {
+        searchTextField.textProperty().addListener((observable, oldValue, newValue)
+                -> fillTableView(model.getSourcesBySearch(newValue)));
     }
 
     private void bindSelectedSource() {
@@ -52,40 +65,40 @@ public class SourceTableViewController extends BaseController {
         });
     }
 
-    private void initializeTableView() {
-        sourceTableView.setItems(model.sources);
-        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+    private void fillTableView(ObservableList<SourceInterface> currentSources) {
+        sourceTableView.setItems(currentSources);
+        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
+        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
         originColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigin()));
         setEditButtonColumn();
         setDeleteButtonColumn();
     }
 
     private void setEditButtonColumn() {
-        editButtonColumn.setCellFactory(new Callback<TableColumn<SourceInterface, Button>, TableCell<SourceInterface, Button>>() {
-            @Override
-            public TableCell<SourceInterface, Button> call(TableColumn<SourceInterface, Button> bookButtonTableColumn) {
-                TableCell<SourceInterface, Button> cell = new TableCell<>() {
+        editButtonColumn.setCellFactory(bookButtonTableColumn -> {
+            TableCell<SourceInterface, Button> cell = new TableCell<>() {
 
-                    Button editButton = new Button("Edit");
-                    @Override
-                    protected void updateItem(Button button, boolean empty) {
-                        if (empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            // wenn button gedrückt, führe event handler aus
-                            editButton.setOnAction(event -> {
-                                // TODO
-                            });
-                            setText(null);
-                            setGraphic(editButton);
-                        }
+                Button editButton = new Button("Edit");
+                @Override
+                protected void updateItem(Button button, boolean empty) {
+                    if (empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        // wenn button gedrückt, führe event handler aus
+                        editButton.setOnAction(event -> addOrEditBook());
+                        setText(null);
+                        setGraphic(editButton);
                     }
-                };
+                }
+            };
 
-                return cell;
-            }
+            return cell;
         });
+    }
+
+    private void addOrEditBook() {
+        new BookFormView().show();
     }
 
 
@@ -131,6 +144,8 @@ public class SourceTableViewController extends BaseController {
     }
 
     public void onAddBookButtonClick(ActionEvent actionEvent) {
-        new BookFormView().show();
+        sourceTableView.getSelectionModel().clearSelection();
+        addOrEditBook();
     }
+
 }

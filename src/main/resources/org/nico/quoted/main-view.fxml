@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" maxHeight="430.0" maxWidth="600.0" prefHeight="430.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nico.quoted.ui.controller.MainController">
-   <TabPane prefHeight="430.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+   <TabPane fx:id="tabPane" prefHeight="430.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Add">
          <content>

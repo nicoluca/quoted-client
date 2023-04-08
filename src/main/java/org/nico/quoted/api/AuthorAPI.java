@@ -16,9 +16,9 @@ public class AuthorAPI implements CRUDInterface<Author> {
 
     public Author getAuthor(String firstName, String lastName) {
         Author author = new Author(firstName, lastName);
-        if (!BaseController.model.authors.contains(author)) {
+        if (!BaseController.model.getAuthors().contains(author)) {
             Logger.LOGGER.log(Logger.INFO, "Author added: " + author);
-            BaseController.model.authors.add(author);
+            BaseController.model.getAuthors().add(author);
         } else
             Logger.LOGGER.log(Logger.INFO, "Author already exists: " + author);
         return author;

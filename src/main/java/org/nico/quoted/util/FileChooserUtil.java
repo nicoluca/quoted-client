@@ -1,4 +1,4 @@
-package org.nico.quoted.ui;
+package org.nico.quoted.util;
 
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;

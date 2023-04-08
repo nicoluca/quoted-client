@@ -16,9 +16,9 @@ public class SourcesAPI implements CRUDInterface<SourceInterface> {
 
     @Override
     public SourceInterface add(SourceInterface source) {
-        if (!BaseController.model.sources.contains(source)) {
+        if (!BaseController.model.getSources().contains(source)) {
             Logger.LOGGER.log(Logger.INFO, "Source added: " + source);
-            BaseController.model.sources.add(source);
+            BaseController.model.getSources().add(source);
         } else
             Logger.LOGGER.log(Logger.INFO, "Source already exists: " + source);
         return source;

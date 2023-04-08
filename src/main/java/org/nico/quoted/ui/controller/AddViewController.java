@@ -4,13 +4,13 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.nico.quoted.config.Logger;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
+import org.nico.quoted.util.StringUtil;
 
-public class AddViewController extends BaseController {
+public class AddViewController extends MainController {
     @FXML
     private Label errorLabel;
     @FXML
@@ -37,8 +37,8 @@ public class AddViewController extends BaseController {
     }
 
     private void setupChoiceBox() {
-        bookChoiceBox.setItems(model.books);
-        model.books.addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.books));
+        bookChoiceBox.setItems(model.getBooks());
+        model.getBooks().addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.getBooks()));
     }
 
     private void checkAssertions() {
@@ -73,8 +73,7 @@ public class AddViewController extends BaseController {
     private void addQuoteFromBook() {
         Book book = bookChoiceBox.getValue();
         Quote quote = new Quote(quoteInputField.getText(), book);
-        model.getQuotes().add(quote);
-        Logger.LOGGER.log(Logger.INFO, "Added quote from book: " + quote);
+        model.addQuote(quote);
     }
 
     private void addQuoteFromUrl() {
@@ -82,8 +81,7 @@ public class AddViewController extends BaseController {
         String url = urlInputField.getText();
         SourceInterface article = new Article(null, url);
         Quote quote = new Quote(quoteInputField.getText(), article);
-        model.getQuotes().add(quote);
-        Logger.LOGGER.log(Logger.INFO, "Added quote from url: " + quote);
+        model.addQuote(quote);
     }
 
     private void displayError(String s) {
@@ -91,9 +89,8 @@ public class AddViewController extends BaseController {
     }
 
     private boolean inputIsValid() {
-        String regexUrl = "^(https?|ftp)://[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$";
         return !quoteInputField.getText().isEmpty()
-                && (toggleURL.isSelected() && urlInputField.getText().matches(regexUrl)
+                && (toggleURL.isSelected() && StringUtil.isValidURL(urlInputField.getText())
                 || !toggleURL.isSelected() && bookChoiceBox.getValue() != null);
     }
 }

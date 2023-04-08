@@ -22,4 +22,12 @@ public class Author {
     public String toString() {
         return this.firstName + " " + this.lastName;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }

@@ -22,7 +22,8 @@ public class Book implements SourceInterface {
 
     @Override
     public String getOrigin() {
-        return this.author.toString();
+
+        return this.title + " (" + this.author.toString() + ")";
     }
 
     @Override
@@ -47,5 +48,9 @@ public class Book implements SourceInterface {
 
     public Author getAuthor() {
         return author;
+    }
+
+    public String getCoverPath() {
+        return coverPath;
     }
 }

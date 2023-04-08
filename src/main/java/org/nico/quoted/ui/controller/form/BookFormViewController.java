@@ -7,15 +7,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.nico.quoted.api.AuthorAPI;
-import org.nico.quoted.api.SourcesAPI;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
-import org.nico.quoted.ui.FileChooserUtil;
-import org.nico.quoted.ui.controller.BaseController;
+import org.nico.quoted.util.FileChooserUtil;
+import org.nico.quoted.ui.controller.MainController;
 
 import java.io.File;
 
-public class BookFormViewController extends BaseController {
+public class BookFormViewController extends MainController {
 
     @FXML
     private TextField authorFirstNameTextField;
@@ -42,6 +41,16 @@ public class BookFormViewController extends BaseController {
     void initialize() {
         checkAssertions();
         displayError("");
+        fillFields();
+    }
+
+    private void fillFields() {
+        if (model.selectedSourceProperty().get() != null && model.selectedSourceProperty().get() instanceof Book book) {
+            titleTextField.setText(book.getTitle());
+            authorFirstNameTextField.setText(book.getAuthor().getFirstName());
+            authorLastNameTextField.setText(book.getAuthor().getLastName());
+            coverPathTextField.setText(book.getCoverPath());
+        }
     }
 
     private void checkAssertions() {
@@ -62,7 +71,7 @@ public class BookFormViewController extends BaseController {
 
             // TODO This is a tmp solution
             Book book = new Book(titleTextField.getText(), author, "12345", "coverPath");
-            book = (Book) SourcesAPI.getInstance().add(book);
+            model.addBook(book);
 
             closeStage();
         } else

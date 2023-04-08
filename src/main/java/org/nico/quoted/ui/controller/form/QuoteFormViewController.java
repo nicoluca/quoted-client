@@ -1,8 +1,5 @@
 package org.nico.quoted.ui.controller.form;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,12 +9,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.SourceInterface;
-import org.nico.quoted.ui.controller.BaseController;
+import org.nico.quoted.ui.controller.MainController;
+import org.nico.quoted.util.StringUtil;
 
-public class QuoteFormViewController extends BaseController {
+public class QuoteFormViewController extends MainController {
 
     @FXML
     private ChoiceBox<Book> bookChoiceBox;
@@ -39,7 +38,34 @@ public class QuoteFormViewController extends BaseController {
 
     @FXML
     void onConfirmButtonClicked(ActionEvent event) {
+        if (!inputIsValid())
+            displayError("Invalid input");
+        else {
+            Quote quote = model.selectedQuoteProperty().get();
+            quote.setText(quoteTextField.getText());
 
+            if (urlCheckBox.isSelected()) {
+                quote.setSource(model.resolveArticle(urlTextField.getText()));
+            } else {
+                quote.setSource(bookChoiceBox.getValue());
+            }
+
+            model.updateQuote(quote);
+
+            closeStage();
+        }
+    }
+
+    private void closeStage() {
+        Stage currentStage = (Stage) confirmButton.getScene().getWindow();
+        currentStage.close();
+    }
+
+    private boolean inputIsValid() {
+        if (urlCheckBox.isSelected())
+            return !quoteTextField.getText().isBlank() && StringUtil.isValidURL(urlTextField.getText());
+        else
+            return !quoteTextField.getText().isBlank() && bookChoiceBox.getValue() != null;
     }
 
     @FXML
@@ -53,8 +79,8 @@ public class QuoteFormViewController extends BaseController {
     }
 
     private void setupChoiceBox() {
-        bookChoiceBox.setItems(model.books);
-        model.books.addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.books));
+        bookChoiceBox.setItems(model.getBooks());
+        model.getBooks().addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.getBooks()));
     }
 
     private void fillQuoteForm() {
