@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import org.nico.quoted.config.BackendConstants;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
-import org.nico.quoted.domain.Quotable;
+import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class SourceClientModel {
 
-    public final ObservableList<Quotable> sources = FXCollections.observableArrayList(BackendConstants.defaultSources());
+    public final ObservableList<SourceInterface> sources = FXCollections.observableArrayList(BackendConstants.defaultSources());
     public final ObservableList<Book> books = sources.stream()
             .filter(Book.class::isInstance)
             .map(Book.class::cast)
@@ -26,18 +26,18 @@ public class SourceClientModel {
             .map(Book::getAuthor)
             .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     public final ObservableList<Quote> quotes = FXCollections.observableArrayList(BackendConstants.defaultQuotes());
-    private final ObjectProperty<Quotable> selectedSource = new SimpleObjectProperty<>();
+    private final ObjectProperty<SourceInterface> selectedSource = new SimpleObjectProperty<>();
 
     public SourceClientModel() {
         // TODO
         this.quotes.addListener((ListChangeListener<Quote>) c -> updateSources());
-        this.sources.addListener((ListChangeListener<Quotable>) c -> updateBooks());
-        this.sources.addListener((ListChangeListener<Quotable>) c -> updateAuthors());
+        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateBooks());
+        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateAuthors());
     }
 
     private void updateSources() {
         sources.clear();
-        List<Quotable> newSources = quotes.stream()
+        List<SourceInterface> newSources = quotes.stream()
                 .map(Quote::getSource)
                 .collect(Collectors.toList());
         sources.addAll(newSources);
@@ -62,7 +62,7 @@ public class SourceClientModel {
         books.addAll(newBooks);
     }
 
-    public ObservableList<Quotable> getSources() {
+    public ObservableList<SourceInterface> getSources() {
         return sources;
     }
 
@@ -78,15 +78,15 @@ public class SourceClientModel {
         return quotes;
     }
 
-    public ObjectProperty<Quotable> selectedSourceProperty() {
+    public ObjectProperty<SourceInterface> selectedSourceProperty() {
         return selectedSource;
     }
 
-    public Quotable getSelectedSource() {
+    public SourceInterface getSelectedSource() {
         return selectedSource.get();
     }
 
-    public void setSelectedSource(Quotable selectedSource) {
+    public void setSelectedSource(SourceInterface selectedSource) {
         this.selectedSource.set(selectedSource);
     }
 }

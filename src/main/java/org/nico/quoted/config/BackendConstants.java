@@ -1,7 +1,6 @@
 package org.nico.quoted.config;
 import org.nico.quoted.domain.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BackendConstants {
@@ -11,7 +10,7 @@ public class BackendConstants {
                 new Author("J.R.R., ", "Tolkien")
         );
     }
-    public static final List<Quotable> defaultSources() {
+    public static final List<SourceInterface> defaultSources() {
         return List.of(
                 new Article("Diesen Text schrieb der US-Reporter Evan Gershkovich, bevor er in Russland verhaftet wurde",
                         "https://www.zeit.de/2023/15/russland-wirtschaft-energie-export-inflation"),

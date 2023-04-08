@@ -1,6 +1,6 @@
 package org.nico.quoted.domain;
 
-public class Book implements Quotable {
+public class Book implements SourceInterface {
     public static final QuotableType type = QuotableType.BOOK;
     private String title;
     private Author author;

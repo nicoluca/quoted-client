@@ -19,6 +19,7 @@
                 <TableColumn fx:id="titleColumn" minWidth="200.0" prefWidth="222.0" text="Title" />
                 <TableColumn fx:id="originColumn" prefWidth="71.0" text="Author/URL" />
                 <TableColumn fx:id="editButtonColumn" prefWidth="276.0" text="Edit" />
+                  <TableColumn fx:id="deleteButtonColumn" prefWidth="75.0" text="Delete" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

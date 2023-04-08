@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import org.nico.quoted.config.Logger;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
-import org.nico.quoted.domain.Quotable;
+import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 
 public class AddViewController extends BaseController {
@@ -78,8 +78,9 @@ public class AddViewController extends BaseController {
     }
 
     private void addQuoteFromUrl() {
+        // TODO no duplicate urls
         String url = urlInputField.getText();
-        Quotable article = new Article(null, url);
+        SourceInterface article = new Article(null, url);
         Quote quote = new Quote(quoteInputField.getText(), article);
         model.getQuotes().add(quote);
         Logger.LOGGER.log(Logger.INFO, "Added quote from url: " + quote);

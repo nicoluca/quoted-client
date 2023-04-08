@@ -1,36 +1,37 @@
 package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import org.nico.quoted.config.Logger;
-import org.nico.quoted.domain.Quotable;
+import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
 public class SourceTableViewController extends BaseController {
 
+    @FXML
+    private TableColumn deleteButtonColumn;
     @FXML
     private TextField searchTextField;
     @FXML
     private Button addBookButton;
 
     @FXML
-    private TableView<Quotable> sourceTableView;
+    private TableView<SourceInterface> sourceTableView;
 
     @FXML
-    private TableColumn<Quotable, String> titleColumn;
+    private TableColumn<SourceInterface, String> titleColumn;
 
     @FXML
-    private TableColumn<Quotable, String> originColumn;
+    private TableColumn<SourceInterface, String> originColumn;
 
     @FXML
-    private TableColumn<Quotable, Button> editButtonColumn;
+    private TableColumn<SourceInterface, Button> editButtonColumn;
 
     @FXML
-    private TableColumn<Quotable, String> typeColumn;
+    private TableColumn<SourceInterface, String> typeColumn;
 
     @FXML
     void initialize() {
@@ -55,14 +56,15 @@ public class SourceTableViewController extends BaseController {
         sourceTableView.setItems(model.sources);
         typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));        titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
         originColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigin()));
+        setEditButtonColumn();
         setDeleteButtonColumn();
     }
 
-    private void setDeleteButtonColumn() {
-        editButtonColumn.setCellFactory(new Callback<TableColumn<Quotable, Button>, TableCell<Quotable, Button>>() {
+    private void setEditButtonColumn() {
+        editButtonColumn.setCellFactory(new Callback<TableColumn<SourceInterface, Button>, TableCell<SourceInterface, Button>>() {
             @Override
-            public TableCell<Quotable, Button> call(TableColumn<Quotable, Button> bookButtonTableColumn) {
-                TableCell<Quotable, Button> cell = new TableCell<>() {
+            public TableCell<SourceInterface, Button> call(TableColumn<SourceInterface, Button> bookButtonTableColumn) {
+                TableCell<SourceInterface, Button> cell = new TableCell<>() {
 
                     Button editButton = new Button("Edit");
                     @Override
@@ -86,6 +88,36 @@ public class SourceTableViewController extends BaseController {
         });
     }
 
+
+    private void setDeleteButtonColumn() {
+        deleteButtonColumn.setCellFactory(new Callback<TableColumn<SourceInterface, Button>, TableCell<SourceInterface, Button>>() {
+            @Override
+            public TableCell<SourceInterface, Button> call(TableColumn<SourceInterface, Button> bookButtonTableColumn) {
+                TableCell<SourceInterface, Button> cell = new TableCell<>() {
+
+                    Button deleteButton = new Button("Delete");
+                    @Override
+                    protected void updateItem(Button button, boolean empty) {
+                        if (empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            // wenn button gedrückt, führe event handler aus
+                            deleteButton.setOnAction(event -> {
+                                // TODO
+                            });
+                            setText(null);
+                            setGraphic(deleteButton);
+                        }
+                    }
+                };
+
+                return cell;
+            }
+        });
+    }
+
+
     private void checkAssertions() {
         assert addBookButton != null : "fx:id=\"addResourceButton\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert editButtonColumn != null : "fx:id=\"editButtonColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
@@ -94,6 +126,8 @@ public class SourceTableViewController extends BaseController {
         assert titleColumn != null : "fx:id=\"titleColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert typeColumn != null : "fx:id=\"typeColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'source-table-view.fxml'.";
+        assert deleteButtonColumn != null : "fx:id=\"deleteButtonColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
+
     }
 
     public void onAddBookButtonClick(ActionEvent actionEvent) {

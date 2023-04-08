@@ -1,10 +1,10 @@
 package org.nico.quoted.api;
 
 import org.nico.quoted.config.Logger;
-import org.nico.quoted.domain.Quotable;
+import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.ui.controller.BaseController;
 
-public class SourcesAPI implements CRUDInterface<Quotable> {
+public class SourcesAPI implements CRUDInterface<SourceInterface> {
 
     private static SourcesAPI instance;
 
@@ -15,7 +15,7 @@ public class SourcesAPI implements CRUDInterface<Quotable> {
     }
 
     @Override
-    public Quotable add(Quotable source) {
+    public SourceInterface add(SourceInterface source) {
         if (!BaseController.model.sources.contains(source)) {
             Logger.LOGGER.log(Logger.INFO, "Source added: " + source);
             BaseController.model.sources.add(source);
@@ -25,12 +25,12 @@ public class SourcesAPI implements CRUDInterface<Quotable> {
     }
 
     @Override
-    public void delete(Quotable source) {
+    public void delete(SourceInterface source) {
 
     }
 
     @Override
-    public void update(Quotable source) {
+    public void update(SourceInterface source) {
 
     }
 

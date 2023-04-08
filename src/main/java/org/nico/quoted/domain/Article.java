@@ -1,8 +1,6 @@
 package org.nico.quoted.domain;
 
-import java.util.Set;
-
-public class Article implements Quotable {
+public class Article implements SourceInterface {
     public static final QuotableType type = QuotableType.ARTICLE;
     private String title;
     private String url;
