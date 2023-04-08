@@ -7,6 +7,7 @@ import org.nico.quoted.ui.controller.BaseController;
 public class AuthorAPI implements CRUDInterface<Author> {
     private static AuthorAPI instance;
 
+    // TODO Either proper author monitoring or hide from rest of app
     public static AuthorAPI getInstance() {
         if (instance == null)
             instance = new AuthorAPI();

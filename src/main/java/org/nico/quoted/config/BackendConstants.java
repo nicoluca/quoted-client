@@ -21,9 +21,9 @@ public class BackendConstants {
 
     public static List<Quote> defaultQuotes() {
         return List.of(
-                new Quote("Lorem ipsum", defaultSources().get(0)),
-                new Quote("Dolor sit amet", defaultSources().get(1)),
-                new Quote("Consectetur adipiscing elit", defaultSources().get(2))
+                new Quote("Lorem ipsum First Sample Quote", defaultSources().get(0)),
+                new Quote("Dolor sit amet Second sample quote", defaultSources().get(1)),
+                new Quote("Consectetur adipiscing elit third sample quote", defaultSources().get(2))
         );
     }
 

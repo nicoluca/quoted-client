@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
+import org.nico.quoted.ui.controller.form.QuoteFormView;
 
 public class BrowseViewController extends BaseController {
 
@@ -41,6 +42,16 @@ public class BrowseViewController extends BaseController {
         checkAssertions();
         fillSourceTable();
         fillQuoteTable();
+        bindSourceSelection();
+        bindQuoteSelection();
+    }
+
+    private void bindQuoteSelection() {
+        model.selectedQuoteProperty().bind(quoteTableView.getSelectionModel().selectedItemProperty());
+    }
+
+    private void bindSourceSelection() {
+        model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
     }
 
     private void fillQuoteTable() {
@@ -65,7 +76,7 @@ public class BrowseViewController extends BaseController {
                         } else {
                             // wenn button gedrückt, führe event handler aus
                             deleteButton.setOnAction(event -> {
-                                // TODO
+                                deleteQuote();
                             });
                             setText(null);
                             setGraphic(deleteButton);
@@ -76,6 +87,10 @@ public class BrowseViewController extends BaseController {
                 return cell;
             }
         });
+    }
+
+    private void deleteQuote() {
+        model.deleteQuote();
     }
 
     private void fillEditQuoteColumn() {
@@ -93,7 +108,8 @@ public class BrowseViewController extends BaseController {
                         } else {
                             // wenn button gedrückt, führe event handler aus
                             editButton.setOnAction(event -> {
-                                // TODO
+                                // Open edit view and pass selected quote
+                                openEditView();
                             });
                             setText(null);
                             setGraphic(editButton);
@@ -104,6 +120,10 @@ public class BrowseViewController extends BaseController {
                 return cell;
             }
         });
+    }
+
+    private void openEditView() {
+        new QuoteFormView().show();
     }
 
     private void fillSourceTable() {

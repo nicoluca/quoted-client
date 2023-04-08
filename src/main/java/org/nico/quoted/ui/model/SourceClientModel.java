@@ -27,6 +27,15 @@ public class SourceClientModel {
             .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     public final ObservableList<Quote> quotes = FXCollections.observableArrayList(BackendConstants.defaultQuotes());
     private final ObjectProperty<SourceInterface> selectedSource = new SimpleObjectProperty<>();
+    private final ObjectProperty<Quote> selectedQuote = new SimpleObjectProperty<>();
+
+    public void setSelectedQuote(Quote selectedQuote) {
+        this.selectedQuote.set(selectedQuote);
+    }
+
+    public ObjectProperty<Quote> selectedQuoteProperty() {
+        return selectedQuote;
+    }
 
     public SourceClientModel() {
         // TODO
@@ -88,5 +97,9 @@ public class SourceClientModel {
 
     public void setSelectedSource(SourceInterface selectedSource) {
         this.selectedSource.set(selectedSource);
+    }
+
+    public void deleteQuote() {
+        quotes.remove(selectedQuote.get());
     }
 }
