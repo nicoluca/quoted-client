@@ -179,4 +179,9 @@ public class SourceClientModel {
     public BooleanProperty resetFormProperty() {
         return resetForm;
     }
+
+    public void deleteSource(SourceInterface sourceToDelete) {
+        quotes.removeIf(quote -> quote.getSource().equals(sourceToDelete));
+        sources.remove(sourceToDelete);
+    }
 }

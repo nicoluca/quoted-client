@@ -36,19 +36,30 @@ public class QuoteFormViewController extends MainController {
     @FXML
     private TextField urlTextField;
 
+
+    @FXML
+    void initialize() {
+        checkAssertions();
+        displayError("");
+        setupChoiceBox();
+
+        fillQuoteForm();
+        toggleUrl();
+    }
+
     @FXML
     void onConfirmButtonClicked(ActionEvent event) {
-        if (!inputIsValid())
+        if (!isInputValid())
             displayError("Invalid input");
         else {
             Quote quote = model.selectedQuoteProperty().get();
             quote.setText(quoteTextField.getText());
 
-            if (urlCheckBox.isSelected()) {
+
+            if (urlCheckBox.isSelected())
                 quote.setSource(model.resolveArticle(urlTextField.getText()));
-            } else {
+            else
                 quote.setSource(bookChoiceBox.getValue());
-            }
 
             model.updateQuote(quote);
             model.resetFormProperty().set(!model.resetFormProperty().get());
@@ -61,21 +72,11 @@ public class QuoteFormViewController extends MainController {
         currentStage.close();
     }
 
-    private boolean inputIsValid() {
+    private boolean isInputValid() {
         if (urlCheckBox.isSelected())
             return !quoteTextField.getText().isBlank() && StringUtil.isValidURL(urlTextField.getText());
         else
             return !quoteTextField.getText().isBlank() && bookChoiceBox.getValue() != null;
-    }
-
-    @FXML
-    void initialize() {
-        checkAssertions();
-        displayError("");
-        setupChoiceBox();
-        urlCheckBox.setSelected(false);
-
-        fillQuoteForm();
     }
 
     private void setupChoiceBox() {
@@ -88,6 +89,7 @@ public class QuoteFormViewController extends MainController {
 
         if (quote == null)
             throw new IllegalStateException("No quote selected");
+
 
         quoteTextField.setText(quote.getText());
         SourceInterface source = quote.getSource();
@@ -113,7 +115,12 @@ public class QuoteFormViewController extends MainController {
         assert urlTextField != null : "fx:id=\"urlTextField\" was not injected: check your FXML file 'quote-form-view.fxml'.";
     }
 
-    public void toggleUrlField(ActionEvent actionEvent) {
+    @FXML
+    private void toggleUrlField(ActionEvent actionEvent) {
+        toggleUrl();
+    }
+
+    private void toggleUrl() {
         urlTextField.setDisable(!urlCheckBox.isSelected());
         bookChoiceBox.setDisable(urlCheckBox.isSelected());
     }

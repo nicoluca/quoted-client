@@ -94,30 +94,27 @@ public class SourceTableViewController extends MainController {
 
 
     private void setDeleteButtonColumn() {
-        deleteButtonColumn.setCellFactory(new Callback<TableColumn<SourceInterface, Button>, TableCell<SourceInterface, Button>>() {
-            @Override
-            public TableCell<SourceInterface, Button> call(TableColumn<SourceInterface, Button> bookButtonTableColumn) {
-                TableCell<SourceInterface, Button> cell = new TableCell<>() {
+        deleteButtonColumn.setCellFactory((Callback<TableColumn<SourceInterface, Button>, TableCell<SourceInterface, Button>>) bookButtonTableColumn -> {
+            TableCell<SourceInterface, Button> cell = new TableCell<>() {
 
-                    Button deleteButton = new Button("Delete");
-                    @Override
-                    protected void updateItem(Button button, boolean empty) {
-                        if (empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            // wenn button gedrückt, führe event handler aus
-                            deleteButton.setOnAction(event -> {
-                                // TODO
-                            });
-                            setText(null);
-                            setGraphic(deleteButton);
-                        }
+                Button deleteButton = new Button("Delete");
+                @Override
+                protected void updateItem(Button button, boolean empty) {
+                    if (empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        // wenn button gedrückt, führe event handler aus
+                        deleteButton.setOnAction(event -> {
+                            model.deleteSource(model.selectedSourceProperty().get());
+                        });
+                        setText(null);
+                        setGraphic(deleteButton);
                     }
-                };
+                }
+            };
 
-                return cell;
-            }
+            return cell;
         });
     }
 
