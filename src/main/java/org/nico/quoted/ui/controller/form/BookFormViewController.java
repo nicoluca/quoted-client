@@ -73,6 +73,7 @@ public class BookFormViewController extends MainController {
             Book book = new Book(titleTextField.getText(), author, "12345", "coverPath");
             model.addBook(book);
 
+            model.resetFormProperty().set(!model.resetFormProperty().get());
             closeStage();
         } else
             displayError("Invalid book data");

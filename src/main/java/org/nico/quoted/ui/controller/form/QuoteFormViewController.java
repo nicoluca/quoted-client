@@ -51,7 +51,7 @@ public class QuoteFormViewController extends MainController {
             }
 
             model.updateQuote(quote);
-
+            model.resetFormProperty().set(!model.resetFormProperty().get());
             closeStage();
         }
     }

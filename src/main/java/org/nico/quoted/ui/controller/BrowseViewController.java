@@ -2,6 +2,7 @@ package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
@@ -32,6 +33,9 @@ public class BrowseViewController extends MainController {
     private TableColumn<SourceInterface, String> sourceColumn;
 
     @FXML
+    private Button resetButton;
+
+    @FXML
     void initialize() {
         checkAssertions();
         fillSourceTable(model.getSources());
@@ -55,6 +59,7 @@ public class BrowseViewController extends MainController {
     }
 
     private void bindSearch() {
+        resetView();
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             fillQuoteTable(model.getQuotesBySearch(newValue));
             fillSourceTable(model.getSourcesBySearch(newValue));
@@ -177,8 +182,11 @@ public class BrowseViewController extends MainController {
         assert sourceColumn != null : "fx:id=\"sourceColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
         assert deleteQuoteColumn != null : "fx:id=\"deleteQuoteColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'browse-view.fxml'.";
+        assert resetButton != null : "fx:id=\"resetButton\" was not injected: check your FXML file 'browse-view.fxml'.";
     }
 
 
-
+    public void onResetButtonClick(ActionEvent actionEvent) {
+        resetView();
+    }
 }
