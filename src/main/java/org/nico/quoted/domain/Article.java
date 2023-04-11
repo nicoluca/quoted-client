@@ -36,4 +36,9 @@ public class Article implements SourceInterface {
     public String getType() {
         return type.toString();
     }
+
+    @Override
+    public String toString() {
+        return "Article: " + this.title + " (" + this.url + ")";
+    }
 }

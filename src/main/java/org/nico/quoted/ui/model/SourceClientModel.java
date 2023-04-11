@@ -160,7 +160,7 @@ public class SourceClientModel {
     public ObservableList<Quote> getQuotesBySearch(String searchString) {
         return quotes.stream()
                 .filter(quote -> quote.getText().toLowerCase().contains(searchString.toLowerCase())
-                        || quote.getSource().getTitle().toLowerCase().contains(searchString.toLowerCase()))
+                        || quote.getSource().toString().toLowerCase().contains(searchString.toLowerCase()))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     }
 

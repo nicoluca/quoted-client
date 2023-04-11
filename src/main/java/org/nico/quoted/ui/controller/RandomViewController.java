@@ -39,6 +39,7 @@ public class RandomViewController {
             quoteOriginTitle.setText(book.getTitle() + " - " + book.getAuthor());
         else
             quoteOriginTitle.setText(quote.getSource().getOrigin());
+        // TODO display link as hyperlink
     }
 
     public void onNextQuoteButtonClicked(ActionEvent actionEvent) {

@@ -42,7 +42,7 @@ public class Book implements SourceInterface {
 
     @Override
     public String toString() {
-        return this.title + " (" + this.author + ")";
+        return "Book: " + this.title + " (" + this.author + ")";
     }
 
     public Author getAuthor() {

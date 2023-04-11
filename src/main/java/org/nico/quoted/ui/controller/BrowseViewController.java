@@ -66,18 +66,34 @@ public class BrowseViewController extends MainController {
     }
 
     private void bindSourceSelection() {
-        model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
-        changeQuoteForSelectedSource();
+        bindSourceSelevtionToQuoteDisplayed();
+        // model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
+        refreshOnTabChanged();
     }
 
-    private void changeQuoteForSelectedSource() {
-        // Listen for changes in selected source and update quotes
-        model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.info("Selected source changed from " + oldValue.getOrigin() + " to " + newValue.getOrigin());
-            // TODO this does not work
-            if (newValue != null)
-                fillQuoteTable(model.getQuotes());
+    private void bindSourceSelevtionToQuoteDisplayed() {
+        sourceTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                LOGGER.info("Selected source changed");
+                fillQuoteTable(model.getQuotesBySource(newValue));
+            }
         });
+    }
+
+    private void refreshOnTabChanged() {
+        model.resetFormProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue)
+                resetView();
+        });
+    }
+
+    private void resetView() {
+        LOGGER.info("Resetting browse form");
+        sourceTableView.getSelectionModel().clearSelection();
+        quoteTableView.getSelectionModel().clearSelection();
+        searchTextField.setText("Search ...");
+        fillQuoteTable(model.getQuotes());
+        fillSourceTable(model.getSources());
     }
 
     private void fillQuoteTable(ObservableList<Quote> currentQuotes) {
