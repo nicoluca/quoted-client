@@ -38,6 +38,19 @@ public class BrowseViewController extends MainController {
         bindSourceSelection();
         bindQuoteSelection();
         bindSearch();
+        watchForChanges();
+    }
+
+    private void watchForChanges() {
+        model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null)
+                fillQuoteTable(model.getQuotes());
+        });
+
+        model.selectedQuoteProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null)
+                fillSourceTable(model.getSources());
+        });
     }
 
     private void bindSearch() {

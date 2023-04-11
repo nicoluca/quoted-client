@@ -15,10 +15,10 @@
              </AnchorPane>
          </content>
        </Tab>
-       <Tab text="Review">
+       <Tab text="Random">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <fx:include source="review-view.fxml" />
+                <fx:include source="random-view.fxml" />
             </AnchorPane>
          </content>
        </Tab>
