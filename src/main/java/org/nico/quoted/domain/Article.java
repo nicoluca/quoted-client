@@ -6,8 +6,12 @@ public class Article implements SourceInterface {
     private String url;
 
     public Article(String title, String url) {
-        this.title = title;
         this.url = url;
+        // TODO workaround - should this stay like this?
+        if (title == null || title.isBlank())
+            this.title = url;
+        else
+            this.title = title;
     }
 
     @Override

@@ -133,7 +133,7 @@ public class SourceClientModel {
 
     public void addQuote(Quote quote) {
         quotes.add(quote);
-        Logger.LOGGER.log(Logger.INFO, "Added quote: " + quote + ", from source: " + quote.getSource());
+        Logger.LOGGER.log(Logger.INFO, "Added quote: " + quote.getText() + ", from source: " + quote.getSource().getOrigin());
     }
 
     public SourceInterface resolveArticle(String url) {
