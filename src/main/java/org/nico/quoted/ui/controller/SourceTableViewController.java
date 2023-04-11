@@ -6,8 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.ui.controller.form.ArticleFormView;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
 public class SourceTableViewController extends MainController {
@@ -45,6 +45,8 @@ public class SourceTableViewController extends MainController {
 
     private void bindResetListener() {
         model.resetFormProperty().addListener((observable, oldValue, newValue) -> sourceTableView.getSelectionModel().clearSelection());
+        searchTextField.setText("Search ...");
+        fillTableView(model.getSources());
     }
 
     private void setUpSearchField() {
@@ -77,15 +79,26 @@ public class SourceTableViewController extends MainController {
                         setGraphic(null);
                     } else {
                         // wenn button gedrückt, führe event handler aus
-                        editButton.setOnAction(event -> addOrEditBook());
                         setText(null);
                         setGraphic(editButton);
+                        editButton.setOnAction(event -> editSource());
                     }
                 }
             };
 
             return cell;
         });
+    }
+
+    private void editSource() {
+        if (model.selectedSourceProperty().get().getType().equals("Book"))
+            addOrEditBook();
+        else
+            editOnlineArticle();
+    }
+
+    private void editOnlineArticle() {
+        new ArticleFormView().show();
     }
 
     private void addOrEditBook() {

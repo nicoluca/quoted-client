@@ -41,10 +41,10 @@ public class BookFormViewController extends MainController {
     void initialize() {
         checkAssertions();
         displayError("");
-        fillFields();
+        fillForm();
     }
 
-    private void fillFields() {
+    private void fillForm() {
         if (model.selectedSourceProperty().get() != null && model.selectedSourceProperty().get() instanceof Book book) {
             titleTextField.setText(book.getTitle());
             authorFirstNameTextField.setText(book.getAuthor().getFirstName());

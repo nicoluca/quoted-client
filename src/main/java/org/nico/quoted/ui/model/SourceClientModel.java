@@ -184,4 +184,10 @@ public class SourceClientModel {
         quotes.removeIf(quote -> quote.getSource().equals(sourceToDelete));
         sources.remove(sourceToDelete);
     }
+
+    public void updateArticle(Article article) {
+        // TODO refactor this
+        sources.remove(article);
+        sources.add(article);
+    }
 }

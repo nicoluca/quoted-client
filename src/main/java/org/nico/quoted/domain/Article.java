@@ -27,6 +27,10 @@ public class Article implements SourceInterface {
         return this.title;
     }
 
+    public String getUrl() {
+        return this.url;
+    }
+
     @Override
     public String getOrigin() {
         return this.url;
@@ -40,5 +44,13 @@ public class Article implements SourceInterface {
     @Override
     public String toString() {
         return "Article: " + this.title + " (" + this.url + ")";
+    }
+
+    public void setTitle(String text) {
+        this.title = text;
+    }
+
+    public void setUrl(String text) {
+        this.url = text;
     }
 }
