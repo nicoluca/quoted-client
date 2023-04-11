@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
@@ -66,8 +67,13 @@ public class BrowseViewController extends MainController {
 
     private void bindSourceSelection() {
         model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
+        changeQuoteForSelectedSource();
+    }
+
+    private void changeQuoteForSelectedSource() {
         // Listen for changes in selected source and update quotes
         model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
+            LOGGER.info("Selected source changed from " + oldValue.getOrigin() + " to " + newValue.getOrigin());
             // TODO this does not work
             if (newValue != null)
                 fillQuoteTable(model.getQuotes());

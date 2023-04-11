@@ -22,8 +22,7 @@ public class Book implements SourceInterface {
 
     @Override
     public String getOrigin() {
-
-        return this.title + " (" + this.author.toString() + ")";
+        return this.author.toString();
     }
 
     @Override

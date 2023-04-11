@@ -38,7 +38,6 @@ public class SourceTableViewController extends MainController {
     void initialize() {
         checkAssertions();
         fillTableView(model.getSources());
-        watchForChanges();
         bindSelectedSource();
         setUpSearchField();
         bindResetListener();
@@ -55,13 +54,6 @@ public class SourceTableViewController extends MainController {
 
     private void bindSelectedSource() {
         model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
-    }
-
-    private void watchForChanges() {
-        sourceTableView.itemsProperty().addListener((observable, oldValue, newValue) -> {
-            sourceTableView.refresh();
-            LOGGER.info("Source list changed");
-        });
     }
 
     private void fillTableView(ObservableList<SourceInterface> currentSources) {
