@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.nico.quoted.config.Logger;
+import org.nico.quoted.config.LOGGER;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -21,7 +21,7 @@ public class QuoteFormView {
             bookFormStage.setTitle("Edit Quote");
             bookFormStage.show();
         } catch (IOException e) {
-            Logger.LOGGER.log(Logger.ERROR, "quote-form-view.fxml could not be found");
+            LOGGER.error("quote-form-view.fxml could not be found");
             throw new RuntimeException(e);
         }
     }

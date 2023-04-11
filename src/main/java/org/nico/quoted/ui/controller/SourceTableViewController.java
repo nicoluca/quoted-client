@@ -1,13 +1,12 @@
 package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import org.nico.quoted.config.Logger;
+import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
@@ -61,7 +60,7 @@ public class SourceTableViewController extends MainController {
     private void watchForChanges() {
         sourceTableView.itemsProperty().addListener((observable, oldValue, newValue) -> {
             sourceTableView.refresh();
-            Logger.LOGGER.log(Logger.INFO, "Source list changed");
+            LOGGER.info("Source list changed");
         });
     }
 

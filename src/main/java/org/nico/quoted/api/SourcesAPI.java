@@ -1,6 +1,6 @@
 package org.nico.quoted.api;
 
-import org.nico.quoted.config.Logger;
+import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.ui.controller.BaseController;
 
@@ -17,10 +17,10 @@ public class SourcesAPI implements CRUDInterface<SourceInterface> {
     @Override
     public SourceInterface add(SourceInterface source) {
         if (!BaseController.model.getSources().contains(source)) {
-            Logger.LOGGER.log(Logger.INFO, "Source added: " + source);
+            LOGGER.info("Source added: " + source);
             BaseController.model.getSources().add(source);
         } else
-            Logger.LOGGER.log(Logger.INFO, "Source already exists: " + source);
+            LOGGER.info("Source already exists: " + source);
         return source;
     }
 

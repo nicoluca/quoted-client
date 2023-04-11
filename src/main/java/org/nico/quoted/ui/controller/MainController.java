@@ -6,7 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.nico.quoted.config.Logger;
+import org.nico.quoted.config.LOGGER;
 
 public class MainController extends BaseController {
 
@@ -16,14 +16,14 @@ public class MainController extends BaseController {
 
     @FXML
     void initialize() {
-        Logger.LOGGER.log(Logger.INFO, "Main controller initialized");
+        LOGGER.info( "Main controller initialized");
         assert tabPane != null : "fx:id=\"tabPane\" was not injected: check your FXML file 'main-view.fxml'.";
         selectedTabProperty = tabPane.getSelectionModel().selectedItemProperty();
         addListener((observable, oldValue, newValue) -> onTabSelectionChanged());
     }
 
     protected static void onTabSelectionChanged() {
-        Logger.LOGGER.log(Logger.INFO, "Tab registered a change in main controller");
+        LOGGER.info("Tab registered a change in main controller");
         model.resetFormProperty().set(!model.resetFormProperty().get());
     }
 
@@ -31,6 +31,6 @@ public class MainController extends BaseController {
         if (selectedTabProperty != null)
             selectedTabProperty.addListener(listener);
         else
-            Logger.LOGGER.log(Logger.WARNING, "Tried to add listener to null property");
+            LOGGER.warning("Tried to add listener to null property");
     }
 }

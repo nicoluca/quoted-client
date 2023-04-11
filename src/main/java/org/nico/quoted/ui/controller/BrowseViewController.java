@@ -69,9 +69,8 @@ public class BrowseViewController extends MainController {
         // Listen for changes in selected source and update quotes
         model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
             // TODO this does not work
-            if (newValue == null)
+            if (newValue != null)
                 fillQuoteTable(model.getQuotes());
-
         });
     }
 

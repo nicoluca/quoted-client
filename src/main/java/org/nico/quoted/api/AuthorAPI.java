@@ -1,6 +1,6 @@
 package org.nico.quoted.api;
 
-import org.nico.quoted.config.Logger;
+import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.ui.controller.BaseController;
 
@@ -17,10 +17,10 @@ public class AuthorAPI implements CRUDInterface<Author> {
     public Author getAuthor(String firstName, String lastName) {
         Author author = new Author(firstName, lastName);
         if (!BaseController.model.getAuthors().contains(author)) {
-            Logger.LOGGER.log(Logger.INFO, "Author added: " + author);
+            LOGGER.info("Author added: " + author);
             BaseController.model.getAuthors().add(author);
         } else
-            Logger.LOGGER.log(Logger.INFO, "Author already exists: " + author);
+            LOGGER.info("Author already exists: " + author);
         return author;
     }
 

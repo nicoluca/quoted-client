@@ -5,7 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import org.nico.quoted.config.BackendConstants;
-import org.nico.quoted.config.Logger;
+import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.*;
 
 import java.util.List;
@@ -133,7 +133,7 @@ public class SourceClientModel {
 
     public void addQuote(Quote quote) {
         quotes.add(quote);
-        Logger.LOGGER.log(Logger.INFO, "Added quote: " + quote.getText() + ", from source: " + quote.getSource().getOrigin());
+        LOGGER.info("Added quote: " + quote.getText() + ", from source: " + quote.getSource().getOrigin());
     }
 
     public SourceInterface resolveArticle(String url) {
@@ -165,7 +165,7 @@ public class SourceClientModel {
     }
 
     public ObservableList<Quote> getQuotesBySource(SourceInterface source) {
-        Logger.LOGGER.log(Logger.INFO, "Getting quotes by source: " + source);
+        LOGGER.info("Getting quotes by source: " + source);
         return quotes.stream()
                 .filter(quote -> quote.getSource().equals(source))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
@@ -173,7 +173,7 @@ public class SourceClientModel {
 
     public void addBook(Book book) {
         sources.add(book);
-        Logger.LOGGER.log(Logger.INFO, "Added book: " + book);
+        LOGGER.info("Added book: " + book);
     }
 
     public BooleanProperty resetFormProperty() {
