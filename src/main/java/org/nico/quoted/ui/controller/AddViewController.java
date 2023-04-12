@@ -36,9 +36,19 @@ public class AddViewController extends MainController {
         errorLabel.setText("");
     }
 
-    private void setupChoiceBox() {
-        bookChoiceBox.setItems(model.getBooks());
-        model.getBooks().addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.getBooks()));
+    public void toggleUrlField(ActionEvent actionEvent) {
+        urlInputField.setDisable(!toggleURL.isSelected());
+        bookChoiceBox.setDisable(toggleURL.isSelected());
+    }
+
+    public void onAddButtonClick(ActionEvent actionEvent) {
+        if (!inputIsValid())
+            displayError("Invalid input");
+        else {
+            addQuote();
+            displayError("Quote added!");
+            resetForm();
+        }
     }
 
     private void checkAssertions() {
@@ -49,18 +59,18 @@ public class AddViewController extends MainController {
         assert toggleURL != null : "fx:id=\"toggleURL\" was not injected: check your FXML file 'add-view.fxml'.";
     }
 
-    public void toggleUrlField(ActionEvent actionEvent) {
-        urlInputField.setDisable(!toggleURL.isSelected());
-        bookChoiceBox.setDisable(toggleURL.isSelected());
+    private void setupChoiceBox() {
+        bookChoiceBox.setItems(model.getBooks());
+        model.getBooks().addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.getBooks()));
     }
 
-    public void onAddButtonClick(ActionEvent actionEvent) {
-        if (!inputIsValid())
-            displayError("Invalid input");
-        else {
-            displayError("");
-            addQuote();
-        }
+
+    private void resetForm() {
+        quoteInputField.setText("");
+        urlInputField.setText("https://...");
+        toggleURL.setSelected(false);
+        urlInputField.setDisable(true);
+        bookChoiceBox.setValue(null);
     }
 
     private void addQuote() {
@@ -90,7 +100,7 @@ public class AddViewController extends MainController {
 
     private boolean inputIsValid() {
         return !quoteInputField.getText().isEmpty()
-                && (toggleURL.isSelected() && StringUtil.isValidURL(urlInputField.getText())
-                || !toggleURL.isSelected() && bookChoiceBox.getValue() != null);
+                && ((toggleURL.isSelected() && StringUtil.isValidURL(urlInputField.getText())
+                || (!toggleURL.isSelected() && bookChoiceBox.getValue() != null)));
     }
 }

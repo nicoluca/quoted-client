@@ -6,7 +6,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class FileChooserUtil {
-    // TODO: Add a method to get a file from a button
     public static File chooseFile(Button button) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");

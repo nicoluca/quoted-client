@@ -1,6 +1,7 @@
 package org.nico.quoted.ui.model;
 
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -31,11 +32,6 @@ public class SourceClientModel {
     private final ObjectProperty<Quote> selectedQuote = new SimpleObjectProperty<>();
     private static Quote lastRandomQuote = null;
     private final BooleanProperty resetForm = new SimpleBooleanProperty();
-
-    public void setSelectedQuote(Quote selectedQuote) {
-
-        this.selectedQuote.set(selectedQuote);
-    }
 
     public ObjectProperty<Quote> selectedQuoteProperty() {
         return selectedQuote;
@@ -105,14 +101,6 @@ public class SourceClientModel {
         return selectedSource;
     }
 
-    public SourceInterface getSelectedSource() {
-        return selectedSource.get();
-    }
-
-    public void setSelectedSource(SourceInterface selectedSource) {
-        this.selectedSource.set(selectedSource);
-    }
-
     public void deleteQuote() {
         quotes.remove(selectedQuote.get());
     }
@@ -176,8 +164,12 @@ public class SourceClientModel {
         LOGGER.info("Added book: " + book);
     }
 
-    public BooleanProperty resetFormProperty() {
-        return resetForm;
+    public void resetForm() {
+        this.resetForm.set(!resetForm.get());
+    }
+
+    public void registerResetListener(ChangeListener<Boolean> listener) {
+        this.resetForm.addListener(listener);
     }
 
     public void deleteSource(SourceInterface sourceToDelete) {

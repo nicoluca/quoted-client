@@ -62,7 +62,7 @@ public class QuoteFormViewController extends MainController {
                 quote.setSource(bookChoiceBox.getValue());
 
             model.updateQuote(quote);
-            model.resetFormProperty().set(!model.resetFormProperty().get());
+            model.resetForm();
             closeStage();
         }
     }

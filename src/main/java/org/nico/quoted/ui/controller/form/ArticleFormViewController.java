@@ -38,14 +38,22 @@ public class ArticleFormViewController extends MainController {
             return;
         }
 
+        // TODO is it okay to get the article from the selectedSourceProperty?
         Article article = (Article) model.selectedSourceProperty().get();
         article.setTitle(titleTextField.getText());
         article.setUrl(urlTextField.getText());
         model.updateArticle(article);
 
-        model.resetFormProperty().set(!model.resetFormProperty().get());
+        model.resetForm();
         closeStage();
+    }
 
+
+    private void checkAssertions() {
+        assert confirmButton != null : "fx:id=\"confirmButton\" was not injected: check your FXML file 'url-form-view.fxml'.";
+        assert errorLabel != null : "fx:id=\"errorLabel\" was not injected: check your FXML file 'url-form-view.fxml'.";
+        assert titleTextField != null : "fx:id=\"titleTextField\" was not injected: check your FXML file 'url-form-view.fxml'.";
+        assert urlTextField != null : "fx:id=\"urlTextField\" was not injected: check your FXML file 'url-form-view.fxml'.";
     }
 
     private boolean isValidInput() {
@@ -58,26 +66,19 @@ public class ArticleFormViewController extends MainController {
     }
 
     private void fillForm() {
-        checkSeletion();
-        Article article = (Article) model.selectedSourceProperty().get();
+        if (model.selectedSourceProperty().get() != null && (model.selectedSourceProperty().get() instanceof Article article)) {
+            setTextForFields(article);
+        } else
+            throw new IllegalStateException("No article selected in the model.");
+    }
+
+    private void setTextForFields(Article article) {
         titleTextField.setText(article.getTitle());
         urlTextField.setText(article.getUrl());
     }
 
-    private void checkSeletion() {
-        if (model.selectedSourceProperty().get() == null || !(model.selectedSourceProperty().get() instanceof Article))
-            throw new IllegalStateException("No article selected in the model.");
-    }
-
     private void displayError(String s) {
         errorLabel.setText(s);
-    }
-
-    private void checkAssertions() {
-        assert confirmButton != null : "fx:id=\"confirmButton\" was not injected: check your FXML file 'url-form-view.fxml'.";
-        assert errorLabel != null : "fx:id=\"errorLabel\" was not injected: check your FXML file 'url-form-view.fxml'.";
-        assert titleTextField != null : "fx:id=\"titleTextField\" was not injected: check your FXML file 'url-form-view.fxml'.";
-        assert urlTextField != null : "fx:id=\"urlTextField\" was not injected: check your FXML file 'url-form-view.fxml'.";
     }
 
 }

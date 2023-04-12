@@ -24,7 +24,7 @@ public class MainController extends BaseController {
 
     protected static void onTabSelectionChanged() {
         LOGGER.info("Tab registered a change in main controller");
-        model.resetFormProperty().set(!model.resetFormProperty().get());
+        model.resetForm();
     }
 
     protected void addListener(ChangeListener listener) {

@@ -46,6 +46,23 @@ public class BrowseViewController extends MainController {
         watchForChanges();
     }
 
+    private void bindSourceSelection() {
+        showQuotesBasedOnSelectedSource();
+        refreshOnTabChanged();
+    }
+
+    private void bindQuoteSelection() {
+        model.selectedQuoteProperty().bind(quoteTableView.getSelectionModel().selectedItemProperty());
+    }
+
+    private void bindSearch() {
+        resetView();
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            fillQuoteTable(model.getQuotesBySearch(newValue));
+            fillSourceTable(model.getSourcesBySearch(newValue));
+        });
+    }
+
     private void watchForChanges() {
         model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null)
@@ -58,37 +75,20 @@ public class BrowseViewController extends MainController {
         });
     }
 
-    private void bindSearch() {
-        resetView();
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            fillQuoteTable(model.getQuotesBySearch(newValue));
-            fillSourceTable(model.getSourcesBySearch(newValue));
-        });
-    }
 
-    private void bindQuoteSelection() {
-        model.selectedQuoteProperty().bind(quoteTableView.getSelectionModel().selectedItemProperty());
-    }
-
-    private void bindSourceSelection() {
-        bindSourceSelevtionToQuoteDisplayed();
-        // model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
-        refreshOnTabChanged();
-    }
-
-    private void bindSourceSelevtionToQuoteDisplayed() {
-        sourceTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                LOGGER.info("Selected source changed");
-                fillQuoteTable(model.getQuotesBySource(newValue));
+    private void showQuotesBasedOnSelectedSource() {
+        sourceTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSource, newSource) -> {
+            if (newSource != null) {
+                LOGGER.info("Selected source changed, showing quotes");
+                fillQuoteTable(model.getQuotesBySource(newSource));
             }
         });
     }
 
     private void refreshOnTabChanged() {
-        model.resetFormProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue)
-                resetView();
+        model.registerResetListener((observable, oldValue, newValue) -> {
+            LOGGER.info("Tab changed, refreshing browse view");
+            resetView();
         });
     }
 
@@ -119,7 +119,6 @@ public class BrowseViewController extends MainController {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        // wenn button gedrückt, führe event handler aus
                         deleteButton.setOnAction(event -> deleteQuote());
                         setText(null);
                         setGraphic(deleteButton);
@@ -136,31 +135,24 @@ public class BrowseViewController extends MainController {
     }
 
     private void fillEditQuoteColumn() {
-        editQuoteColumn.setCellFactory(new Callback<TableColumn<Quote, Button>, TableCell<Quote, Button>>() {
-            @Override
-            public TableCell<Quote, Button> call(TableColumn<Quote, Button> bookButtonTableColumn) {
-                TableCell<Quote, Button> cell = new TableCell<>() {
+        editQuoteColumn.setCellFactory(bookButtonTableColumn -> {
+            TableCell<Quote, Button> cell = new TableCell<>() {
 
-                    Button editButton = new Button("Edit");
-                    @Override
-                    protected void updateItem(Button button, boolean empty) {
-                        if (empty) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            // wenn button gedrückt, führe event handler aus
-                            editButton.setOnAction(event -> {
-                                // Open edit view and pass selected quote
-                                openEditView();
-                            });
-                            setText(null);
-                            setGraphic(editButton);
-                        }
+                Button editButton = new Button("Edit");
+                @Override
+                protected void updateItem(Button button, boolean empty) {
+                    if (empty) {
+                        setText(null);
+                        setGraphic(null);
+                    } else {
+                        editButton.setOnAction(event -> openEditView());
+                        setText(null);
+                        setGraphic(editButton);
                     }
-                };
+                }
+            };
 
-                return cell;
-            }
+            return cell;
         });
     }
 

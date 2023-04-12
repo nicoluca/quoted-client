@@ -44,7 +44,7 @@ public class SourceTableViewController extends MainController {
     }
 
     private void bindResetListener() {
-        model.resetFormProperty().addListener((observable, oldValue, newValue) -> sourceTableView.getSelectionModel().clearSelection());
+        model.registerResetListener((observable, oldValue, newValue) -> sourceTableView.getSelectionModel().clearSelection());
         searchTextField.setText("Search ...");
         fillTableView(model.getSources());
     }
@@ -78,7 +78,6 @@ public class SourceTableViewController extends MainController {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        // wenn button gedrückt, führe event handler aus
                         setText(null);
                         setGraphic(editButton);
                         editButton.setOnAction(event -> editSource());

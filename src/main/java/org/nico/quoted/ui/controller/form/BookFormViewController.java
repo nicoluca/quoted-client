@@ -6,11 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.nico.quoted.api.AuthorAPI;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.util.FileChooserUtil;
 import org.nico.quoted.ui.controller.MainController;
+import org.nico.quoted.util.StringUtil;
 
 import java.io.File;
 
@@ -44,15 +44,6 @@ public class BookFormViewController extends MainController {
         fillForm();
     }
 
-    private void fillForm() {
-        if (model.selectedSourceProperty().get() != null && model.selectedSourceProperty().get() instanceof Book book) {
-            titleTextField.setText(book.getTitle());
-            authorFirstNameTextField.setText(book.getAuthor().getFirstName());
-            authorLastNameTextField.setText(book.getAuthor().getLastName());
-            coverPathTextField.setText(book.getCoverPath());
-        }
-    }
-
     private void checkAssertions() {
         assert authorFirstNameTextField != null : "fx:id=\"authorTextField\" was not injected: check your FXML file 'book-form-view.fxml'.";
         assert authorLastNameTextField != null : "fx:id=\"authorTextField\" was not injected: check your FXML file 'book-form-view.fxml'.";
@@ -62,9 +53,22 @@ public class BookFormViewController extends MainController {
         assert errorLabel != null : "fx:id=\"errorLabel\" was not injected: check your FXML file 'book-form-view.fxml'.";
     }
 
+    private void fillForm() {
+        if (model.selectedSourceProperty().get() != null && model.selectedSourceProperty().get() instanceof Book book)
+            fillTextFields(book);
+    }
+
+    private void fillTextFields(Book book) {
+        titleTextField.setText(book.getTitle());
+        authorFirstNameTextField.setText(book.getAuthor().getFirstName());
+        authorLastNameTextField.setText(book.getAuthor().getLastName());
+        coverPathTextField.setText(book.getCoverPath());
+    }
+
     public void onConfirmButtonClicked(ActionEvent actionEvent) {
         if (checkIfBookIsValid()) {
-            Author author = AuthorAPI.getInstance().getAuthor(
+            // TODO Change to model API
+            Author author = new Author(
                     authorFirstNameTextField.getText(),
                     authorLastNameTextField.getText()
             );
@@ -73,7 +77,7 @@ public class BookFormViewController extends MainController {
             Book book = new Book(titleTextField.getText(), author, "12345", "coverPath");
             model.addBook(book);
 
-            model.resetFormProperty().set(!model.resetFormProperty().get());
+            model.resetForm();
             closeStage();
         } else
             displayError("Invalid book data");
@@ -84,22 +88,20 @@ public class BookFormViewController extends MainController {
     }
 
     private void closeStage() {
-        Stage currentStage = (Stage) confirmButton.getScene().getWindow();
-        currentStage.close();
+        Stage stage = (Stage) confirmButton.getScene().getWindow();
+        stage.close();
     }
 
     private boolean checkIfBookIsValid() {
-        String regexTitle = "^[A-Za-z0-9\\s\\-',.:;()&]{2,}$"; // 2 letters minimum, allow spaces, commas, apostrophes, etc.
-        String regexAuthor = "^[A-Za-z.\\s\\-']{2,}$"; // 2 letters minimum, only letters, spaces, dashes, apostrophes, periods
-        return titleTextField.getText().matches(regexTitle)
-                && authorFirstNameTextField.getText().matches(regexAuthor)
-                && authorLastNameTextField.getText().matches(regexAuthor);
+        return StringUtil.isValidTitle(titleTextField.getText())
+                && StringUtil.isValidAuthor(authorFirstNameTextField.getText())
+                && StringUtil.isValidAuthor(authorLastNameTextField.getText());
     }
 
     public void onCoverPathButtonClicked(ActionEvent actionEvent) {
         File file = FileChooserUtil.chooseFile((Button) actionEvent.getSource());
         if (file != null)
             coverPathTextField.setText(file.getAbsolutePath());
-        // TODO Do we want to display the image somewhere?
+        // TODO Do we want to display the image somewhere or only on export?
     }
 }
