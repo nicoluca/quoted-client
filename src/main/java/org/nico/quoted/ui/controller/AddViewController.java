@@ -8,9 +8,12 @@ import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
+import org.nico.quoted.ui.controller.form.BookFormView;
 import org.nico.quoted.util.StringUtil;
 
 public class AddViewController extends MainController {
+    @FXML
+    private Button newBookButton;
     @FXML
     private Label errorLabel;
     @FXML
@@ -39,6 +42,7 @@ public class AddViewController extends MainController {
     public void toggleUrlField(ActionEvent actionEvent) {
         urlInputField.setDisable(!toggleURL.isSelected());
         bookChoiceBox.setDisable(toggleURL.isSelected());
+        newBookButton.setDisable(toggleURL.isSelected());
     }
 
     public void onAddButtonClick(ActionEvent actionEvent) {
@@ -52,6 +56,7 @@ public class AddViewController extends MainController {
     }
 
     private void checkAssertions() {
+        assert newBookButton != null : "fx:id=\"newBookButton\" was not injected: check your FXML file 'add-view.fxml'.";
         assert urlInputField != null : "fx:id=\"UrlInputField\" was not injected: check your FXML file 'add-view.fxml'.";
         assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'add-view.fxml'.";
         assert bookChoiceBox != null : "fx:id=\"bookChoiceBox\" was not injected: check your FXML file 'add-view.fxml'.";
@@ -102,5 +107,9 @@ public class AddViewController extends MainController {
         return !quoteInputField.getText().isEmpty()
                 && ((toggleURL.isSelected() && StringUtil.isValidURL(urlInputField.getText())
                 || (!toggleURL.isSelected() && bookChoiceBox.getValue() != null)));
+    }
+
+    public void onNewBookButtonClick(ActionEvent actionEvent) {
+        new BookFormView().show();
     }
 }
