@@ -7,7 +7,7 @@ public class BackendConstants {
 
     public static final List<Author> defaultAuthors() {
         return List.of(
-                new Author("J.R.R., ", "Tolkien")
+                new Author("J.R.R.", "Tolkien")
         );
     }
     public static final List<SourceInterface> defaultSources() {

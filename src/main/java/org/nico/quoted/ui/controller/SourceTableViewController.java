@@ -51,7 +51,7 @@ public class SourceTableViewController extends MainController {
 
     private void setUpSearchField() {
         searchTextField.textProperty().addListener((observable, oldValue, newValue)
-                -> fillTableView(model.getSourcesBySearch(newValue)));
+                -> fillTableView(model.searchSources(newValue)));
     }
 
     private void bindSelectedSource() {

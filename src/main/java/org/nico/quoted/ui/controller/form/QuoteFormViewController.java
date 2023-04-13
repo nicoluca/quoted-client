@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.SourceInterface;
@@ -57,7 +58,7 @@ public class QuoteFormViewController extends MainController {
 
 
             if (urlCheckBox.isSelected())
-                quote.setSource(model.resolveArticle(urlTextField.getText()));
+                quote.setSource(new Article(null, urlTextField.getText()));
             else
                 quote.setSource(bookChoiceBox.getValue());
 

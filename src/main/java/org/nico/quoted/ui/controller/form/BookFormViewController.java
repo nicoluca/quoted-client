@@ -67,15 +67,14 @@ public class BookFormViewController extends MainController {
 
     public void onConfirmButtonClicked(ActionEvent actionEvent) {
         if (checkIfBookIsValid()) {
-            // TODO Change to model API
+            // TODO Should adding and updating be conflated?
             Author author = new Author(
                     authorFirstNameTextField.getText(),
                     authorLastNameTextField.getText()
             );
 
-            // TODO This is a tmp solution
             Book book = new Book(titleTextField.getText(), author, "12345", "coverPath");
-            model.addBook(book);
+            model.addOrUpdateBook(book);
 
             model.resetForm();
             closeStage();

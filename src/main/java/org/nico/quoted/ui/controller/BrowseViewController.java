@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Callback;
 import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
@@ -58,8 +57,8 @@ public class BrowseViewController extends MainController {
     private void bindSearch() {
         resetView();
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            fillQuoteTable(model.getQuotesBySearch(newValue));
-            fillSourceTable(model.getSourcesBySearch(newValue));
+            fillQuoteTable(model.searchQuotes(newValue));
+            fillSourceTable(model.searchSources(newValue));
         });
     }
 
@@ -131,7 +130,8 @@ public class BrowseViewController extends MainController {
     }
 
     private void deleteQuote() {
-        model.deleteQuote();
+        // TODO This should work by row, not by selected item
+        model.deleteQuote(model.selectedQuoteProperty().get());
     }
 
     private void fillEditQuoteColumn() {
