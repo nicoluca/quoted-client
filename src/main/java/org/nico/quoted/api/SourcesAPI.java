@@ -1,7 +1,6 @@
 package org.nico.quoted.api;
 
 import org.nico.quoted.config.BackendConstants;
-import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
 
 import java.util.List;

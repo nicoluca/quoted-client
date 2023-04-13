@@ -162,7 +162,7 @@ public class BrowseViewController extends MainController {
 
     private void fillSourceTable(ObservableList<SourceInterface> currentSources) {
         sourceTableView.setItems(currentSources);
-        sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigin()));
+        sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
         // TODO why here origin and not title -> make clear
     }
 
@@ -176,7 +176,6 @@ public class BrowseViewController extends MainController {
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'browse-view.fxml'.";
         assert resetButton != null : "fx:id=\"resetButton\" was not injected: check your FXML file 'browse-view.fxml'.";
     }
-
 
     public void onResetButtonClick(ActionEvent actionEvent) {
         resetView();

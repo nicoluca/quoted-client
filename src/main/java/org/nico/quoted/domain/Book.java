@@ -52,4 +52,16 @@ public class Book implements SourceInterface {
     public String getCoverPath() {
         return coverPath;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public void setCoverPath(String coverPath) {
+        this.coverPath = coverPath;
+    }
 }

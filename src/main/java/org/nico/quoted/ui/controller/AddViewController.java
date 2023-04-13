@@ -3,7 +3,6 @@ package org.nico.quoted.ui.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

@@ -1,4 +1,4 @@
-package org.nico.quoted.ui.model;
+package org.nico.quoted.domain.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,5 +45,33 @@ class SourceClientModelTest {
     void getQuotes() {
         model.getQuotes().add(quote);
         assertTrue(model.getQuotes().contains(quote));
+    }
+
+
+    @Test
+    void getRandomQuote() {
+        assertTrue(model.getRandomQuote() instanceof Quote);
+        assertFalse(model.getRandomQuote().getText().isEmpty());
+    }
+
+    @Test
+    void searchSources() {
+        model.addQuote(quote);
+        assertTrue(model.searchSources("Test").contains(book));
+        assertFalse(model.searchSources("Some very long String").contains(book));
+    }
+
+    @Test
+    void searchQuotes() {
+        model.addQuote(quote);
+        assertTrue(model.searchQuotes("Test").contains(quote));
+        assertFalse(model.searchQuotes("Some very long String").contains(quote));
+    }
+
+    @Test
+    void getQuotesBySource() {
+        model.addQuote(quote);
+        assertTrue(model.getQuotesBySource(book).contains(quote));
+        assertFalse(model.getQuotesBySource(new Book("Some title", author, "98775", "Cover")).contains(quote));
     }
 }

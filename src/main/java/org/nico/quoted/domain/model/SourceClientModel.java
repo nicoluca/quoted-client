@@ -43,12 +43,11 @@ public class SourceClientModel {
         resetForm = new SimpleBooleanProperty();
 
         // Change Listeners
-        this.quotes.addListener((ListChangeListener<Quote>) c -> updateSources());
-        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateBooks());
-        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateAuthors());
-        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateArticles());
-
         // TODO Register the change listeners to update the API/DB - Question: Just adding via quote or source?
+
+        this.quotes.addListener(quoteListChangeListener());
+        this.sources.addListener(sourceListChangeListener());
+        this.books.addListener(bookListChangeListener());
     }
 
     // ############################## Getters ###########################
@@ -141,6 +140,8 @@ public class SourceClientModel {
     }
 
     private void updateBook(Book newBook) {
+        LOGGER.info("Updating book.");
+        // Replace book in sources
         int index = sources.indexOf(selectedSource.get());
         if (index == -1)
             throw new IllegalStateException("Book not found in sources.");
@@ -148,10 +149,18 @@ public class SourceClientModel {
         // TODO with DB
         // book.setId(selectedSource.get().getId());
 
+        quotes.stream()
+                .filter(quote -> quote.getSource().equals(selectedSource.get()))
+                .forEach(quote -> {
+                    LOGGER.info("Updating quote: '" + quote.getText() + "' with book: " + newBook.getTitle());
+                    quote.setSource(newBook);
+                });
+
         sources.set(index, newBook);
     }
 
     public void updateArticle(Article newArticle) {
+        LOGGER.info("Updating article.");
         // Get index of article to update
         // TODO This selection is error-prone: what if user selects some other source in background?
         int index = sources.indexOf(selectedSource.get());
@@ -160,6 +169,13 @@ public class SourceClientModel {
 
         // TODO with DB
         // newArticle.setId(selectedSource.get().getId());
+
+        quotes.stream()
+                .filter(quote -> quote.getSource().equals(selectedSource.get()))
+                .forEach(quote -> {
+                    LOGGER.info("Updating quote: '" + quote.getText() + "' with book: " + newArticle.getTitle());
+                    quote.setSource(newArticle);
+                });
 
          sources.set(index, newArticle);
     }
@@ -178,27 +194,102 @@ public class SourceClientModel {
     }
 
 
-    // ############################## Filters for change listeners ###########################
+    // ############################## Change listeners ###########################
 
-    private void updateArticles() {
-        // TODO is this efficient? Same for the following methods
-        articles.clear();
-        articles.addAll(filterArticlesFromSources());
+    private ListChangeListener<Quote> quoteListChangeListener() {
+        return c -> {
+            while (c.next()) {
+                if (c.wasReplaced()) {
+                    c.getRemoved().forEach(quote -> {
+                        if (sources.contains(quote.getSource()) && getQuotesBySource(quote.getSource()).isEmpty())
+                            sources.remove(quote.getSource()); // TODO this is not working
+                    });
+
+                    c.getAddedSubList().forEach(quote -> {
+                        if (!sources.contains(quote.getSource()))
+                            sources.add(quote.getSource());
+                    });
+                }
+
+
+                else if (c.wasAdded())
+                    c.getAddedSubList().forEach(quote -> {
+                        if (!sources.contains(quote.getSource()))
+                            sources.add(quote.getSource());
+                    });
+
+                else if (c.wasRemoved())
+                    c.getRemoved().forEach(quote -> {
+                        if (sources.contains(quote.getSource()) && getQuotesBySource(quote.getSource()).isEmpty())
+                            sources.remove(quote.getSource());
+                    });
+            }
+        };
     }
 
-    private void updateSources() {
-        sources.clear();
-        sources.addAll(getSourcesFromQuotes());
+    private ListChangeListener<SourceInterface> sourceListChangeListener() {
+        return c -> {
+            while (c.next()) {
+                if (c.wasReplaced()) {
+                    c.getRemoved().forEach(source -> {
+                        if (source instanceof Book)
+                            books.remove(source);
+                        else if (source instanceof Article)
+                            articles.remove(source);
+                    });
+
+                    c.getAddedSubList().forEach(source -> {
+                        if (source instanceof Book)
+                            books.add((Book) source);
+                        else if (source instanceof Article)
+                            articles.add((Article) source);
+                    });
+                }
+
+                else if (c.wasAdded())
+                    c.getAddedSubList().forEach(source -> {
+                        if (source instanceof Book)
+                            books.add((Book) source);
+                        else if (source instanceof Article)
+                            articles.add((Article) source);
+                    });
+
+                else if (c.wasRemoved())
+                    c.getRemoved().forEach(source -> {
+                        if (source instanceof Book)
+                            books.remove(source);
+                        else if (source instanceof Article)
+                            articles.remove(source);
+                    });
+            }
+        };
     }
 
-    private void updateAuthors() {
-        authors.clear();
-        authors.addAll(getAuthorsFromBooks());
-    }
 
-    private void updateBooks() {
-        books.clear();
-        books.addAll(filterBooksFromSources());
+    private ListChangeListener<Book> bookListChangeListener() {
+        return c -> {
+            while (c.next()) {
+                if (c.wasReplaced()) {
+                    c.getRemoved().forEach(book -> this.authors.removeIf(author
+                            -> books.stream().noneMatch(remainingBook -> remainingBook.getAuthor().equals(author))));
+
+                    c.getAddedSubList().forEach(book -> {
+                        if (!authors.contains(book.getAuthor()))
+                            authors.add(book.getAuthor());
+                    });
+                }
+
+                else if (c.wasAdded())
+                    c.getAddedSubList().forEach(book -> {
+                        if (!authors.contains(book.getAuthor()))
+                            authors.add(book.getAuthor());
+                    });
+
+                else if (c.wasRemoved())
+                    c.getRemoved().forEach(book -> this.authors.removeIf(author
+                            -> books.stream().noneMatch(remainingBook -> remainingBook.getAuthor().equals(author))));
+            }
+        };
     }
 
     private List<Book> filterBooksFromSources() {
@@ -219,12 +310,6 @@ public class SourceClientModel {
         return books.stream()
                 .map(Book::getAuthor)
                 .distinct() // TODO check if this is necessary
-                .collect(Collectors.toList());
-    }
-
-    private List<SourceInterface> getSourcesFromQuotes() {
-        return quotes.stream()
-                .map(Quote::getSource)
                 .collect(Collectors.toList());
     }
 
