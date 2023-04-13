@@ -46,9 +46,9 @@ public class SourceClientModel {
         this.quotes.addListener((ListChangeListener<Quote>) c -> updateSources());
         this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateBooks());
         this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateAuthors());
-        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateURLs());
+        this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateArticles());
 
-        // TODO Register the change listeners to update the API
+        // TODO Register the change listeners to update the API/DB - Question: Just adding via quote or source?
     }
 
     // ############################## Getters ###########################
@@ -133,6 +133,7 @@ public class SourceClientModel {
     }
 
     public void addOrUpdateBook(Book newBook) {
+        // TODO selection is error-prone (change in background)
         if (selectedSource.get() == null)
             sources.add(newBook);
         else
@@ -179,7 +180,7 @@ public class SourceClientModel {
 
     // ############################## Filters for change listeners ###########################
 
-    private void updateURLs() {
+    private void updateArticles() {
         // TODO is this efficient? Same for the following methods
         articles.clear();
         articles.addAll(filterArticlesFromSources());
