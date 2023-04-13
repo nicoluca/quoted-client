@@ -1,9 +1,15 @@
 package org.nico.quoted.ui.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
+import org.nico.quoted.config.UiConstants;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.SourceInterface;
@@ -50,9 +56,24 @@ public class AddViewController extends MainController {
             displayError("Invalid input");
         else {
             addQuote();
-            displayError("Quote added!");
+            displaySuccess();
             resetForm();
         }
+    }
+
+    private void displaySuccess() {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, event -> {
+                    errorLabel.setTextFill(Color.GREEN);
+                    errorLabel.setText("Quote added!");
+                }),
+                new KeyFrame(Duration.millis(UiConstants.DURATION_INFO_MESSAGE), event -> {
+                    errorLabel.setTextFill(Color.RED);
+                    errorLabel.setText("");
+                })
+        );
+        timeline.setCycleCount(1); // Play once
+        timeline.play();
     }
 
     private void checkAssertions() {
