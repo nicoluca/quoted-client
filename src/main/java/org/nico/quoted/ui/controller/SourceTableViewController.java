@@ -44,9 +44,11 @@ public class SourceTableViewController extends MainController {
     }
 
     private void bindResetListener() {
-        model.registerResetListener((observable, oldValue, newValue) -> sourceTableView.getSelectionModel().clearSelection());
-        searchTextField.setText("Search ...");
-        fillTableView(model.getSources());
+        model.registerResetListener((observable, oldValue, newValue) -> {
+                    sourceTableView.getSelectionModel().clearSelection();
+                    searchTextField.setText("Search ...");
+                    fillTableView(model.getSources());
+                });
     }
 
     private void setUpSearchField() {
