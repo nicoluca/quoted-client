@@ -1,10 +1,12 @@
-package org.nico.quoted.ui.model;
+package org.nico.quoted.domain.model;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import org.nico.quoted.api.QuotesAPI;
+import org.nico.quoted.api.SourcesAPI;
 import org.nico.quoted.config.BackendConstants;
 import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.*;
@@ -15,34 +17,53 @@ import java.util.stream.Collectors;
 
 public class SourceClientModel {
 
-    private final ObservableList<SourceInterface> sources = FXCollections.observableArrayList(BackendConstants.defaultSources());
-    private final ObservableList<Book> books = sources.stream()
-            .filter(Book.class::isInstance)
-            .map(Book.class::cast)
-            .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
-    private final ObservableList<Author> authors = books.stream()
-            .map(Book::getAuthor)
-            .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
-    private final ObservableList<Article> articles = sources.stream()
-            .filter(Article.class::isInstance)
-            .map(Article.class::cast)
-            .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
-    private final ObservableList<Quote> quotes = FXCollections.observableArrayList(BackendConstants.defaultQuotes());
-    private final ObjectProperty<SourceInterface> selectedSource = new SimpleObjectProperty<>();
-    private final ObjectProperty<Quote> selectedQuote = new SimpleObjectProperty<>();
-    private static Quote lastRandomQuote = null;
-    private final BooleanProperty resetForm = new SimpleBooleanProperty();
+    private final ObservableList<SourceInterface> sources;
+    private final ObservableList<Book> books;
+    private final ObservableList<Author> authors;
+    private final ObservableList<Article> articles;
+    private final ObservableList<Quote> quotes;
 
-    public ObjectProperty<Quote> selectedQuoteProperty() {
-        return selectedQuote;
-    }
+    private final ObjectProperty<SourceInterface> selectedSource;
+    private final ObjectProperty<Quote> selectedQuote;
+    private static Quote lastRandomQuote;
+    private final BooleanProperty resetForm;
 
     public SourceClientModel() {
+        // Initial read
+        this.sources = FXCollections.observableArrayList(SourcesAPI.getInstance().readAll());
+        this.books = FXCollections.observableArrayList(filterBooksFromSources());
+        this.authors = FXCollections.observableArrayList(getAuthorsFromBooks());
+        this.articles = FXCollections.observableArrayList(filterArticlesFromSources());
+        this.quotes = FXCollections.observableArrayList(QuotesAPI.getInstance().readAll());
+
+        //Selectors
+        selectedSource = new SimpleObjectProperty<>();
+        selectedQuote = new SimpleObjectProperty<>();
+        resetForm = new SimpleBooleanProperty();
+
         // TODO
         this.quotes.addListener((ListChangeListener<Quote>) c -> updateSources());
         this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateBooks());
         this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateAuthors());
         this.sources.addListener((ListChangeListener<SourceInterface>) c -> updateURLs());
+    }
+
+    public ObjectProperty<Quote> selectedQuoteProperty() {
+        return selectedQuote;
+    }
+
+    private List<Article> filterArticlesFromSources() {
+        return sources.stream()
+                .filter(Article.class::isInstance)
+                .map(Article.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    private List<Author> getAuthorsFromBooks() {
+        return books.stream()
+                .map(Book::getAuthor)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     private void updateURLs() {
@@ -74,11 +95,14 @@ public class SourceClientModel {
 
     private void updateBooks() {
         books.clear();
-        List<Book> newBooks = sources.stream()
+        books.addAll(filterBooksFromSources());
+    }
+
+    private List<Book> filterBooksFromSources() {
+        return sources.stream()
                 .filter(Book.class::isInstance)
                 .map(Book.class::cast)
                 .collect(Collectors.toList());
-        books.addAll(newBooks);
     }
 
     public ObservableList<SourceInterface> getSources() {

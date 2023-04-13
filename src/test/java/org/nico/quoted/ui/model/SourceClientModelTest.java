@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.model.SourceClientModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
