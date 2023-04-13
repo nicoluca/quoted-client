@@ -10,7 +10,7 @@ import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
 
-public class BrowseViewController extends MainController {
+public class QuotesViewController extends MainController {
 
     @FXML
     private TableView<Quote> quoteTableView;
@@ -167,14 +167,14 @@ public class BrowseViewController extends MainController {
     }
 
     private void checkAssertions() {
-        assert quoteTableView != null : "fx:id=\"quoteTableView\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert sourceTableView != null : "fx:id=\"sourceTableView\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert editQuoteColumn != null : "fx:id=\"editQuoteColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert quoteColumn != null : "fx:id=\"quoteColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert sourceColumn != null : "fx:id=\"sourceColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert deleteQuoteColumn != null : "fx:id=\"deleteQuoteColumn\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'browse-view.fxml'.";
-        assert resetButton != null : "fx:id=\"resetButton\" was not injected: check your FXML file 'browse-view.fxml'.";
+        assert quoteTableView != null : "fx:id=\"quoteTableView\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert sourceTableView != null : "fx:id=\"sourceTableView\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert editQuoteColumn != null : "fx:id=\"editQuoteColumn\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert quoteColumn != null : "fx:id=\"quoteColumn\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert sourceColumn != null : "fx:id=\"sourceColumn\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert deleteQuoteColumn != null : "fx:id=\"deleteQuoteColumn\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'quotes-view.fxml'.";
+        assert resetButton != null : "fx:id=\"resetButton\" was not injected: check your FXML file 'quotes-view.fxml'.";
     }
 
     public void onResetButtonClick(ActionEvent actionEvent) {

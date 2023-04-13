@@ -16,7 +16,7 @@ import org.nico.quoted.domain.Quote;
 import org.nico.quoted.ui.controller.form.BookFormView;
 import org.nico.quoted.util.StringUtil;
 
-public class AddViewController extends MainController {
+public class NewViewController extends MainController {
     @FXML
     private Button newBookButton;
     @FXML
@@ -76,12 +76,12 @@ public class AddViewController extends MainController {
     }
 
     private void checkAssertions() {
-        assert newBookButton != null : "fx:id=\"newBookButton\" was not injected: check your FXML file 'add-view.fxml'.";
-        assert urlInputField != null : "fx:id=\"UrlInputField\" was not injected: check your FXML file 'add-view.fxml'.";
-        assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'add-view.fxml'.";
-        assert bookChoiceBox != null : "fx:id=\"bookChoiceBox\" was not injected: check your FXML file 'add-view.fxml'.";
-        assert quoteInputField != null : "fx:id=\"quoteInputField\" was not injected: check your FXML file 'add-view.fxml'.";
-        assert toggleURL != null : "fx:id=\"toggleURL\" was not injected: check your FXML file 'add-view.fxml'.";
+        assert newBookButton != null : "fx:id=\"newBookButton\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert urlInputField != null : "fx:id=\"UrlInputField\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert bookChoiceBox != null : "fx:id=\"bookChoiceBox\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert quoteInputField != null : "fx:id=\"quoteInputField\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert toggleURL != null : "fx:id=\"toggleURL\" was not injected: check your FXML file 'new-view.fxml'.";
     }
 
     private void setupChoiceBox() {

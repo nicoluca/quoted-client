@@ -8,10 +8,10 @@
 <VBox alignment="CENTER" maxHeight="430.0" maxWidth="600.0" prefHeight="430.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nico.quoted.ui.controller.MainController">
    <TabPane fx:id="tabPane" prefHeight="430.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
-       <Tab text="Add">
+       <Tab text="New">
          <content>
              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                 <fx:include source="add-view.fxml" />
+                 <fx:include source="new-view.fxml" />
              </AnchorPane>
          </content>
        </Tab>
@@ -22,10 +22,10 @@
             </AnchorPane>
          </content>
        </Tab>
-         <Tab text="Browse">
+         <Tab text="Quotes">
            <content>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                   <fx:include source="browse-view.fxml" />
+                   <fx:include source="quotes-view.fxml" />
                </AnchorPane>
            </content>
          </Tab>

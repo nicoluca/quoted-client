@@ -5,19 +5,18 @@ import org.junit.jupiter.api.Test;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
-import org.nico.quoted.domain.model.SourceClientModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SourceClientModelTest {
-    private SourceClientModel model;
+class ClientModelTest {
+    private ClientModel model;
     private Author author;
     private Book book;
     private Quote quote;
 
     @BeforeEach
     void setUp() {
-        model = new SourceClientModel();
+        model = new ClientModel();
         author = new Author("Test", "Test");
         book = new Book("Test", author, "Test", "Test");
         quote = new Quote("Test", book);

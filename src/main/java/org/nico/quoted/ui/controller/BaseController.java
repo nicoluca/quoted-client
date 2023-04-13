@@ -1,7 +1,7 @@
 package org.nico.quoted.ui.controller;
 
-import org.nico.quoted.domain.model.SourceClientModel;
+import org.nico.quoted.domain.model.ClientModel;
 
 public abstract class BaseController {
-    protected static final SourceClientModel model = new SourceClientModel();
+    protected static final ClientModel model = new ClientModel();
 }

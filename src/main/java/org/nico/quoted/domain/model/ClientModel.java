@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class SourceClientModel {
+public class ClientModel {
 
     // ############################## Setup ###########################
 
@@ -29,7 +29,7 @@ public class SourceClientModel {
     private static Quote lastRandomQuote;
     private final BooleanProperty resetForm;
 
-    public SourceClientModel() {
+    public ClientModel() {
         // Initial read
         this.sources = FXCollections.observableArrayList(SourcesAPI.getInstance().readAll());
         this.books = FXCollections.observableArrayList(filterBooksFromSources());
