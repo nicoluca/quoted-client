@@ -5,12 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.nico.quoted.config.LOGGER;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class BookFormView {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookFormView.class);
+
+
     public void show() {
         try {
             Parent bookFormView = FXMLLoader

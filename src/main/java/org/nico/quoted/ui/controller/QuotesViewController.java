@@ -5,12 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class QuotesViewController extends MainController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QuotesViewController.class);
+
 
     @FXML
     private TableView<Quote> quoteTableView;

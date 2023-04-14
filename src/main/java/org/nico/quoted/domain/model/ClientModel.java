@@ -7,14 +7,17 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import org.nico.quoted.api.QuotesAPI;
 import org.nico.quoted.api.SourcesAPI;
-import org.nico.quoted.config.LOGGER;
 import org.nico.quoted.domain.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 public class ClientModel {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientModel.class);
 
     // ############################## Setup ###########################
 

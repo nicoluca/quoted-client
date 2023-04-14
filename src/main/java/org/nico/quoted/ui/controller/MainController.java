@@ -6,9 +6,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.nico.quoted.config.LOGGER;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MainController extends BaseController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
     @FXML
     private TabPane tabPane;
@@ -31,6 +34,6 @@ public class MainController extends BaseController {
         if (selectedTabProperty != null)
             selectedTabProperty.addListener(listener);
         else
-            LOGGER.warning("Tried to add listener to null property");
+            LOGGER.error("Tried to add listener to null property");
     }
 }
