@@ -1,6 +1,7 @@
 package org.nico.quoted.domain.model;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
@@ -54,6 +55,7 @@ class ClientModelTest {
     }
 
     @Test
+    @DisplayName("Search for sources by String")
     void searchSources() {
         model.addQuote(quote);
         assertTrue(model.searchSources("Test").contains(book));
@@ -61,6 +63,7 @@ class ClientModelTest {
     }
 
     @Test
+    @DisplayName("Search for quotes by String")
     void searchQuotes() {
         model.addQuote(quote);
         assertTrue(model.searchQuotes("Test").contains(quote));
@@ -68,6 +71,7 @@ class ClientModelTest {
     }
 
     @Test
+    @DisplayName("Get quotes by source")
     void getQuotesBySource() {
         model.addQuote(quote);
         assertTrue(model.getQuotesBySource(book).contains(quote));

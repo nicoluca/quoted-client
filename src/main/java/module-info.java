@@ -1,6 +1,7 @@
 module org.nico.quoted {
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.slf4j;
 
     opens org.nico.quoted to javafx.fxml;
     exports org.nico.quoted;
