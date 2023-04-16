@@ -13,7 +13,6 @@ import java.util.Objects;
 public class QuoteFormView {
     private static final Logger LOGGER = LoggerFactory.getLogger(QuoteFormView.class);
 
-
     public void show() {
         try {
             Parent bookFormView = FXMLLoader

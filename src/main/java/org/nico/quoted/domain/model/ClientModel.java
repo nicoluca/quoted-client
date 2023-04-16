@@ -86,9 +86,9 @@ public class ClientModel {
         LOGGER.info("Added quote: " + quoteToAdd.getText() + ", from source: " + quoteToAdd.getSource().getOrigin());
     }
 
-    public void deleteQuote(Quote quoteToDelete) {
-        quotes.remove(quoteToDelete); // Sources are updating automatically once changes in quote list are registered
-        LOGGER.info("Removed quote: " + quoteToDelete.getText() + ", from source: " + quoteToDelete.getSource().getOrigin());
+    public void deleteQuoteByIndex(int index) {
+        LOGGER.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().getOrigin());
+        quotes.remove(index); // Sources are updating automatically once changes in quote list are registered
     }
 
     public Quote getRandomQuote() {
@@ -183,9 +183,9 @@ public class ClientModel {
          sources.set(index, newArticle);
     }
 
-    public void deleteSource(SourceInterface sourceToDelete) {
-        quotes.removeIf(quote -> quote.getSource().equals(sourceToDelete));
-        sources.remove(sourceToDelete);
+    public void deleteSourceByIndex(int index) {
+        LOGGER.info("Deleting source: " + sources.get(index).getOrigin());
+        this.sources.remove(index);
     }
 
     public void resetForm() {

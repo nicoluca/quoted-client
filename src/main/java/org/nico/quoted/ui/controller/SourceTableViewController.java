@@ -119,9 +119,7 @@ public class SourceTableViewController extends MainController {
                         setGraphic(null);
                     } else {
                         // wenn button gedrückt, führe event handler aus
-                        deleteButton.setOnAction(event -> {
-                            model.deleteSource(model.selectedSourceProperty().get());
-                        });
+                        deleteButton.setOnAction(event -> model.deleteSourceByIndex(getIndex()));
                         setText(null);
                         setGraphic(deleteButton);
                     }

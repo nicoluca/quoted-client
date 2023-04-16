@@ -122,7 +122,7 @@ public class QuotesViewController extends MainController {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        deleteButton.setOnAction(event -> deleteQuote());
+                        deleteButton.setOnAction(event -> model.deleteQuoteByIndex(getIndex()));
                         setText(null);
                         setGraphic(deleteButton);
                     }
@@ -131,11 +131,6 @@ public class QuotesViewController extends MainController {
 
             return cell;
         });
-    }
-
-    private void deleteQuote() {
-        // TODO This should work by row, not by selected item
-        model.deleteQuote(model.selectedQuoteProperty().get());
     }
 
     private void fillEditQuoteColumn() {
