@@ -14,6 +14,7 @@ import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
 
@@ -53,7 +54,7 @@ public class QuoteFormViewController extends MainController {
         if (!isInputValid())
             displayError("Invalid input");
         else {
-            Quote quote = model.selectedQuoteProperty().get();
+            Quote quote = EditViewModel.getQuoteToEdit();
             quote.setText(quoteTextField.getText());
 
 
@@ -86,7 +87,7 @@ public class QuoteFormViewController extends MainController {
     }
 
     private void fillQuoteForm() {
-        Quote quote = model.selectedQuoteProperty().get();
+        Quote quote = EditViewModel.getQuoteToEdit();
 
         if (quote == null)
             throw new IllegalStateException("No quote selected");

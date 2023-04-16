@@ -19,7 +19,7 @@ class ClientModelTest {
     void setUp() {
         model = new ClientModel();
         author = new Author("Test", "Test");
-        book = new Book("Test", author, "Test", "Test");
+        book = new Book("Test", author, "Test");
         quote = new Quote("Test", book);
     }
 
@@ -75,6 +75,6 @@ class ClientModelTest {
     void getQuotesBySource() {
         model.addQuote(quote);
         assertTrue(model.getQuotesBySource(book).contains(quote));
-        assertFalse(model.getQuotesBySource(new Book("Some title", author, "98775", "Cover")).contains(quote));
+        assertFalse(model.getQuotesBySource(new Book("Some title", author, "Cover")).contains(quote));
     }
 }

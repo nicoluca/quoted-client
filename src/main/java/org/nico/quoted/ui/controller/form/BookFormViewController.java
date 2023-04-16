@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
+import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.util.FileChooserUtil;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
@@ -54,7 +55,7 @@ public class BookFormViewController extends MainController {
     }
 
     private void fillForm() {
-        if (model.selectedSourceProperty().get() != null && model.selectedSourceProperty().get() instanceof Book book)
+        if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book book)
             fillTextFields(book);
     }
 
@@ -68,13 +69,18 @@ public class BookFormViewController extends MainController {
     public void onConfirmButtonClicked(ActionEvent actionEvent) {
         if (checkIfBookIsValid()) {
             // TODO Should adding and updating be conflated?
+
+            // TODO How to handle the case where the author already exists?
             Author author = new Author(
                     authorFirstNameTextField.getText(),
                     authorLastNameTextField.getText()
             );
 
-            Book book = new Book(titleTextField.getText(), author, "12345", "coverPath");
-            model.addOrUpdateBook(book);
+            Book book = new Book(titleTextField.getText(), author, coverPathTextField.getText());
+            if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book bookToEdit)
+                model.updateSource(book);
+            else
+                model.addBook(book);
 
             model.resetForm();
             closeStage();

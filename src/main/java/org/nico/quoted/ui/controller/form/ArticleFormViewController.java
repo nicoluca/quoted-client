@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.util.StringUtil;
@@ -38,11 +39,10 @@ public class ArticleFormViewController extends MainController {
             return;
         }
 
-        // TODO is it okay to get the article from the selectedSourceProperty?
-        Article article = (Article) model.selectedSourceProperty().get();
+        Article article = (Article) EditViewModel.getSourceToEdit();
         article.setTitle(titleTextField.getText());
         article.setUrl(urlTextField.getText());
-        model.updateArticle(article);
+        model.updateSource(article);
 
         model.resetForm();
         closeStage();
@@ -66,7 +66,7 @@ public class ArticleFormViewController extends MainController {
     }
 
     private void fillForm() {
-        if (model.selectedSourceProperty().get() != null && (model.selectedSourceProperty().get() instanceof Article article)) {
+        if (EditViewModel.getSourceToEdit() != null && (EditViewModel.getSourceToEdit() instanceof Article article)) {
             setTextForFields(article);
         } else
             throw new IllegalStateException("No article selected in the model.");

@@ -14,8 +14,8 @@ public class BackendConstants {
         return List.of(
                 new Article("Diesen Text schrieb der US-Reporter Evan Gershkovich, bevor er in Russland verhaftet wurde",
                         "https://www.zeit.de/2023/15/russland-wirtschaft-energie-export-inflation"),
-                new Book("Der Herr der Ringe", defaultAuthors().get(0), null, null),
-                new Book("Der kleine Hobbit", defaultAuthors().get(0), null, null)
+                new Book("Der Herr der Ringe", defaultAuthors().get(0), null),
+                new Book("Der kleine Hobbit", defaultAuthors().get(0), null)
         );
     }
 

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,7 +145,10 @@ public class QuotesViewController extends MainController {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        editButton.setOnAction(event -> openEditView());
+                        editButton.setOnAction(event -> {
+                            EditViewModel.setQuoteToEdit(model.getQuoteByIndex(getIndex()));
+                            openEditView();
+                        });
                         setText(null);
                         setGraphic(editButton);
                     }

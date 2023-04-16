@@ -4,15 +4,11 @@ public class Book implements SourceInterface {
     public static final QuotableType type = QuotableType.BOOK;
     private String title;
     private Author author;
-
-    // TODO ISBN as id or dedicated id?
-    private String isbn;
     private String coverPath;
 
-    public Book(String title, Author author, String isbn, String coverPath) {
+    public Book(String title, Author author, String coverPath) {
         this.title = title;
         this.author = author;
-        this.isbn = isbn;
         this.coverPath = coverPath;
     }
 

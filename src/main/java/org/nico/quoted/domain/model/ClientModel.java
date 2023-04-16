@@ -56,7 +56,7 @@ public class ClientModel {
     // ############################## Getters ###########################
 
     public ObjectProperty<SourceInterface> selectedSourceProperty() {
-        return selectedSource;
+        return selectedSource; // TODO SETTING the selected source will throw an InvocationTargetException as the source is bound. Either remove the binding, or restrict access to the property.
     }
 
     public ObjectProperty<Quote> selectedQuoteProperty() {
@@ -65,6 +65,10 @@ public class ClientModel {
 
     public ObservableList<SourceInterface> getSources() {
         return sources;
+    }
+
+    public SourceInterface getSourceByIndex(int index) {
+        return sources.get(index);
     }
 
     public ObservableList<Book> getBooks() {
@@ -89,6 +93,10 @@ public class ClientModel {
     public void deleteQuoteByIndex(int index) {
         LOGGER.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().getOrigin());
         quotes.remove(index); // Sources are updating automatically once changes in quote list are registered
+    }
+
+    public Quote getQuoteByIndex(int index) {
+        return quotes.get(index);
     }
 
     public Quote getRandomQuote() {
@@ -134,53 +142,23 @@ public class ClientModel {
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     }
 
-    public void addOrUpdateBook(Book newBook) {
-        // TODO selection is error-prone (change in background)
-        if (selectedSource.get() == null)
-            sources.add(newBook);
-        else
-            updateBook(newBook);
+    public void addBook(Book newBook) {
+        sources.add(newBook);
+        LOGGER.info("Added book: " + newBook.getTitle() + ", by author: " + newBook.getAuthor());
     }
 
-    private void updateBook(Book newBook) {
-        LOGGER.info("Updating book.");
-        // Replace book in sources
-        int index = sources.indexOf(selectedSource.get());
-        if (index == -1)
-            throw new IllegalStateException("Book not found in sources.");
+    public void updateSource(SourceInterface source) {
+        quotes.stream()
+                .filter(quote -> quote.getSource().equals(EditViewModel.getSourceToEdit()))
+                .forEach(quote -> quote.setSource(source));
 
         // TODO with DB
-        // book.setId(selectedSource.get().getId());
+        // source.setId(selectedSource.get().getId());
 
-        quotes.stream()
-                .filter(quote -> quote.getSource().equals(selectedSource.get()))
-                .forEach(quote -> {
-                    LOGGER.info("Updating quote: '" + quote.getText() + "' with book: " + newBook.getTitle());
-                    quote.setSource(newBook);
-                });
+        sources.set(sources.indexOf(EditViewModel.getSourceToEdit()), source);
+        LOGGER.info("Updated source: " + source.getOrigin());
+        quotes.forEach(quote -> LOGGER.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().getOrigin()));
 
-        sources.set(index, newBook);
-    }
-
-    public void updateArticle(Article newArticle) {
-        LOGGER.info("Updating article.");
-        // Get index of article to update
-        // TODO This selection is error-prone: what if user selects some other source in background?
-        int index = sources.indexOf(selectedSource.get());
-        if (index == -1)
-            throw new IllegalStateException("Article not found in sources.");
-
-        // TODO with DB
-        // newArticle.setId(selectedSource.get().getId());
-
-        quotes.stream()
-                .filter(quote -> quote.getSource().equals(selectedSource.get()))
-                .forEach(quote -> {
-                    LOGGER.info("Updating quote: '" + quote.getText() + "' with book: " + newArticle.getTitle());
-                    quote.setSource(newArticle);
-                });
-
-         sources.set(index, newArticle);
     }
 
     public void deleteSourceByIndex(int index) {
@@ -198,6 +176,8 @@ public class ClientModel {
 
 
     // ############################## Change listeners ###########################
+
+    // TODO As per doc, c.wasReplaced() is not usually used, and appears to not work as expected.
 
     private ListChangeListener<Quote> quoteListChangeListener() {
         return c -> {
@@ -242,11 +222,13 @@ public class ClientModel {
                     });
 
                     c.getAddedSubList().forEach(source -> {
+                        LOGGER.info("Updating source: " + source.getOrigin());
                         if (source instanceof Book)
                             books.add((Book) source);
                         else if (source instanceof Article)
                             articles.add((Article) source);
                     });
+
                 }
 
                 else if (c.wasAdded())
@@ -263,6 +245,8 @@ public class ClientModel {
                             books.remove(source);
                         else if (source instanceof Article)
                             articles.remove(source);
+
+                        quotes.removeIf(quote -> quote.getSource().equals(source));
                     });
             }
         };

@@ -14,8 +14,8 @@ class BookTest {
     @BeforeAll
     void setUp() {
         author = new Author("J.R.R.", "Tolkien");
-        book1 = new Book("The Hobbit", author, "12345", "abcd");
-        book2 = new Book("The Lord of the Rings", author, "1234", "abcd");
+        book1 = new Book("The Hobbit", author, "12345");
+        book2 = new Book("The Lord of the Rings", author, "abcd");
     }
 
     @Test

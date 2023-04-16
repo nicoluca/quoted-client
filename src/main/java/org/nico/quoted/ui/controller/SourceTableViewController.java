@@ -6,7 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.ArticleFormView;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
@@ -82,7 +84,10 @@ public class SourceTableViewController extends MainController {
                     } else {
                         setText(null);
                         setGraphic(editButton);
-                        editButton.setOnAction(event -> editSource());
+                        editButton.setOnAction(event -> {
+                            EditViewModel.setSourceToEdit(model.getSourceByIndex(getIndex()));
+                            editSource();
+                        });
                     }
                 }
             };
@@ -92,7 +97,7 @@ public class SourceTableViewController extends MainController {
     }
 
     private void editSource() {
-        if (model.selectedSourceProperty().get().getType().equals("Book"))
+        if (EditViewModel.getSourceToEdit() instanceof Book)
             addOrEditBook();
         else
             editOnlineArticle();
@@ -105,7 +110,6 @@ public class SourceTableViewController extends MainController {
     private void addOrEditBook() {
         new BookFormView().show();
     }
-
 
     private void setDeleteButtonColumn() {
         deleteButtonColumn.setCellFactory((Callback<TableColumn<SourceInterface, Button>, TableCell<SourceInterface, Button>>) bookButtonTableColumn -> {
@@ -130,7 +134,6 @@ public class SourceTableViewController extends MainController {
         });
     }
 
-
     private void checkAssertions() {
         assert addBookButton != null : "fx:id=\"addResourceButton\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert editButtonColumn != null : "fx:id=\"editButtonColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
@@ -140,11 +143,11 @@ public class SourceTableViewController extends MainController {
         assert typeColumn != null : "fx:id=\"typeColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert deleteButtonColumn != null : "fx:id=\"deleteButtonColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
-
     }
 
     public void onAddBookButtonClick(ActionEvent actionEvent) {
         sourceTableView.getSelectionModel().clearSelection();
+        EditViewModel.setSourceToEdit(null);
         addOrEditBook();
     }
 
