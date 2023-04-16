@@ -17,7 +17,10 @@ public class EditViewModel {
     }
 
     public static void setSourceToEdit(SourceInterface sourceToEdit) {
-        LOGGER.info("Setting source to edit: " + sourceToEdit.getTitle());
+        if (sourceToEdit == null)
+            LOGGER.info("Setting source to edit: null");
+        else
+            LOGGER.info("Setting source to edit: " + sourceToEdit.getTitle());
         EditViewModel.sourceToEdit = sourceToEdit;
     }
 
