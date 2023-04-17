@@ -1,7 +1,6 @@
 package org.nico.quoted.ui.controller.form;
 
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -54,16 +53,15 @@ public class QuoteFormViewController extends MainController {
         if (!isInputValid())
             displayError("Invalid input");
         else {
-            Quote quote = EditViewModel.getQuoteToEdit();
-            quote.setText(quoteTextField.getText());
+            String quoteText = quoteTextField.getText();
 
-
+            Source source;
             if (urlCheckBox.isSelected())
-                quote.setSource(new Article(null, urlTextField.getText()));
+                source = new Article(null, urlTextField.getText());
             else
-                quote.setSource(bookChoiceBox.getValue());
+                source = bookChoiceBox.getValue();
 
-            model.updateQuote(quote);
+            model.updateQuote(new Quote(quoteText, source));
             model.resetForm();
             closeStage();
         }

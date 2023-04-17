@@ -112,10 +112,8 @@ public class ClientModel {
 
 
     public void updateQuote(Quote quote) {
-        quotes.stream().filter(quoteToUpdate -> quoteToUpdate.equals(quote)).findFirst().ifPresent(quote1 -> {
-            quote1.setText(quote.getText());
-            quote1.setSource(quote.getSource());
-        });
+        quotes.set(quotes.indexOf(EditViewModel.getQuoteToEdit()), quote);
+        log.info("Updated quote: " + quote.getText() + ", from source: " + quote.getSource().toString());
     }
 
     public ObservableList<Source> searchSources(String searchString) {
@@ -180,9 +178,9 @@ public class ClientModel {
         return c -> {
             while (c.next()) {
                 if (c.wasReplaced()) {
-                    c.getRemoved().forEach(quote ->
-                            sources.removeIf(source ->
-                                    source.equals(quote.getSource()) && getQuotesBySource(source).isEmpty()));
+                    log.info("Quote list was replaced");
+                    c.getRemoved().forEach(quote -> sources.removeIf(source ->
+                            source.equals(quote.getSource()) && getQuotesBySource(quote.getSource()).isEmpty()));
 
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
@@ -190,18 +188,20 @@ public class ClientModel {
                     });
                 }
 
-
-                else if (c.wasAdded())
+                else if (c.wasAdded()) {
+                    log.info("Quote was added");
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
                             sources.add(quote.getSource());
                     });
+                }
 
-                else if (c.wasRemoved())
-                    c.getRemoved().forEach(quote -> {
-                        if (sources.contains(quote.getSource()) && getQuotesBySource(quote.getSource()).isEmpty())
-                            sources.remove(quote.getSource());
-                    });
+                else if (c.wasRemoved()) {
+                    log.info("Quote was removed");
+                    c.getRemoved().forEach(quote -> sources.removeIf(source ->
+                            source.equals(quote.getSource()) && getQuotesBySource(source).isEmpty()));
+                }
+
             }
         };
     }
