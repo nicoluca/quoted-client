@@ -180,10 +180,9 @@ public class ClientModel {
         return c -> {
             while (c.next()) {
                 if (c.wasReplaced()) {
-                    c.getRemoved().forEach(quote -> {
-                        if (sources.contains(quote.getSource()) && getQuotesBySource(quote.getSource()).isEmpty())
-                            sources.remove(quote.getSource()); // TODO this is not working
-                    });
+                    c.getRemoved().forEach(quote ->
+                            sources.removeIf(source ->
+                                    source.equals(quote.getSource()) && getQuotesBySource(source).isEmpty()));
 
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
