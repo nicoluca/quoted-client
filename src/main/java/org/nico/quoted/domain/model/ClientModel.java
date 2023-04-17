@@ -172,8 +172,6 @@ public class ClientModel {
 
     // ############################## Change listeners ###########################
 
-    // TODO As per doc, c.wasReplaced() is not usually used, and appears to not work as expected.
-
     private ListChangeListener<Quote> quoteListChangeListener() {
         return c -> {
             while (c.next()) {
@@ -209,6 +207,7 @@ public class ClientModel {
     private ListChangeListener<Source> sourceListChangeListener() {
         return c -> {
             while (c.next()) {
+                // TODO Likely needs to done with set by index instead of remove/add to enable change listening to books
                 if (c.wasReplaced()) {
                     c.getRemoved().forEach(source -> {
                         if (source instanceof Book)
@@ -219,20 +218,20 @@ public class ClientModel {
 
                     c.getAddedSubList().forEach(source -> {
                         log.info("Updating source: " + source.toString());
-                        if (source instanceof Book)
-                            books.add((Book) source);
-                        else if (source instanceof Article)
-                            articles.add((Article) source);
+                        if (source instanceof Book book)
+                            books.add(book);
+                        else if (source instanceof Article article)
+                            articles.add(article);
                     });
 
                 }
 
                 else if (c.wasAdded())
                     c.getAddedSubList().forEach(source -> {
-                        if (source instanceof Book)
-                            books.add((Book) source);
-                        else if (source instanceof Article)
-                            articles.add((Article) source);
+                        if (source instanceof Book book)
+                            books.add(book);
+                        else if (source instanceof Article article)
+                            articles.add(article);
                     });
 
                 else if (c.wasRemoved())
