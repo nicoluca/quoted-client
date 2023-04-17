@@ -18,13 +18,13 @@ public class ClientModel {
     
     // ############################## Setup ###########################
 
-    private final ObservableList<SourceInterface> sources;
+    private final ObservableList<Source> sources;
     private final ObservableList<Book> books;
     private final ObservableList<Author> authors;
     private final ObservableList<Article> articles;
     private final ObservableList<Quote> quotes;
 
-    private final ObjectProperty<SourceInterface> selectedSource;
+    private final ObjectProperty<Source> selectedSource;
     private final ObjectProperty<Quote> selectedQuote;
     private static Quote lastRandomQuote;
     private final BooleanProperty resetForm;
@@ -52,7 +52,7 @@ public class ClientModel {
 
     // ############################## Getters ###########################
 
-    public ObjectProperty<SourceInterface> selectedSourceProperty() {
+    public ObjectProperty<Source> selectedSourceProperty() {
         return selectedSource; // TODO SETTING the selected source will throw an InvocationTargetException as the source is bound. Either remove the binding, or restrict access to the property.
     }
 
@@ -60,11 +60,11 @@ public class ClientModel {
         return selectedQuote;
     }
 
-    public ObservableList<SourceInterface> getSources() {
+    public ObservableList<Source> getSources() {
         return sources;
     }
 
-    public SourceInterface getSourceByIndex(int index) {
+    public Source getSourceByIndex(int index) {
         return sources.get(index);
     }
 
@@ -84,11 +84,11 @@ public class ClientModel {
 
     public void addQuote(Quote quoteToAdd) {
         quotes.add(quoteToAdd); // Sources are updating automatically once changes in quote list are registered
-        log.info("Added quote: " + quoteToAdd.getText() + ", from source: " + quoteToAdd.getSource().getOrigin());
+        log.info("Added quote: " + quoteToAdd.getText() + ", from source: " + quoteToAdd.getSource().toString());
     }
 
     public void deleteQuoteByIndex(int index) {
-        log.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().getOrigin());
+        log.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().toString());
         quotes.remove(index); // Sources are updating automatically once changes in quote list are registered
     }
 
@@ -118,10 +118,10 @@ public class ClientModel {
         });
     }
 
-    public ObservableList<SourceInterface> searchSources(String searchString) {
+    public ObservableList<Source> searchSources(String searchString) {
         return sources.stream()
                 .filter(source -> source.getTitle().toLowerCase().contains(searchString.toLowerCase())
-                        || source.getOrigin().toLowerCase().contains(searchString.toLowerCase()))
+                        || source.toString().toLowerCase().contains(searchString.toLowerCase()))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     }
 
@@ -132,8 +132,8 @@ public class ClientModel {
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     }
 
-    public ObservableList<Quote> getQuotesBySource(SourceInterface source) {
-        log.info("Getting quotes by source: " + source.getOrigin());
+    public ObservableList<Quote> getQuotesBySource(Source source) {
+        log.info("Getting quotes by source: " + source.toString());
         return quotes.stream()
                 .filter(quote -> quote.getSource().equals(source))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
@@ -144,7 +144,7 @@ public class ClientModel {
         log.info("Added book: " + newBook.getTitle() + ", by author: " + newBook.getAuthor());
     }
 
-    public void updateSource(SourceInterface source) {
+    public void updateSource(Source source) {
         quotes.stream()
                 .filter(quote -> quote.getSource().equals(EditViewModel.getSourceToEdit()))
                 .forEach(quote -> quote.setSource(source));
@@ -153,13 +153,13 @@ public class ClientModel {
         // source.setId(selectedSource.get().getId());
 
         sources.set(sources.indexOf(EditViewModel.getSourceToEdit()), source);
-        log.info("Updated source: " + source.getOrigin());
-        quotes.forEach(quote -> log.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().getOrigin()));
+        log.info("Updated source: " + source.toString());
+        quotes.forEach(quote -> log.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().toString()));
 
     }
 
     public void deleteSourceByIndex(int index) {
-        log.info("Deleting source: " + sources.get(index).getOrigin());
+        log.info("Deleting source: " + sources.get(index).toString());
         this.sources.remove(index);
     }
 
@@ -207,7 +207,7 @@ public class ClientModel {
         };
     }
 
-    private ListChangeListener<SourceInterface> sourceListChangeListener() {
+    private ListChangeListener<Source> sourceListChangeListener() {
         return c -> {
             while (c.next()) {
                 if (c.wasReplaced()) {
@@ -219,7 +219,7 @@ public class ClientModel {
                     });
 
                     c.getAddedSubList().forEach(source -> {
-                        log.info("Updating source: " + source.getOrigin());
+                        log.info("Updating source: " + source.toString());
                         if (source instanceof Book)
                             books.add((Book) source);
                         else if (source instanceof Article)

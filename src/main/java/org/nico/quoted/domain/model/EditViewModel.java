@@ -2,21 +2,21 @@ package org.nico.quoted.domain.model;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Quote;
-import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.Source;
 
 // A helper class to store the source and quote to edit
 // TODO Is there a more elegant way to do this?
 
 @Slf4j
 public class EditViewModel {
-    private static SourceInterface sourceToEdit;
+    private static Source sourceToEdit;
     private static Quote quoteToEdit;
 
-    public static SourceInterface getSourceToEdit() {
+    public static Source getSourceToEdit() {
         return sourceToEdit;
     }
 
-    public static void setSourceToEdit(SourceInterface sourceToEdit) {
+    public static void setSourceToEdit(Source sourceToEdit) {
         if (sourceToEdit == null)
             log.info("Setting source to edit: null");
         else

@@ -11,7 +11,7 @@ import javafx.util.Duration;
 import org.nico.quoted.config.UiConstants;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
-import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.Source;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.BookFormView;
@@ -115,7 +115,7 @@ public class NewViewController extends MainController {
     private void addQuoteFromUrl() {
         // TODO no duplicate urls
         String url = urlInputField.getText();
-        SourceInterface article = new Article(null, url);
+        Source article = new Article(null, url);
         Quote quote = new Quote(quoteInputField.getText(), article);
         model.addQuote(quote);
     }

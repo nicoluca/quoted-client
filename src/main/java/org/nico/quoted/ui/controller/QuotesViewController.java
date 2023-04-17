@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.Source;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
@@ -17,7 +17,7 @@ public class QuotesViewController extends MainController {
     @FXML
     private TableView<Quote> quoteTableView;
     @FXML
-    private TableView<SourceInterface> sourceTableView;
+    private TableView<Source> sourceTableView;
     @FXML
     private TextField searchTextField;
 
@@ -31,7 +31,7 @@ public class QuotesViewController extends MainController {
     private TableColumn<Quote, String> quoteColumn;
 
     @FXML
-    private TableColumn<SourceInterface, String> sourceColumn;
+    private TableColumn<Source, String> sourceColumn;
 
     @FXML
     private Button resetButton;
@@ -110,49 +110,43 @@ public class QuotesViewController extends MainController {
     }
 
     private void fillDeleteQuoteColumn() {
-        deleteQuoteColumn.setCellFactory(bookButtonTableColumn -> {
-            TableCell<Quote, Button> cell = new TableCell<>() {
+        deleteQuoteColumn.setCellFactory(bookButtonTableColumn -> new TableCell<>() {
 
-                Button deleteButton = new Button("Delete");
-                @Override
-                protected void updateItem(Button button, boolean empty) {
-                    if (empty) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        deleteButton.setOnAction(event -> model.deleteQuoteByIndex(getIndex()));
-                        setText(null);
-                        setGraphic(deleteButton);
-                    }
+            final Button deleteButton = new Button("Delete");
+
+            @Override
+            protected void updateItem(Button button, boolean empty) {
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    deleteButton.setOnAction(event -> model.deleteQuoteByIndex(getIndex()));
+                    setText(null);
+                    setGraphic(deleteButton);
                 }
-            };
-
-            return cell;
+            }
         });
     }
 
     private void fillEditQuoteColumn() {
-        editQuoteColumn.setCellFactory(bookButtonTableColumn -> {
-            TableCell<Quote, Button> cell = new TableCell<>() {
+        editQuoteColumn.setCellFactory(bookButtonTableColumn -> new TableCell<>() {
 
-                Button editButton = new Button("Edit");
-                @Override
-                protected void updateItem(Button button, boolean empty) {
-                    if (empty) {
-                        setText(null);
-                        setGraphic(null);
-                    } else {
-                        editButton.setOnAction(event -> {
-                            EditViewModel.setQuoteToEdit(model.getQuoteByIndex(getIndex()));
-                            openEditView();
-                        });
-                        setText(null);
-                        setGraphic(editButton);
-                    }
+            final Button editButton = new Button("Edit");
+
+            @Override
+            protected void updateItem(Button button, boolean empty) {
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    editButton.setOnAction(event -> {
+                        EditViewModel.setQuoteToEdit(model.getQuoteByIndex(getIndex()));
+                        openEditView();
+                    });
+                    setText(null);
+                    setGraphic(editButton);
                 }
-            };
-
-            return cell;
+            }
         });
     }
 
@@ -160,7 +154,7 @@ public class QuotesViewController extends MainController {
         new QuoteFormView().show();
     }
 
-    private void fillSourceTable(ObservableList<SourceInterface> currentSources) {
+    private void fillSourceTable(ObservableList<Source> currentSources) {
         sourceTableView.setItems(currentSources);
         sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
         // TODO why here origin and not title -> make clear

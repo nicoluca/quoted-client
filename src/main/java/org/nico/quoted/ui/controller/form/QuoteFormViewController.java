@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
-import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.Source;
 import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
@@ -50,7 +50,7 @@ public class QuoteFormViewController extends MainController {
     }
 
     @FXML
-    void onConfirmButtonClicked(ActionEvent event) {
+    void onConfirmButtonClicked() {
         if (!isInputValid())
             displayError("Invalid input");
         else {
@@ -94,13 +94,13 @@ public class QuoteFormViewController extends MainController {
 
 
         quoteTextField.setText(quote.getText());
-        SourceInterface source = quote.getSource();
+        Source source = quote.getSource();
 
-        if (source instanceof Book) {
-            bookChoiceBox.setValue((Book) source);
+        if (source instanceof Book book) {
+            bookChoiceBox.setValue(book);
         } else {
             urlCheckBox.setSelected(true);
-            urlTextField.setText(source.getOrigin());
+            urlTextField.setText(((Article) source).getUrl());
         }
     }
 
@@ -118,7 +118,7 @@ public class QuoteFormViewController extends MainController {
     }
 
     @FXML
-    private void toggleUrlField(ActionEvent actionEvent) {
+    private void toggleUrlField() {
         toggleUrl();
     }
 

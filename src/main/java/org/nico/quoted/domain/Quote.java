@@ -2,9 +2,9 @@ package org.nico.quoted.domain;
 
 public class Quote {
     private String text;
-    private SourceInterface source;
+    private Source source;
 
-    public Quote(String text, SourceInterface source) {
+    public Quote(String text, Source source) {
         this.text = text;
         this.source = source;
     }
@@ -13,7 +13,7 @@ public class Quote {
         return text;
     }
 
-    public SourceInterface getSource() {
+    public Source getSource() {
         return source;
     }
 
@@ -21,7 +21,7 @@ public class Quote {
         this.text = text;
     }
 
-    public void setSource(SourceInterface source) {
+    public void setSource(Source source) {
         this.source = source;
     }
 }

@@ -1,19 +1,28 @@
 package org.nico.quoted.domain;
 
-public class Book implements SourceInterface {
-    public static final QuotableType type = QuotableType.BOOK;
-    private String title;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
+public class Book extends Source {
+    public static final SourceType type = SourceType.BOOK;
     private Author author;
     private String coverPath;
 
     public Book(String title, Author author, String coverPath) {
-        this.title = title;
+        super(title);
         this.author = author;
         this.coverPath = coverPath;
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    public boolean equals(Object o) {
+        // TODO Replace with ID
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return this.getTitle().equals(book.getTitle())
+                && this.author.equals(book.author);
     }
 
     @Override
@@ -22,42 +31,8 @@ public class Book implements SourceInterface {
     }
 
     @Override
-    public String getType() {
-        return type.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        // TODO Replace with ISBN
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return this.title.equals(book.title)
-                && this.author.equals(book.author);
-    }
-
-    @Override
     public String toString() {
-        return "Book: " + this.title + " (" + this.author + ")";
+        return "Book: " + this.getTitle() + " (" + this.author + ")";
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public String getCoverPath() {
-        return coverPath;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
-    public void setCoverPath(String coverPath) {
-        this.coverPath = coverPath;
-    }
 }

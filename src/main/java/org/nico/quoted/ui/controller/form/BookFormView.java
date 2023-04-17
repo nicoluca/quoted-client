@@ -13,7 +13,6 @@ import java.util.Objects;
 @Slf4j
 public class BookFormView {
 
-
     public void show() {
         try {
             Parent bookFormView = FXMLLoader

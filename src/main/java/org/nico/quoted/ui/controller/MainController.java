@@ -1,6 +1,5 @@
 package org.nico.quoted.ui.controller;
 
-
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;

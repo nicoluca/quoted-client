@@ -38,11 +38,11 @@ public class RandomViewController {
         if (quote.getSource() instanceof Book book)
             quoteOriginTitle.setText(book.getTitle() + " - " + book.getAuthor());
         else
-            quoteOriginTitle.setText(quote.getSource().getOrigin());
+            quoteOriginTitle.setText(quote.getSource().toString());
         // TODO display link as hyperlink
     }
 
-    public void onNextQuoteButtonClicked(ActionEvent actionEvent) {
+    public void onNextQuoteButtonClicked() {
         setNextRandomQuote();
     }
 

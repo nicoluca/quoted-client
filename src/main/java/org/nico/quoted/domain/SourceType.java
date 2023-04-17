@@ -1,12 +1,12 @@
 package org.nico.quoted.domain;
 
-enum QuotableType {
+enum SourceType {
     ARTICLE("Article"),
     BOOK("Book");
 
     private final String type;
 
-    QuotableType(String type) {
+    SourceType(String type) {
         this.type = type;
     }
 

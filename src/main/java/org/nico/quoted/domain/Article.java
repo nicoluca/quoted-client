@@ -1,17 +1,27 @@
 package org.nico.quoted.domain;
 
-public class Article implements SourceInterface {
-    public static final QuotableType type = QuotableType.ARTICLE;
-    private String title;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
+public class Article extends Source {
+    public static final SourceType type = SourceType.ARTICLE;
     private String url;
 
     public Article(String title, String url) {
-        this.url = url;
-        // TODO workaround - should this stay like this?
+        // TODO Keep URL as title substitute?
+        super(title);
+
         if (title == null || title.isBlank())
-            this.title = url;
-        else
-            this.title = title;
+            super.setTitle(url);
+
+        this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        // TODO Substitute title with '-' if not present?
+        return "Article: " + this.getTitle() + " (" + this.url + ")";
     }
 
     @Override
@@ -23,34 +33,8 @@ public class Article implements SourceInterface {
     }
 
     @Override
-    public String getTitle() {
-        return this.title;
-    }
-
-    public String getUrl() {
-        return this.url;
-    }
-
-    @Override
     public String getOrigin() {
         return this.url;
     }
 
-    @Override
-    public String getType() {
-        return type.toString();
-    }
-
-    @Override
-    public String toString() {
-        return "Article: " + this.title + " (" + this.url + ")";
-    }
-
-    public void setTitle(String text) {
-        this.title = text;
-    }
-
-    public void setUrl(String text) {
-        this.url = text;
-    }
 }

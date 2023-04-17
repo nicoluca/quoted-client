@@ -1,13 +1,12 @@
 package org.nico.quoted.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter @AllArgsConstructor
 public class Author {
     private String firstName;
     private String lastName;
-
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -21,13 +20,5 @@ public class Author {
     @Override
     public String toString() {
         return this.firstName + " " + this.lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 }

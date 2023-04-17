@@ -1,14 +1,14 @@
 package org.nico.quoted.api;
 
 import org.nico.quoted.config.BackendConstants;
-import org.nico.quoted.domain.SourceInterface;
+import org.nico.quoted.domain.Source;
 
 import java.util.List;
 
-public class SourcesAPI implements CRUDInterface<SourceInterface> {
+public class SourcesAPI implements CRUDInterface<Source> {
 
     private static SourcesAPI instance;
-    private static List<SourceInterface> sources;
+    private static List<Source> sources;
 
     public static SourcesAPI getInstance() {
         if (instance == null)
@@ -21,27 +21,27 @@ public class SourcesAPI implements CRUDInterface<SourceInterface> {
     }
 
     @Override
-    public SourceInterface create(SourceInterface sourceInterface) {
+    public Source create(Source source) {
         return null;
     }
 
     @Override
-    public SourceInterface readById(long id) {
+    public Source readById(long id) {
         return null;
     }
 
     @Override
-    public List<SourceInterface> readAll() {
+    public List<Source> readAll() {
         return sources;
     }
 
     @Override
-    public void update(SourceInterface source) {
+    public void update(Source source) {
 
     }
 
     @Override
-    public void delete(SourceInterface source) {
+    public void delete(Source source) {
 
     }
 
