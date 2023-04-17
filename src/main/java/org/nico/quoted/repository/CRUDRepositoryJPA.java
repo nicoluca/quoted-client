@@ -1,4 +1,4 @@
-package org.nico.quoted.api;
+package org.nico.quoted.repository;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;

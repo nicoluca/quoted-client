@@ -6,8 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.api.QuotesRepository;
-import org.nico.quoted.api.SourcesAPI;
+import org.nico.quoted.repository.QuoteRepository;
+import org.nico.quoted.repository.SourcesAPI;
 import org.nico.quoted.domain.*;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class ClientModel extends RepositoryModel {
         this.books = FXCollections.observableArrayList(filterBooksFromSources());
         this.authors = FXCollections.observableArrayList(getAuthorsFromBooks());
         this.articles = FXCollections.observableArrayList(filterArticlesFromSources());
-        this.quotes = FXCollections.observableArrayList(QuotesRepository.getInstance().readAll());
+        this.quotes = FXCollections.observableArrayList(QuoteRepository.getInstance().readAll());
 
         // Selectors
         selectedSource = new SimpleObjectProperty<>();

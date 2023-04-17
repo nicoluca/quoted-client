@@ -1,9 +1,10 @@
-package org.nico.quoted.api;
+package org.nico.quoted.repository;
 
 import org.nico.quoted.config.BackendConstants;
 import org.nico.quoted.domain.Source;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SourcesAPI implements CRUDRepository<Source> {
 
@@ -25,7 +26,7 @@ public class SourcesAPI implements CRUDRepository<Source> {
     }
 
     @Override
-    public Source readById(long id) {
+    public Optional<Source> readById(long id) {
         return null;
     }
 
