@@ -5,11 +5,9 @@ import lombok.Setter;
 
 @Getter @Setter
 public class Article extends Source {
-    public static final SourceType type = SourceType.ARTICLE;
     private String url;
 
     public Article(String title, String url) {
-        // TODO Keep URL as title substitute?
         super(title);
 
         if (title == null || title.isBlank())
@@ -38,5 +36,4 @@ public class Article extends Source {
     public String getOrigin() {
         return this.url;
     }
-
 }

@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class Book extends Source {
-    public static final SourceType type = SourceType.BOOK;
     private Author author;
     private String coverPath;
 

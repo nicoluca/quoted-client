@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter @Setter
 public abstract class Source {
     private String title;
-    public static final SourceType type = null;
 
     @Override
     public boolean equals(Object o) {
