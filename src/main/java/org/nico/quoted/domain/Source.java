@@ -11,11 +11,6 @@ public abstract class Source {
     public static final SourceType type = null;
 
     @Override
-    public String toString() {
-        return "Source: " + this.title;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -24,4 +19,9 @@ public abstract class Source {
     }
 
     public abstract String getOrigin();
+
+    @Override
+    public String toString() {
+        return this.getTitle() + " (" + this.getOrigin() + ")";
+    }
 }

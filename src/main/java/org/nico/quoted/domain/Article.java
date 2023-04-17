@@ -20,8 +20,10 @@ public class Article extends Source {
 
     @Override
     public String toString() {
-        // TODO Substitute title with '-' if not present?
-        return "Article: " + this.getTitle() + " (" + this.url + ")";
+        if (this.getTitle().equals(this.url))
+            return this.getTitle();
+        else
+            return super.toString();
     }
 
     @Override

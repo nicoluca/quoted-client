@@ -27,12 +27,8 @@ public class Book extends Source {
 
     @Override
     public String getOrigin() {
-        return this.author.toString();
+        return this.author.firstName() + " " + this.author.lastName();
     }
 
-    @Override
-    public String toString() {
-        return "Book: " + this.getTitle() + " (" + this.author + ")";
-    }
 
 }

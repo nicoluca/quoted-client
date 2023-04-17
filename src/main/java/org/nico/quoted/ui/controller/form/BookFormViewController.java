@@ -61,12 +61,12 @@ public class BookFormViewController extends MainController {
 
     private void fillTextFields(Book book) {
         titleTextField.setText(book.getTitle());
-        authorFirstNameTextField.setText(book.getAuthor().getFirstName());
-        authorLastNameTextField.setText(book.getAuthor().getLastName());
+        authorFirstNameTextField.setText(book.getAuthor().firstName());
+        authorLastNameTextField.setText(book.getAuthor().lastName());
         coverPathTextField.setText(book.getCoverPath());
     }
 
-    public void onConfirmButtonClicked(ActionEvent actionEvent) {
+    public void onConfirmButtonClicked() {
         if (checkIfBookIsValid()) {
             // TODO Should adding and updating be conflated?
 
@@ -77,7 +77,7 @@ public class BookFormViewController extends MainController {
             );
 
             Book book = new Book(titleTextField.getText(), author, coverPathTextField.getText());
-            if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book bookToEdit)
+            if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book)
                 model.updateSource(book);
             else
                 model.addBook(book);
