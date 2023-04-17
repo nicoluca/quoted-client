@@ -6,12 +6,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MainController extends BaseController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
     @FXML
     private TabPane tabPane;
@@ -19,14 +17,14 @@ public class MainController extends BaseController {
 
     @FXML
     void initialize() {
-        LOGGER.info( "Main controller initialized");
+        log.info( "Main controller initialized");
         assert tabPane != null : "fx:id=\"tabPane\" was not injected: check your FXML file 'main-view.fxml'.";
         selectedTabProperty = tabPane.getSelectionModel().selectedItemProperty();
         addListener((observable, oldValue, newValue) -> onTabSelectionChanged());
     }
 
     protected static void onTabSelectionChanged() {
-        LOGGER.info("Tab registered a change in main controller");
+        log.info("Tab registered a change in main controller");
         model.resetForm();
     }
 
@@ -34,6 +32,6 @@ public class MainController extends BaseController {
         if (selectedTabProperty != null)
             selectedTabProperty.addListener(listener);
         else
-            LOGGER.error("Tried to add listener to null property");
+            log.error("Tried to add listener to null property");
     }
 }

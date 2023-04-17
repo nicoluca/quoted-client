@@ -5,20 +5,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.api.QuotesAPI;
 import org.nico.quoted.api.SourcesAPI;
 import org.nico.quoted.domain.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Slf4j
 public class ClientModel {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientModel.class);
-
+    
     // ############################## Setup ###########################
 
     private final ObservableList<SourceInterface> sources;
@@ -87,11 +84,11 @@ public class ClientModel {
 
     public void addQuote(Quote quoteToAdd) {
         quotes.add(quoteToAdd); // Sources are updating automatically once changes in quote list are registered
-        LOGGER.info("Added quote: " + quoteToAdd.getText() + ", from source: " + quoteToAdd.getSource().getOrigin());
+        log.info("Added quote: " + quoteToAdd.getText() + ", from source: " + quoteToAdd.getSource().getOrigin());
     }
 
     public void deleteQuoteByIndex(int index) {
-        LOGGER.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().getOrigin());
+        log.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().getOrigin());
         quotes.remove(index); // Sources are updating automatically once changes in quote list are registered
     }
 
@@ -136,7 +133,7 @@ public class ClientModel {
     }
 
     public ObservableList<Quote> getQuotesBySource(SourceInterface source) {
-        LOGGER.info("Getting quotes by source: " + source.getOrigin());
+        log.info("Getting quotes by source: " + source.getOrigin());
         return quotes.stream()
                 .filter(quote -> quote.getSource().equals(source))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
@@ -144,7 +141,7 @@ public class ClientModel {
 
     public void addBook(Book newBook) {
         sources.add(newBook);
-        LOGGER.info("Added book: " + newBook.getTitle() + ", by author: " + newBook.getAuthor());
+        log.info("Added book: " + newBook.getTitle() + ", by author: " + newBook.getAuthor());
     }
 
     public void updateSource(SourceInterface source) {
@@ -156,13 +153,13 @@ public class ClientModel {
         // source.setId(selectedSource.get().getId());
 
         sources.set(sources.indexOf(EditViewModel.getSourceToEdit()), source);
-        LOGGER.info("Updated source: " + source.getOrigin());
-        quotes.forEach(quote -> LOGGER.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().getOrigin()));
+        log.info("Updated source: " + source.getOrigin());
+        quotes.forEach(quote -> log.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().getOrigin()));
 
     }
 
     public void deleteSourceByIndex(int index) {
-        LOGGER.info("Deleting source: " + sources.get(index).getOrigin());
+        log.info("Deleting source: " + sources.get(index).getOrigin());
         this.sources.remove(index);
     }
 
@@ -222,7 +219,7 @@ public class ClientModel {
                     });
 
                     c.getAddedSubList().forEach(source -> {
-                        LOGGER.info("Updating source: " + source.getOrigin());
+                        log.info("Updating source: " + source.getOrigin());
                         if (source instanceof Book)
                             books.add((Book) source);
                         else if (source instanceof Article)

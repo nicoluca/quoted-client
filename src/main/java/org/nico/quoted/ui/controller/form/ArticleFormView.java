@@ -4,15 +4,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Objects;
 
+@Slf4j
 public class ArticleFormView {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ArticleFormView.class);
 
     public void show() {
         try {
@@ -25,7 +23,7 @@ public class ArticleFormView {
             bookFormStage.setTitle("Edit Article");
             bookFormStage.show();
         } catch (IOException e) {
-            LOGGER.error("url-form-view.fxml could not be found");
+            log.error("url-form-view.fxml could not be found");
             throw new RuntimeException(e);
         }
     }

@@ -1,14 +1,14 @@
 package org.nico.quoted.domain.model;
 
+import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.SourceInterface;
-import org.slf4j.Logger;
 
 // A helper class to store the source and quote to edit
 // TODO Is there a more elegant way to do this?
 
+@Slf4j
 public class EditViewModel {
-    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(EditViewModel.class);
     private static SourceInterface sourceToEdit;
     private static Quote quoteToEdit;
 
@@ -18,9 +18,9 @@ public class EditViewModel {
 
     public static void setSourceToEdit(SourceInterface sourceToEdit) {
         if (sourceToEdit == null)
-            LOGGER.info("Setting source to edit: null");
+            log.info("Setting source to edit: null");
         else
-            LOGGER.info("Setting source to edit: " + sourceToEdit.getTitle());
+            log.info("Setting source to edit: " + sourceToEdit.getTitle());
         EditViewModel.sourceToEdit = sourceToEdit;
     }
 
@@ -29,7 +29,7 @@ public class EditViewModel {
     }
 
     public static void setQuoteToEdit(Quote quoteToEdit) {
-        LOGGER.info("Setting quote to edit: " + quoteToEdit.getText());
+        log.info("Setting quote to edit: " + quoteToEdit.getText());
         EditViewModel.quoteToEdit = quoteToEdit;
     }
 }

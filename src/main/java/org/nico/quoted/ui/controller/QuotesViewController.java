@@ -5,17 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.SourceInterface;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class QuotesViewController extends MainController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(QuotesViewController.class);
-
 
     @FXML
     private TableView<Quote> quoteTableView;
@@ -83,7 +80,7 @@ public class QuotesViewController extends MainController {
     private void showQuotesBasedOnSelectedSource() {
         sourceTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSource, newSource) -> {
             if (newSource != null) {
-                LOGGER.info("Selected source changed, showing quotes");
+                log.info("Selected source changed, showing quotes");
                 fillQuoteTable(model.getQuotesBySource(newSource));
             }
         });
@@ -91,13 +88,13 @@ public class QuotesViewController extends MainController {
 
     private void refreshOnTabChanged() {
         model.registerResetListener((observable, oldValue, newValue) -> {
-            LOGGER.info("Tab changed, refreshing browse view");
+            log.info("Tab changed, refreshing browse view");
             resetView();
         });
     }
 
     private void resetView() {
-        LOGGER.info("Resetting browse form");
+        log.info("Resetting browse form");
         sourceTableView.getSelectionModel().clearSelection();
         quoteTableView.getSelectionModel().clearSelection();
         searchTextField.setText("Search ...");
