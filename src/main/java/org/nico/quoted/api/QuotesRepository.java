@@ -5,24 +5,24 @@ import org.nico.quoted.domain.Quote;
 
 import java.util.List;
 
-public class QuotesAPI implements CRUDInterface<Quote> {
+public class QuotesRepository implements CRUDRepositoryJPA<Quote> {
 
-    private static QuotesAPI instance;
+    private static QuotesRepository instance;
     private static List<Quote> quotes;
 
-    public static QuotesAPI getInstance() {
+    public static QuotesRepository getInstance() {
         if (instance == null)
-            instance = new QuotesAPI();
+            instance = new QuotesRepository();
         return instance;
     }
 
-    private QuotesAPI() {
+    private QuotesRepository() {
         this.quotes = BackendConstants.defaultQuotes();
     }
 
     @Override
-    public Quote create(Quote quote) {
-        return null;
+    public void create(Quote quote) {
+        return;
     }
 
     @Override

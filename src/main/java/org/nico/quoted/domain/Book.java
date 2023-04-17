@@ -1,5 +1,6 @@
 package org.nico.quoted.domain;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,7 @@ public class Book extends Source {
 
     @Override
     public String getOrigin() {
-        return this.author.firstName() + " " + this.author.lastName();
+        return this.author.getFirstName() + " " + this.author.getLastName();
     }
 
 

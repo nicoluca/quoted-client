@@ -5,7 +5,7 @@ import org.nico.quoted.domain.Source;
 
 import java.util.List;
 
-public class SourcesAPI implements CRUDInterface<Source> {
+public class SourcesAPI implements CRUDRepository<Source> {
 
     private static SourcesAPI instance;
     private static List<Source> sources;
@@ -21,8 +21,7 @@ public class SourcesAPI implements CRUDInterface<Source> {
     }
 
     @Override
-    public Source create(Source source) {
-        return null;
+    public void create(Source source) {
     }
 
     @Override

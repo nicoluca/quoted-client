@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.api.QuotesAPI;
+import org.nico.quoted.api.QuotesRepository;
 import org.nico.quoted.api.SourcesAPI;
 import org.nico.quoted.domain.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class ClientModel {
+public class ClientModel extends RepositoryModel {
     
     // ############################## Setup ###########################
 
@@ -35,7 +35,7 @@ public class ClientModel {
         this.books = FXCollections.observableArrayList(filterBooksFromSources());
         this.authors = FXCollections.observableArrayList(getAuthorsFromBooks());
         this.articles = FXCollections.observableArrayList(filterArticlesFromSources());
-        this.quotes = FXCollections.observableArrayList(QuotesAPI.getInstance().readAll());
+        this.quotes = FXCollections.observableArrayList(QuotesRepository.getInstance().readAll());
 
         // Selectors
         selectedSource = new SimpleObjectProperty<>();
@@ -48,6 +48,7 @@ public class ClientModel {
         this.quotes.addListener(quoteListChangeListener());
         this.sources.addListener(sourceListChangeListener());
         this.books.addListener(bookListChangeListener());
+        this.authors.addListener(authorListChangeListener());
     }
 
     // ############################## Getters ###########################
@@ -273,6 +274,33 @@ public class ClientModel {
             }
         };
     }
+
+
+    private ListChangeListener<? super Author> authorListChangeListener() {
+        return c -> {
+            while (c.next()) {
+                log.info("Author list changed");
+                if (c.wasReplaced()) {
+                    c.getRemoved().forEach(author -> {
+                        if (books.stream().noneMatch(book -> book.getAuthor().equals(author)))
+                            authors.remove(author);
+                    });
+
+                    c.getAddedSubList().forEach(author -> {
+                        if (!authors.contains(author))
+                            authors.add(author);
+                    });
+                }
+
+                else if (c.wasAdded())
+                    c.getAddedSubList().forEach(authorRepository::create);
+
+                else if (c.wasRemoved())
+                    c.getRemoved().forEach(authorRepository::delete);
+            }
+        };
+    }
+
 
     private List<Book> filterBooksFromSources() {
         return sources.stream()
