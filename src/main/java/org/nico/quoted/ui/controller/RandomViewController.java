@@ -34,12 +34,10 @@ public class RandomViewController {
     }
 
     private void setQuoteOrigin(Quote quote) {
-        // TODO Maybe integrate into interface and use polymorphism
-        if (quote.getSource() instanceof Book book)
-            quoteOriginTitle.setText(book.getTitle() + " - " + book.getAuthor());
+        if (quote.getSource().getTitle().equals(quote.getSource().getOrigin()))
+            quoteOriginTitle.setText(quote.getSource().getTitle()); // If source is Article with same title and url, only display title
         else
-            quoteOriginTitle.setText(quote.getSource().toString());
-        // TODO display link as hyperlink
+            quoteOriginTitle.setText(quote.getSource().getTitle() + " - " + quote.getSource().getOrigin());
     }
 
     public void onNextQuoteButtonClicked() {

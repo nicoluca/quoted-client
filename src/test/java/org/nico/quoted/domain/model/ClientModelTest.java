@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 
 class ClientModelTest {
     private ClientModel model;
-    // TODO: Complete the tests
     // TODO Increase test coverage beyond basic functionality by adding quotes with same source, author, book, etc., and testing for correct number of books etc. returned
 
     @Mock
