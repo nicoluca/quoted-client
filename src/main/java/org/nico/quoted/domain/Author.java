@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
 @Entity
@@ -16,8 +18,8 @@ public class Author {
     private String firstName;
     private String lastName;
     // TODO
-//    @OneToMany(mappedBy = "author")
-//    private Set<Book> books;
+    @OneToMany(mappedBy = "author")
+    private Set<Book> books;
 
     public Author(String firstName, String lastName) {
         this.firstName = firstName;

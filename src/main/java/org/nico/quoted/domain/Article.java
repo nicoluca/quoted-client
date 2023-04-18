@@ -13,9 +13,6 @@ import lombok.Setter;
 @Entity
 public class Article extends Source {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     private String url;
 
     public Article(String title, String url) {

@@ -1,15 +1,28 @@
 package org.nico.quoted.domain;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @NoArgsConstructor // Needed for JPA
 @AllArgsConstructor
 @Getter @Setter
+@Entity
 public abstract class Source {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String title;
+    @OneToMany
+    private Set<Quote> quotes;
+
+    public Source(String title) {
+        this.title = title;
+    }
 
     @Override
     public boolean equals(Object o) {

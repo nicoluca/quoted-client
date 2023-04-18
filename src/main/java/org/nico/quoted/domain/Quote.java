@@ -1,9 +1,6 @@
 package org.nico.quoted.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -14,6 +11,7 @@ public class Quote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String text;
+    @ManyToOne
     private Source source;
 
     public Quote(String text, Source source) {

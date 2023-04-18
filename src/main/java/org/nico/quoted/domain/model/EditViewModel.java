@@ -8,7 +8,7 @@ import org.nico.quoted.domain.Source;
 // TODO Is there a more elegant way to do this?
 
 @Slf4j
-public class EditViewModel {
+public final class EditViewModel {
     private static Source sourceToEdit;
     private static Quote quoteToEdit;
 
