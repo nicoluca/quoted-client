@@ -18,7 +18,7 @@ public class Author {
     private String firstName;
     private String lastName;
     // TODO
-    @OneToMany(mappedBy = "author")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "author")
     private Set<Book> books;
 
     public Author(String firstName, String lastName) {

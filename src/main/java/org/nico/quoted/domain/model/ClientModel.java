@@ -141,6 +141,7 @@ public class ClientModel {
 
 
     public void updateQuote(Quote quote) {
+        quote.setId(EditViewModel.getQuoteToEdit().getId());
         quotes.set(quotes.indexOf(EditViewModel.getQuoteToEdit()), quote);
         log.info("Updated quote: " + quote.getText() + ", from source: " + quote.getSource().toString());
     }
@@ -176,8 +177,7 @@ public class ClientModel {
                 .filter(quote -> quote.getSource().equals(EditViewModel.getSourceToEdit()))
                 .forEach(quote -> quote.setSource(source));
 
-        // TODO with DB
-        // source.setId(selectedSource.get().getId());
+        source.setId(EditViewModel.getSourceToEdit().getId());
 
         sources.set(sources.indexOf(EditViewModel.getSourceToEdit()), source);
         log.info("Updated source: " + source.toString());
@@ -212,6 +212,8 @@ public class ClientModel {
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
                             sources.add(quote.getSource());
+
+                        quoteRepository.update(quote);
                     });
                 }
 
@@ -220,13 +222,19 @@ public class ClientModel {
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
                             sources.add(quote.getSource());
+
+                        quoteRepository.create(quote);
                     });
                 }
 
                 else if (c.wasRemoved()) {
                     log.info("Quote was removed");
-                    c.getRemoved().forEach(quote -> sources.removeIf(source ->
-                            source.equals(quote.getSource()) && getQuotesBySource(source).isEmpty()));
+                    c.getRemoved().forEach(quote -> {
+                        sources.removeIf(source ->
+                                source.equals(quote.getSource()) && getQuotesBySource(source).isEmpty());
+
+                        quoteRepository.delete(quote);
+                    });
                 }
 
             }
@@ -236,21 +244,14 @@ public class ClientModel {
     private ListChangeListener<Source> sourceListChangeListener() {
         return c -> {
             while (c.next()) {
-                // TODO Likely needs to done with set by index instead of remove/add to enable change listening to books
                 if (c.wasReplaced()) {
-                    c.getRemoved().forEach(source -> {
-                        if (source instanceof Book)
-                            books.remove(source);
-                        else if (source instanceof Article)
-                            articles.remove(source);
-                    });
 
                     c.getAddedSubList().forEach(source -> {
                         log.info("Updating source: " + source.toString());
                         if (source instanceof Book book)
-                            books.add(book);
+                            books.set(books.indexOf(EditViewModel.getSourceToEdit()), book);
                         else if (source instanceof Article article)
-                            articles.add(article);
+                            articles.set(articles.indexOf(EditViewModel.getSourceToEdit()), article);
                     });
 
                 }
@@ -287,6 +288,8 @@ public class ClientModel {
                     c.getAddedSubList().forEach(book -> {
                         if (!authors.contains(book.getAuthor()))
                             authors.add(book.getAuthor());
+
+                        bookRepository.update(book);
                     });
                 }
 
@@ -294,11 +297,17 @@ public class ClientModel {
                     c.getAddedSubList().forEach(book -> {
                         if (!authors.contains(book.getAuthor()))
                             authors.add(book.getAuthor());
+
+                        bookRepository.create(book);
                     });
 
                 else if (c.wasRemoved())
-                    c.getRemoved().forEach(book -> this.authors.removeIf(author
-                            -> books.stream().noneMatch(remainingBook -> remainingBook.getAuthor().equals(author))));
+                    c.getRemoved().forEach(book -> {
+                        this.authors.removeIf(author
+                                -> books.stream().noneMatch(remainingBook -> remainingBook.getAuthor().equals(author)));
+
+                        bookRepository.delete(book);
+                    });
             }
         };
     }
@@ -317,6 +326,8 @@ public class ClientModel {
                     c.getAddedSubList().forEach(author -> {
                         if (!authors.contains(author))
                             authors.add(author);
+
+                        authorRepository.update(author);
                     });
                 }
 

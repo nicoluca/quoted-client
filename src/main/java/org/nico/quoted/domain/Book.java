@@ -8,9 +8,11 @@ import lombok.Setter;
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
 @Entity
+@DiscriminatorValue("book")
 public class Book extends Source {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "author_id")
     private Author author;
     private String coverPath;
 

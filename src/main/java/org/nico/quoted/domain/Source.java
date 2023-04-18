@@ -12,13 +12,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter @Setter
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Source {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
     private String title;
-    @OneToMany
-    private Set<Quote> quotes;
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "source")
+    //private Set<Quote> quotes;
 
     public Source(String title) {
         this.title = title;
