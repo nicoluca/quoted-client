@@ -12,7 +12,7 @@ public class Quote {
     private long id;
 
     private String text;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "source_id")
     private Source source;
 

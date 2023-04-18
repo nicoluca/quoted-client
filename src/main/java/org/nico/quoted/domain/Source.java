@@ -13,13 +13,14 @@ import java.util.Set;
 @Getter @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name="source_type")
 public abstract class Source {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
     private String title;
-    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "source")
-    //private Set<Quote> quotes;
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "source")
+    private Set<Quote> quotes;
 
     public Source(String title) {
         this.title = title;

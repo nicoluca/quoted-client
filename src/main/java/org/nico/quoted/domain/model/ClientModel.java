@@ -63,7 +63,7 @@ public class ClientModel {
         this.sources.addListener(sourceListChangeListener());
         this.books.addListener(bookListChangeListener());
         this.authors.addListener(authorListChangeListener());
-
+        this.articles.addListener(articleListChangeListener());
     }
 
     private void readRepositories() {
@@ -336,6 +336,21 @@ public class ClientModel {
 
                 else if (c.wasRemoved())
                     c.getRemoved().forEach(authorRepository::delete);
+            }
+        };
+    }
+
+    private ListChangeListener<Article> articleListChangeListener() {
+        return c -> {
+            while (c.next()) {
+                if (c.wasReplaced())
+                    c.getAddedSubList().forEach(articleRepository::update);
+
+                else if (c.wasAdded())
+                    c.getAddedSubList().forEach(articleRepository::create);
+
+                else if (c.wasRemoved())
+                    c.getRemoved().forEach(articleRepository::delete);
             }
         };
     }
