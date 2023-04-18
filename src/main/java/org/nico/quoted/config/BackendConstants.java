@@ -12,9 +12,10 @@ public class BackendConstants {
     }
 
     public static final List<Book> defaultBooks() {
+        Author author = defaultAuthors().get(0);
         return List.of(
-                new Book("Der Herr der Ringe", defaultAuthors().get(0), null),
-                new Book("Der kleine Hobbit", defaultAuthors().get(0), null)
+                new Book("Der Herr der Ringe", author, null),
+                new Book("Der kleine Hobbit", author, null)
         );
     }
     public static final List<Article> defaultArticles() {
@@ -25,6 +26,7 @@ public class BackendConstants {
     }
 
     public static List<Quote> defaultQuotes() {
+        // TODO This will create NEW books and articles, which is not what we want
         return List.of(
                 new Quote("Lorem ipsum First Sample Quote", defaultBooks().get(0)),
                 new Quote("Dolor sit amet Second sample quote", defaultBooks().get(1)),

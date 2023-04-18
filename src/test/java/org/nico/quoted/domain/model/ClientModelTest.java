@@ -44,10 +44,11 @@ class ClientModelTest {
         when(repositoryModel.getQuoteRepository()).thenReturn(quoteRepository);
         when(repositoryModel.getArticleRepository()).thenReturn(articleRepository);
 
-        // The model currently has 2 books by Tolkien and 1 article, 3 quotes each from a different source
+        // The test model has 2 books by 1 author and 1 article; 3 quotes each from a different source.
         when(bookRepository.readAll()).thenReturn(BackendConstants.defaultBooks());
         when(articleRepository.readAll()).thenReturn(BackendConstants.defaultArticles());
         when(quoteRepository.readAll()).thenReturn(BackendConstants.defaultQuotes());
+        when(authorRepository.readAll()).thenReturn(BackendConstants.defaultAuthors());
 
         model = new ClientModel(repositoryModel);
     }
