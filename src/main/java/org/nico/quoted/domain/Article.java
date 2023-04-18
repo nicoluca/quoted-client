@@ -1,10 +1,21 @@
 package org.nico.quoted.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor // Needed for JPA
 @Getter @Setter
+@Entity
 public class Article extends Source {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String url;
 
     public Article(String title, String url) {

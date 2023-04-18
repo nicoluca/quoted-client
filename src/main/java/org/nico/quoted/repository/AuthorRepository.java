@@ -1,8 +1,11 @@
 package org.nico.quoted.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
+import org.nico.quoted.config.BackendConfig;
 import org.nico.quoted.domain.Author;
 
 import java.util.ArrayList;
@@ -10,7 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-public class AuthorRepository implements CRUDRepositoryJPA<Author> {
+public class AuthorRepository implements CRUDRepository<Author> {
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(BackendConfig.DB_NAME);
     private EntityManager em;
     // TODO make this a singleton
 

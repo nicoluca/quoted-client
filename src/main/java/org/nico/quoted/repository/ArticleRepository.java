@@ -3,102 +3,108 @@ package org.nico.quoted.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.config.BackendConfig;
-import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.Article;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// TODO Can this be refactored with less boilerpolate code?
+
 @Slf4j
-public class QuoteRepository implements CRUDRepository<Quote> {
+public class ArticleRepository implements CRUDRepository<Article> {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory(BackendConfig.DB_NAME);
     private EntityManager em;
 
     @Override
-    public void create(Quote quote) {
+    public void create(Article article) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            em.persist(quote);
+            em.persist(article);
 
             em.getTransaction().commit();
             em.close();
+
         } catch (IllegalStateException e) {
-            log.error("Error while creating quote: " + e.getMessage());
+            log.error("Error while creating Article: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public Optional<Quote> readById(long id) {
-        Quote quote;
+    public Optional<Article> readById(long id) {
+        Article article;
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            quote = em.find(Quote.class, id);
+            article = em.find(Article.class, id);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while reading quote by id: " + e.getMessage());
+            log.warn("Article not found.");
             e.printStackTrace();
             return Optional.empty();
         }
-        return Optional.ofNullable(quote);
+        return Optional.ofNullable(article);
     }
 
     @Override
-    public List<Quote> readAll() {
-        List<Quote> quotes = new ArrayList<>();
+    public List<Article> readAll() {
+        List<Article> articles = new ArrayList<>();
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            quotes = em.createQuery("SELECT q FROM Quote q", Quote.class).getResultList();
+            TypedQuery<Article> query = em.createQuery("select a from Article a", Article.class);
+            articles = query.getResultList();
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while reading all quotes: " + e.getMessage());
+            log.warn("No Articles could be retrieved.");
             e.printStackTrace();
         }
-        return quotes;
+        return articles;
     }
 
     @Override
-    public void update(Quote quote) {
+    public void update(Article article) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            em.merge(quote);
+            em.merge(article);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while updating quote: " + e.getMessage());
+            log.error("Error while updating article: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Quote quote) {
+    public void delete(Article article) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            Quote quoteToDelete = em.merge(quote);
-            em.remove(quoteToDelete);
+            Article articleToDelete = em.merge(article);
+            em.remove(articleToDelete);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while deleting quote: " + e.getMessage());
+            log.error("Error while deleting Article: " + e.getMessage());
             e.printStackTrace();
         }
     }
 }
+

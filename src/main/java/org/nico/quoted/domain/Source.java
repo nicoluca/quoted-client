@@ -2,8 +2,10 @@ package org.nico.quoted.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor // Needed for JPA
 @AllArgsConstructor
 @Getter @Setter
 public abstract class Source {

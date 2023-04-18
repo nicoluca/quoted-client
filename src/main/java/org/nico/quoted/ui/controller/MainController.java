@@ -16,10 +16,15 @@ public class MainController extends BaseController {
 
     @FXML
     void initialize() {
-        log.info( "Main controller initialized");
-        assert tabPane != null : "fx:id=\"tabPane\" was not injected: check your FXML file 'main-view.fxml'.";
+        log.info( "Initializing main controller.");
+        checkAssertions();
         selectedTabProperty = tabPane.getSelectionModel().selectedItemProperty();
         addListener((observable, oldValue, newValue) -> onTabSelectionChanged());
+        log.info("Main controller initialized.");
+    }
+
+    private void checkAssertions() {
+        assert tabPane != null : "fx:id=\"tabPane\" was not injected: check your FXML file 'main-view.fxml'.";
     }
 
     protected static void onTabSelectionChanged() {

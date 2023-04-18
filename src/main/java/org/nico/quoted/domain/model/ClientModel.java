@@ -6,15 +6,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
+import org.nico.quoted.repository.ArticleRepository;
+import org.nico.quoted.repository.AuthorRepository;
+import org.nico.quoted.repository.BookRepository;
 import org.nico.quoted.repository.QuoteRepository;
-import org.nico.quoted.repository.SourcesAPI;
 import org.nico.quoted.domain.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class ClientModel extends RepositoryModel {
+public class ClientModel {
     
     // ############################## Setup ###########################
 
@@ -29,13 +31,26 @@ public class ClientModel extends RepositoryModel {
     private static Quote lastRandomQuote;
     private final BooleanProperty resetForm;
 
-    public ClientModel() {
-        // Initial read
-        this.sources = FXCollections.observableArrayList(SourcesAPI.getInstance().readAll());
-        this.books = FXCollections.observableArrayList(filterBooksFromSources());
-        this.authors = FXCollections.observableArrayList(getAuthorsFromBooks());
-        this.articles = FXCollections.observableArrayList(filterArticlesFromSources());
-        this.quotes = FXCollections.observableArrayList(QuoteRepository.getInstance().readAll());
+    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final ArticleRepository articleRepository;
+    private final QuoteRepository quoteRepository;
+
+    public ClientModel(RepositoryModel repositoryModel) {
+
+        this.authorRepository = repositoryModel.getAuthorRepository();
+        this.bookRepository = repositoryModel.getBookRepository();
+        this.articleRepository = repositoryModel.getArticleRepository();
+        this.quoteRepository = repositoryModel.getQuoteRepository();
+
+        // Lists
+        this.sources = FXCollections.observableArrayList();
+        this.books = FXCollections.observableArrayList();
+        this.authors = FXCollections.observableArrayList();
+        this.articles = FXCollections.observableArrayList();
+        this.quotes = FXCollections.observableArrayList();
+
+        readRepositories();
 
         // Selectors
         selectedSource = new SimpleObjectProperty<>();
@@ -44,11 +59,24 @@ public class ClientModel extends RepositoryModel {
 
         // Change Listeners
         // TODO Register the change listeners to update the API/DB - Question: Just adding via quote or source?
-
         this.quotes.addListener(quoteListChangeListener());
         this.sources.addListener(sourceListChangeListener());
         this.books.addListener(bookListChangeListener());
         this.authors.addListener(authorListChangeListener());
+
+    }
+
+    private void readRepositories() {
+        // TODO Filter or read directly?
+        this.sources.addAll(bookRepository.readAll());
+        this.sources.addAll(articleRepository.readAll());
+
+        this.books.addAll(filterBooksFromSources());
+        this.authors.addAll(getAuthorsFromBooks());
+        this.articles.addAll(filterArticlesFromSources());
+
+        this.quotes.addAll(quoteRepository.readAll());
+        log.info("Repositories read into model.");
     }
 
     // ############################## Getters ###########################

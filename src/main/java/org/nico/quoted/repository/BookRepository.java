@@ -3,101 +3,107 @@ package org.nico.quoted.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.config.BackendConfig;
-import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// TODO Can this be refactored with less boilerpolate code?
+
 @Slf4j
-public class QuoteRepository implements CRUDRepository<Quote> {
+public class BookRepository implements CRUDRepository<Book> {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory(BackendConfig.DB_NAME);
     private EntityManager em;
 
+
     @Override
-    public void create(Quote quote) {
+    public void create(Book book) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            em.persist(quote);
+            em.persist(book);
 
             em.getTransaction().commit();
             em.close();
+
         } catch (IllegalStateException e) {
-            log.error("Error while creating quote: " + e.getMessage());
+            log.error("Error while creating book: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public Optional<Quote> readById(long id) {
-        Quote quote;
+    public Optional<Book> readById(long id) {
+        Book book;
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            quote = em.find(Quote.class, id);
+            book = em.find(Book.class, id);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while reading quote by id: " + e.getMessage());
+            log.warn("Book not found.");
             e.printStackTrace();
             return Optional.empty();
         }
-        return Optional.ofNullable(quote);
+        return Optional.ofNullable(book);
     }
 
     @Override
-    public List<Quote> readAll() {
-        List<Quote> quotes = new ArrayList<>();
+    public List<Book> readAll() {
+        List<Book> books = new ArrayList<>();
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            quotes = em.createQuery("SELECT q FROM Quote q", Quote.class).getResultList();
+            TypedQuery<Book> query = em.createQuery("select a from Book a", Book.class);
+            books = query.getResultList();
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while reading all quotes: " + e.getMessage());
+            log.warn("No books could be retrieved.");
             e.printStackTrace();
         }
-        return quotes;
+        return books;
     }
 
     @Override
-    public void update(Quote quote) {
+    public void update(Book book) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            em.merge(quote);
+            em.merge(book);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while updating quote: " + e.getMessage());
+            log.error("Error while updating book: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Quote quote) {
+    public void delete(Book book) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            Quote quoteToDelete = em.merge(quote);
-            em.remove(quoteToDelete);
+            Book bookToDelete = em.merge(book);
+            em.remove(bookToDelete);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while deleting quote: " + e.getMessage());
+            log.error("Error while deleting book: " + e.getMessage());
             e.printStackTrace();
         }
     }
