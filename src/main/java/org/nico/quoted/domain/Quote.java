@@ -36,4 +36,13 @@ public class Quote {
     public void setSource(Source source) {
         this.source = source;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quote quote = (Quote) o;
+        return text.equals(quote.text) &&
+                source.equals(quote.source);
+    }
 }
