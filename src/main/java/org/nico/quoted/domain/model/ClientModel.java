@@ -12,6 +12,7 @@ import org.nico.quoted.repository.BookRepository;
 import org.nico.quoted.repository.QuoteRepository;
 import org.nico.quoted.domain.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,6 +106,10 @@ public class ClientModel {
         return authors;
     }
 
+    public ObservableList<Article> getArticles() {
+        return articles;
+    }
+
     public ObservableList<Quote> getQuotes() {
         return quotes;
     }
@@ -173,6 +178,7 @@ public class ClientModel {
     }
 
     public void updateSource(Source source) {
+        // TODO How about storing the previous source as a defensive copy?
         quotes.stream()
                 .filter(quote -> quote.getSource().equals(EditViewModel.getSourceToEdit()))
                 .forEach(quote -> quote.setSource(source));
@@ -180,9 +186,8 @@ public class ClientModel {
         source.setId(EditViewModel.getSourceToEdit().getId());
 
         sources.set(sources.indexOf(EditViewModel.getSourceToEdit()), source);
-        log.info("Updated source: " + source.toString());
+        log.info("Updated source: " + source);
         quotes.forEach(quote -> log.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().toString()));
-
     }
 
     public void deleteSourceByIndex(int index) {
@@ -206,14 +211,15 @@ public class ClientModel {
             while (c.next()) {
                 if (c.wasReplaced()) {
                     log.info("Quote list was replaced");
-                    c.getRemoved().forEach(quote -> sources.removeIf(source ->
-                            source.equals(quote.getSource()) && getQuotesBySource(quote.getSource()).isEmpty()));
 
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
                             sources.add(quote.getSource());
+                        else
+                            sources.set(sources.indexOf(quote.getSource()), quote.getSource());
 
                         quoteRepository.update(quote);
+                        cleanSources();
                     });
                 }
 
@@ -222,6 +228,8 @@ public class ClientModel {
                     c.getAddedSubList().forEach(quote -> {
                         if (!sources.contains(quote.getSource()))
                             sources.add(quote.getSource());
+                        else
+                            quote.setSource(sources.get(sources.indexOf(quote.getSource())));
 
                         quoteRepository.create(quote);
                     });
@@ -230,15 +238,18 @@ public class ClientModel {
                 else if (c.wasRemoved()) {
                     log.info("Quote was removed");
                     c.getRemoved().forEach(quote -> {
-                        sources.removeIf(source ->
-                                source.equals(quote.getSource()) && getQuotesBySource(source).isEmpty());
-
                         quoteRepository.delete(quote);
+                        cleanSources();
                     });
                 }
 
             }
         };
+    }
+
+    private void cleanSources() {
+        sources.removeIf(source ->
+                getQuotesBySource(source).isEmpty());
     }
 
     private ListChangeListener<Source> sourceListChangeListener() {
@@ -249,9 +260,9 @@ public class ClientModel {
                     c.getAddedSubList().forEach(source -> {
                         log.info("Updating source: " + source.toString());
                         if (source instanceof Book book)
-                            books.set(books.indexOf(EditViewModel.getSourceToEdit()), book);
+                            updateBook(book);
                         else if (source instanceof Article article)
-                            articles.set(articles.indexOf(EditViewModel.getSourceToEdit()), article);
+                            updateArticle(article);
                     });
 
                 }
@@ -266,15 +277,25 @@ public class ClientModel {
 
                 else if (c.wasRemoved())
                     c.getRemoved().forEach(source -> {
+                        quotes.removeIf(quote -> quote.getSource().equals(source));
+
                         if (source instanceof Book)
                             books.remove(source);
                         else if (source instanceof Article)
                             articles.remove(source);
-
-                        quotes.removeIf(quote -> quote.getSource().equals(source));
                     });
             }
         };
+    }
+
+    private void updateBook(Book book) {
+        int bookIndex = books.indexOf(EditViewModel.getSourceToEdit());
+        this.books.set(bookIndex, book);
+    }
+
+    private void updateArticle(Article article) {
+        int articleIndex = articles.indexOf(EditViewModel.getSourceToEdit());
+        this.articles.set(articleIndex, article);
     }
 
 
@@ -282,34 +303,42 @@ public class ClientModel {
         return c -> {
             while (c.next()) {
                 if (c.wasReplaced()) {
-                    c.getRemoved().forEach(book -> this.authors.removeIf(author
-                            -> books.stream().noneMatch(remainingBook -> remainingBook.getAuthor().equals(author))));
-
+                    // TODO check if this is covered by unit test
                     c.getAddedSubList().forEach(book -> {
-                        if (!authors.contains(book.getAuthor()))
+                        // If a matching author already exists, replace the author in the book with the existing one and delete the duplicate
+                        if (this.authors.stream().anyMatch(author -> author.equals(book.getAuthor())))
+                            book.setAuthor(this.authors.get(this.authors.indexOf(book.getAuthor())));
+                        else
                             authors.add(book.getAuthor());
 
                         bookRepository.update(book);
                     });
+
+                    cleanAuthors();
                 }
 
                 else if (c.wasAdded())
                     c.getAddedSubList().forEach(book -> {
-                        if (!authors.contains(book.getAuthor()))
+                        if (this.authors.stream().anyMatch(author -> author.equals(book.getAuthor())))
+                            book.setAuthor(this.authors.get(this.authors.indexOf(book.getAuthor())));
+                        else
                             authors.add(book.getAuthor());
 
                         bookRepository.create(book);
                     });
 
-                else if (c.wasRemoved())
-                    c.getRemoved().forEach(book -> {
-                        this.authors.removeIf(author
-                                -> books.stream().noneMatch(remainingBook -> remainingBook.getAuthor().equals(author)));
-
-                        bookRepository.delete(book);
-                    });
+                else if (c.wasRemoved()) {
+                    c.getRemoved().forEach(bookRepository::delete);
+                    cleanAuthors();
+                }
             }
         };
+    }
+
+    private void cleanAuthors() {
+        this.authors.removeIf(author
+                -> books.stream().noneMatch(remainingBook
+                    -> remainingBook.getAuthor().equals(author)));
     }
 
 

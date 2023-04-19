@@ -31,5 +31,6 @@ public final class EditViewModel {
     public static void setQuoteToEdit(Quote quoteToEdit) {
         log.info("Setting quote to edit: " + quoteToEdit.getText());
         EditViewModel.quoteToEdit = quoteToEdit;
+        EditViewModel.sourceToEdit = quoteToEdit.getSource();
     }
 }
