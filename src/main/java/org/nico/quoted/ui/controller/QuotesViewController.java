@@ -157,7 +157,7 @@ public class QuotesViewController extends MainController {
 
     private void fillSourceTable(ObservableList<Source> currentSources) {
         sourceTableView.setItems(currentSources);
-        sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+        sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
         // TODO why here origin and not title -> make clear
     }
 

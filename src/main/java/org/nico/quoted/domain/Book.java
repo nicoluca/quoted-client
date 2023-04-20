@@ -28,7 +28,7 @@ public class Book extends Source {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return this.getTitle().equals(book.getTitle())
+        return this.getTitle().equalsIgnoreCase(book.getTitle())
                 && this.author.equals(book.author);
     }
 
@@ -36,6 +36,4 @@ public class Book extends Source {
     public String getOrigin() {
         return this.author.getFirstName() + " " + this.author.getLastName();
     }
-
-
 }
