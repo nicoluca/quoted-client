@@ -11,6 +11,7 @@ public class Quote {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "TEXT")
     private String text;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "source_id")
