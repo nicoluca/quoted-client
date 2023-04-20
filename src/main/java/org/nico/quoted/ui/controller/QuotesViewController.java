@@ -123,7 +123,6 @@ public class QuotesViewController extends MainController {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    // TODO Faulty behaviour when filtering per source is selected - can we query by quote and not by index here?
                     deleteButton.setOnAction(event -> {
                         Quote quote = getTableView().getItems().get(getIndex());
                         model.deleteQuote(quote);
@@ -173,7 +172,6 @@ public class QuotesViewController extends MainController {
     private void fillSourceTable(ObservableList<Source> currentSources) {
         sourceTableView.setItems(currentSources);
         sourceColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().toString()));
-        // TODO why here origin and not title -> make clear
     }
 
     private void checkAssertions() {

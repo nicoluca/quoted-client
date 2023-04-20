@@ -190,7 +190,6 @@ public class ClientModel {
     }
 
     public void updateSource(Source source) {
-        // TODO How about storing the previous source as a defensive copy?
         quotes.stream()
                 .filter(quote -> quote.getSource().equals(EditViewModel.getSourceToEdit()))
                 .forEach(quote -> quote.setSource(source));

@@ -18,7 +18,6 @@ public class AuthorRepository implements CRUDRepository<Author> {
     public AuthorRepository(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    // TODO make this a singleton
 
     @Override
     public void create(Author author) {

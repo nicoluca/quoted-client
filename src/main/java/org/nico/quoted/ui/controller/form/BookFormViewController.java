@@ -68,9 +68,7 @@ public class BookFormViewController extends MainController {
 
     public void onConfirmButtonClicked() {
         if (checkIfBookIsValid()) {
-            // TODO Should adding and updating be conflated?
 
-            // TODO How to handle the case where the author already exists?
             Author author = new Author(
                     authorFirstNameTextField.getText(),
                     authorLastNameTextField.getText()
@@ -107,6 +105,6 @@ public class BookFormViewController extends MainController {
         File file = FileChooserUtil.chooseFile((Button) actionEvent.getSource());
         if (file != null)
             coverPathTextField.setText(file.getAbsolutePath());
-        // TODO Do we want to display the image somewhere or only on export?
+        // TODO Implement usage for coverPathTextField
     }
 }

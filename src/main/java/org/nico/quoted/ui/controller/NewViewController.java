@@ -115,7 +115,6 @@ public class NewViewController extends MainController {
     }
 
     private void addQuoteFromUrl() {
-        // TODO no duplicate urls
         String url = urlInputField.getText();
         Source article = new Article(null, url);
         Quote quote = new Quote(quoteInputField.getText(), article);

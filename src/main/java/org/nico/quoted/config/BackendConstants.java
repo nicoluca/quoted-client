@@ -30,7 +30,6 @@ public class BackendConstants {
     }
 
     public static List<Quote> defaultQuotes() {
-        // TODO This will create NEW books and articles, which is not what we want
         return List.of(
                 new Quote("Lorem ipsum First Sample Quote", defaultBooks().get(0)),
                 new Quote("Dolor sit amet Second sample quote", defaultBooks().get(1)),

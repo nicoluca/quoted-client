@@ -24,7 +24,6 @@ public class Book extends Source {
 
     @Override
     public boolean equals(Object o) {
-        // TODO Replace with ID
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;

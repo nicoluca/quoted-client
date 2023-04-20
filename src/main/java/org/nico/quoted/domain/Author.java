@@ -17,7 +17,7 @@ public class Author {
     private long id;
     private String firstName;
     private String lastName;
-    // TODO
+
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "author")
     private Set<Book> books;
 
