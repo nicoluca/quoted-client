@@ -43,9 +43,14 @@ public class QuoteFormViewController extends MainController {
         checkAssertions();
         displayError("");
         setupChoiceBox();
+        wrapText();
 
         fillQuoteForm();
         toggleUrl();
+    }
+
+    private void wrapText() {
+        quoteTextField.setWrapText(true);
     }
 
     @FXML

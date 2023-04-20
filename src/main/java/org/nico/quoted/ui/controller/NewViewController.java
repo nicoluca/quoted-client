@@ -3,7 +3,6 @@ package org.nico.quoted.ui.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
@@ -41,9 +40,30 @@ public class NewViewController extends MainController {
     void initialize() {
         checkAssertions();
         setupChoiceBox();
+        wrapText();
         urlInputField.setDisable(true);
         errorLabel.setText("");
     }
+
+    private void checkAssertions() {
+        assert newBookButton != null : "fx:id=\"newBookButton\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert urlInputField != null : "fx:id=\"UrlInputField\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert bookChoiceBox != null : "fx:id=\"bookChoiceBox\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert quoteInputField != null : "fx:id=\"quoteInputField\" was not injected: check your FXML file 'new-view.fxml'.";
+        assert toggleURL != null : "fx:id=\"toggleURL\" was not injected: check your FXML file 'new-view.fxml'.";
+    }
+
+    private void setupChoiceBox() {
+        bookChoiceBox.setItems(model.getBooks());
+        model.getBooks().addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.getBooks()));
+    }
+
+
+    private void wrapText() {
+        quoteInputField.setWrapText(true);
+    }
+
 
     public void toggleUrlField() {
         urlInputField.setDisable(!toggleURL.isSelected());
@@ -74,20 +94,6 @@ public class NewViewController extends MainController {
         );
         timeline.setCycleCount(1); // Play once
         timeline.play();
-    }
-
-    private void checkAssertions() {
-        assert newBookButton != null : "fx:id=\"newBookButton\" was not injected: check your FXML file 'new-view.fxml'.";
-        assert urlInputField != null : "fx:id=\"UrlInputField\" was not injected: check your FXML file 'new-view.fxml'.";
-        assert addButton != null : "fx:id=\"addButton\" was not injected: check your FXML file 'new-view.fxml'.";
-        assert bookChoiceBox != null : "fx:id=\"bookChoiceBox\" was not injected: check your FXML file 'new-view.fxml'.";
-        assert quoteInputField != null : "fx:id=\"quoteInputField\" was not injected: check your FXML file 'new-view.fxml'.";
-        assert toggleURL != null : "fx:id=\"toggleURL\" was not injected: check your FXML file 'new-view.fxml'.";
-    }
-
-    private void setupChoiceBox() {
-        bookChoiceBox.setItems(model.getBooks());
-        model.getBooks().addListener((ListChangeListener<Book>) c -> bookChoiceBox.setItems(model.getBooks()));
     }
 
 
