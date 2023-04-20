@@ -2,7 +2,6 @@ package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
@@ -81,9 +80,13 @@ public class QuotesViewController extends MainController {
         sourceTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldSource, newSource) -> {
             if (newSource != null) {
                 log.info("Selected source changed, showing quotes");
-                fillQuoteTable(model.getQuotesBySource(newSource));
+                updateFilteredQuoteTable(newSource);
             }
         });
+    }
+
+    private void updateFilteredQuoteTable(Source newSource) {
+        fillQuoteTable(model.getQuotesBySource(newSource));
     }
 
     private void refreshOnTabChanged() {
@@ -121,13 +124,23 @@ public class QuotesViewController extends MainController {
                     setGraphic(null);
                 } else {
                     // TODO Faulty behaviour when filtering per source is selected - can we query by quote and not by index here?
-                    deleteButton.setOnAction(event -> model.deleteQuoteByIndex(getIndex()));
+                    deleteButton.setOnAction(event -> {
+                        Quote quote = getTableView().getItems().get(getIndex());
+                        model.deleteQuote(quote);
+                        Source selectedSource = sourceTableView.getSelectionModel().getSelectedItem();
+                        if (selectedSource != null)
+                            updateFilteredQuoteTable(selectedSource);
+                        else
+                            fillQuoteTable(model.getQuotes());
+                    });
+                    // deleteButton.setOnAction(event -> model.deleteQuoteByIndex(getIndex()));
                     setText(null);
                     setGraphic(deleteButton);
                 }
             }
         });
     }
+
 
     private void fillEditQuoteColumn() {
         editQuoteColumn.setCellFactory(bookButtonTableColumn -> new TableCell<>() {
@@ -141,7 +154,9 @@ public class QuotesViewController extends MainController {
                     setGraphic(null);
                 } else {
                     editButton.setOnAction(event -> {
-                        EditViewModel.setQuoteToEdit(model.getQuoteByIndex(getIndex()));
+                        // Index does not work here, because of filtering
+                        Quote quote = getTableView().getItems().get(getIndex());
+                        EditViewModel.setQuoteToEdit(quote);
                         openEditView();
                     });
                     setText(null);

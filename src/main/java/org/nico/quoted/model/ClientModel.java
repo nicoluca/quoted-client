@@ -120,6 +120,16 @@ public class ClientModel {
         log.info("Added quote: " + quoteToAdd.getText() + ", from source: " + quoteToAdd.getSource().toString());
     }
 
+    public void deleteQuote(Quote quoteToDelete) {
+        if (!quotes.contains(quoteToDelete)) {
+            log.error("Quote to delete not found in quote list.");
+            return;
+        }
+
+        quotes.remove(quoteToDelete); // Sources are updating automatically once changes in quote list are registered
+        log.info("Removed quote: " + quoteToDelete.getText() + ", from source: " + quoteToDelete.getSource().toString());
+    }
+
     public void deleteQuoteByIndex(int index) {
         log.info("Removing quote: " + quotes.get(index).getText() + ", from source: " + quotes.get(index).getSource().toString());
         quotes.remove(index); // Sources are updating automatically once changes in quote list are registered
