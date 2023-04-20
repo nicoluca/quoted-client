@@ -1,16 +1,19 @@
 package org.nico.quoted.model;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
+import org.nico.quoted.domain.*;
 import org.nico.quoted.repository.ArticleRepository;
 import org.nico.quoted.repository.AuthorRepository;
 import org.nico.quoted.repository.BookRepository;
 import org.nico.quoted.repository.QuoteRepository;
-import org.nico.quoted.domain.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

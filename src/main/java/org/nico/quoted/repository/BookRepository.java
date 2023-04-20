@@ -2,10 +2,8 @@ package org.nico.quoted.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.config.BackendConfig;
 import org.nico.quoted.domain.Book;
 
 import java.util.ArrayList;
@@ -16,8 +14,12 @@ import java.util.Optional;
 
 @Slf4j
 public class BookRepository implements CRUDRepository<Book> {
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(BackendConfig.DB_NAME);
+    private final EntityManagerFactory emf;
     private EntityManager em;
+
+    public BookRepository(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
 
     @Override

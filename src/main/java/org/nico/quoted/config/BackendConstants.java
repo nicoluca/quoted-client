@@ -1,5 +1,9 @@
 package org.nico.quoted.config;
-import org.nico.quoted.domain.*;
+
+import org.nico.quoted.domain.Article;
+import org.nico.quoted.domain.Author;
+import org.nico.quoted.domain.Book;
+import org.nico.quoted.domain.Quote;
 
 import java.util.List;
 

@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.model.EditViewModel;
-import org.nico.quoted.util.FileChooserUtil;
 import org.nico.quoted.ui.controller.MainController;
+import org.nico.quoted.util.FileChooserUtil;
 import org.nico.quoted.util.StringUtil;
 
 import java.io.File;

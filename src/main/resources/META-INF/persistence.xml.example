@@ -10,14 +10,37 @@
         <class>org.nico.quoted.domain.Author</class>
         <class>org.nico.quoted.domain.Book</class>
         <class>org.nico.quoted.domain.Article</class>
+        <class>org.nico.quoted.domain.Source</class>
         <properties>
             <!-- Connection properties -->
-            <property name="hibernate.connection.username" value="USER"/>
+            <property name="hibernate.connection.username" value="USERNAME"/>
             <property name="hibernate.connection.password" value="PASSWORD"/>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/quote_db"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <!-- Usefule options for prod/debug+testing: update/create-drop -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="quote_db_test">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>org.nico.quoted.domain.Quote</class>
+        <class>org.nico.quoted.domain.Author</class>
+        <class>org.nico.quoted.domain.Book</class>
+        <class>org.nico.quoted.domain.Article</class>
+        <class>org.nico.quoted.domain.Source</class>
+        <properties>
+            <!-- Connection properties -->
+            <property name="hibernate.connection.username" value="USERNAME"/>
+            <property name="hibernate.connection.password" value="PASSWORD"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/quote_db"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/>
+            <!-- Usefule options for prod/debug+testing: update/create-drop -->
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
         </properties>

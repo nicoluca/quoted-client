@@ -5,8 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.domain.Source;
 import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.Source;
 import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
 

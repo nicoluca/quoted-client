@@ -1,14 +1,13 @@
 package org.nico.quoted.ui.controller.form;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.nico.quoted.domain.Article;
 import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
-import org.nico.quoted.domain.Article;
 import org.nico.quoted.util.StringUtil;
 
 public class ArticleFormViewController extends MainController {
