@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.nico.quoted.domain.model.EditViewModel;
+import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.util.StringUtil;
@@ -33,7 +33,7 @@ public class ArticleFormViewController extends MainController {
     }
 
     @FXML
-    void onConfirmButtonClicked(ActionEvent event) {
+    void onConfirmButtonClicked() {
         if (!isValidInput()) {
             displayError("Invalid input.");
             return;

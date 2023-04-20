@@ -1,16 +1,12 @@
 package org.nico.quoted.ui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
-import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 
-import static org.nico.quoted.ui.controller.BaseController.model;
-
-public class RandomViewController {
+public class RandomViewController extends MainController {
 
     @FXML
     private Button nextQuoteButton;

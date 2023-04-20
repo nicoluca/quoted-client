@@ -13,7 +13,7 @@ import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.domain.model.EditViewModel;
+import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
 
@@ -96,6 +96,7 @@ public class QuoteFormViewController extends MainController {
 
         if (source instanceof Book book) {
             bookChoiceBox.setValue(book);
+            urlTextField.setText("https://...");
         } else {
             urlCheckBox.setSelected(true);
             urlTextField.setText(((Article) source).getUrl());

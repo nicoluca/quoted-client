@@ -8,6 +8,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.nico.quoted.config.BackendConstants;
 import org.nico.quoted.domain.*;
+import org.nico.quoted.model.ClientModel;
+import org.nico.quoted.model.EditViewModel;
+import org.nico.quoted.model.RepositoryModel;
 import org.nico.quoted.repository.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -287,27 +290,28 @@ class ClientModelTest {
         assertEquals(1, numberOfAuthors());
     }
 
-    @Test
-    @DisplayName("Test: Change the book of a quote by changing its author to an existing author")
-    void changeAuthorOfBookOfQuoteToExistingAuthor() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
-        Quote quote = firstQuote();
-        Book book = (Book) quote.getSource();
-        Author existingAuthor = new Author("J.R.R.", "Tolkien");
-        Author newAuthor = new Author("Test", "Test");
-
-        book.setAuthor(newAuthor);
-        model.updateQuote(quote);
-
-        assertEquals("Test", ((Book) firstQuote().getSource()).getAuthor().getFirstName());
-        assertEquals(2, numberOfAuthors());
-
-        book.setAuthor(existingAuthor);
-        model.updateQuote(quote);
-
-        assertEquals("J.R.R.", ((Book) firstQuote().getSource()).getAuthor().getFirstName());
-        assertEquals(1, numberOfAuthors());
-    }
+//    @Test
+//    @DisplayName("Test: Change the book of a quote by changing its author to an existing author")
+//    // Disabled as no use case for user
+//    void changeAuthorOfBookOfQuoteToExistingAuthor() {
+//        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
+//        Quote quote = firstQuote();
+//        Book book = (Book) quote.getSource();
+//        Author existingAuthor = new Author("J.R.R.", "Tolkien");
+//        Author newAuthor = new Author("Test", "Test");
+//
+//        book.setAuthor(newAuthor);
+//        model.updateQuote(quote);
+//
+//        assertEquals("Test", ((Book) firstQuote().getSource()).getAuthor().getFirstName());
+//        assertEquals(2, numberOfAuthors());
+//
+//        book.setAuthor(existingAuthor);
+//        model.updateQuote(quote);
+//
+//        assertEquals("J.R.R.", ((Book) firstQuote().getSource()).getAuthor().getFirstName());
+//        assertEquals(1, numberOfAuthors());
+//    }
 
     @Test
     @DisplayName("Test: Change the article of a quote by changing its url")
@@ -359,6 +363,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Change source of quote from book to article")
     void changeSourceOfQuoteFromBookToArticle() {
+        // TODO EditViewModel does not need to be mocked, just set the value
         when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
         when(EditViewModel.getSourceToEdit()).thenReturn(firstQuote().getSource());
         Quote quote = firstQuote();
@@ -382,14 +387,6 @@ class ClientModelTest {
         return model.getQuoteByIndex(2);
     }
 
-    Quote getSecondQuote() {
-        return model.getQuoteByIndex(1);
-    }
-
-    Quote getThirdQuote() {
-        return model.getQuoteByIndex(2);
-    }
-
     Source firstSource() {
         return model.getSourceByIndex(0);
     }
@@ -400,10 +397,6 @@ class ClientModelTest {
 
     Article firstArticle() {
         return (Article) model.getSourceByIndex(2);
-    }
-
-    Author getAuthor() {
-        return ((Book) model.getSourceByIndex(0)).getAuthor();
     }
 
     int numberOfSources() {

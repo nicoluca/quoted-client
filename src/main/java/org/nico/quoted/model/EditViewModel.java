@@ -1,4 +1,4 @@
-package org.nico.quoted.domain.model;
+package org.nico.quoted.model;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Quote;

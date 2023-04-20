@@ -13,7 +13,7 @@ import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Source;
 import org.nico.quoted.domain.Quote;
-import org.nico.quoted.domain.model.EditViewModel;
+import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.BookFormView;
 import org.nico.quoted.util.StringUtil;
 
@@ -45,15 +45,15 @@ public class NewViewController extends MainController {
         errorLabel.setText("");
     }
 
-    public void toggleUrlField(ActionEvent actionEvent) {
+    public void toggleUrlField() {
         urlInputField.setDisable(!toggleURL.isSelected());
         bookChoiceBox.setDisable(toggleURL.isSelected());
         newBookButton.setDisable(toggleURL.isSelected());
     }
 
-    public void onAddButtonClick(ActionEvent actionEvent) {
+    public void onAddButtonClick() {
         if (!inputIsValid())
-            displayError("Invalid input");
+            displayError();
         else {
             addQuote();
             displaySuccess();
@@ -93,10 +93,6 @@ public class NewViewController extends MainController {
 
     private void resetForm() {
         quoteInputField.setText("");
-        urlInputField.setText("https://...");
-        toggleURL.setSelected(false);
-        urlInputField.setDisable(true);
-        bookChoiceBox.setValue(null);
     }
 
     private void addQuote() {
@@ -120,8 +116,8 @@ public class NewViewController extends MainController {
         model.addQuote(quote);
     }
 
-    private void displayError(String s) {
-        errorLabel.setText(s);
+    private void displayError() {
+        errorLabel.setText("Invalid input");
     }
 
     private boolean inputIsValid() {
@@ -130,7 +126,7 @@ public class NewViewController extends MainController {
                 || (!toggleURL.isSelected() && bookChoiceBox.getValue() != null)));
     }
 
-    public void onNewBookButtonClick(ActionEvent actionEvent) {
+    public void onNewBookButtonClick() {
         EditViewModel.setSourceToEdit(null);
         new BookFormView().show();
     }

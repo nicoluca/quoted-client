@@ -1,4 +1,4 @@
-package org.nico.quoted.domain.model;
+package org.nico.quoted.model;
 
 import org.nico.quoted.repository.ArticleRepository;
 import org.nico.quoted.repository.AuthorRepository;
@@ -14,19 +14,19 @@ public class RepositoryModel {
     private final ArticleRepository articleRepository = new ArticleRepository();
     private final QuoteRepository quoteRepository = new QuoteRepository();
 
-    protected AuthorRepository getAuthorRepository() {
+    public AuthorRepository getAuthorRepository() {
         return authorRepository;
     }
 
-    protected BookRepository getBookRepository() {
+    public BookRepository getBookRepository() {
         return bookRepository;
     }
 
-    protected ArticleRepository getArticleRepository() {
+    public ArticleRepository getArticleRepository() {
         return articleRepository;
     }
 
-    protected QuoteRepository getQuoteRepository() {
+    public QuoteRepository getQuoteRepository() {
         return quoteRepository;
     }
 }

@@ -2,13 +2,11 @@ package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Callback;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.domain.model.EditViewModel;
+import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.ArticleFormView;
 import org.nico.quoted.ui.controller.form.BookFormView;
 

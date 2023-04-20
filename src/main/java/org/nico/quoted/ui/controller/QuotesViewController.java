@@ -8,7 +8,7 @@ import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Source;
 import org.nico.quoted.domain.Quote;
-import org.nico.quoted.domain.model.EditViewModel;
+import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
 
 @Slf4j
@@ -120,6 +120,7 @@ public class QuotesViewController extends MainController {
                     setText(null);
                     setGraphic(null);
                 } else {
+                    // TODO Faulty behaviour when filtering per source is selected - can we query by quote and not by index here?
                     deleteButton.setOnAction(event -> model.deleteQuoteByIndex(getIndex()));
                     setText(null);
                     setGraphic(deleteButton);
@@ -171,7 +172,7 @@ public class QuotesViewController extends MainController {
         assert resetButton != null : "fx:id=\"resetButton\" was not injected: check your FXML file 'quotes-view.fxml'.";
     }
 
-    public void onResetButtonClick(ActionEvent actionEvent) {
+    public void onResetButtonClick() {
         resetView();
     }
 }

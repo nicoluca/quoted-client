@@ -1,4 +1,4 @@
-package org.nico.quoted.domain.model;
+package org.nico.quoted.model;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -12,7 +12,6 @@ import org.nico.quoted.repository.BookRepository;
 import org.nico.quoted.repository.QuoteRepository;
 import org.nico.quoted.domain.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -213,14 +212,16 @@ public class ClientModel {
                     log.info("Quote list was replaced");
 
                     c.getAddedSubList().forEach(quote -> {
-                        if (!sources.contains(quote.getSource()))
+                        if (sources.contains(quote.getSource())) {
+                            quote.setSource(sources.get(sources.indexOf(quote.getSource())));
+
+                        } else
                             sources.add(quote.getSource());
-                        else
-                            sources.set(sources.indexOf(quote.getSource()), quote.getSource());
 
                         quoteRepository.update(quote);
-                        cleanSources();
                     });
+
+                    cleanSources();
                 }
 
                 else if (c.wasAdded()) {
