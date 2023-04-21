@@ -1,10 +1,13 @@
 package org.nico.quoted.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
+@Getter @Setter
 public class Quote {
 
     @Id
@@ -22,22 +25,6 @@ public class Quote {
         this.source = source;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public Source getSource() {
-        return source;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setSource(Source source) {
-        this.source = source;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,11 +34,4 @@ public class Quote {
                 source.equals(quote.source);
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
 }

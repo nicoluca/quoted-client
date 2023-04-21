@@ -1,5 +1,6 @@
 package org.nico.quoted.repository;
 
+import jakarta.persistence.RollbackException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,27 +11,26 @@ import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 
-import jakarta.persistence.RollbackException;
-
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class QuoteRepositoryTest {
-    private QuoteRepository quoteRepository;
-    private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
-    private ArticleRepository articleRepository;
+    private CRUDRepository<Quote> quoteRepository;
+    private CRUDRepository<Book> bookRepository;
+    private CRUDRepository<Author> authorRepository;
+    private CRUDRepository<Article> articleRepository;
 
     private Book book;
     private Article article;
 
     @BeforeEach
     void setUp() {
-        quoteRepository = new QuoteRepository(TestConfig.TEST_EMF);
-        bookRepository = new BookRepository(TestConfig.TEST_EMF);
-        authorRepository = new AuthorRepository(TestConfig.TEST_EMF);
-        articleRepository = new ArticleRepository(TestConfig.TEST_EMF);
+        quoteRepository = new RepositoryImplementation<>(Quote.class, TestConfig.TEST_EMF);
+        bookRepository = new RepositoryImplementation<>(Book.class, TestConfig.TEST_EMF);
+        authorRepository = new RepositoryImplementation<>(Author.class, TestConfig.TEST_EMF);
+        articleRepository = new RepositoryImplementation<>(Article.class, TestConfig.TEST_EMF);
 
         Author author = new Author("Test", "Test");
         authorRepository.create(author);

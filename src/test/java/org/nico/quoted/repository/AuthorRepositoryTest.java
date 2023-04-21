@@ -15,11 +15,11 @@ class AuthorRepositoryTest {
     persistence.xml needs to be set to 'create-drop' for testing
      */
 
-    private AuthorRepository authorRepository;
+    private CRUDRepository<Author> authorRepository;
 
     @BeforeEach
     void setUp() {
-        authorRepository = new AuthorRepository(TestConfig.TEST_EMF);
+        authorRepository = new RepositoryImplementation<>(Author.class, TestConfig.TEST_EMF);
     }
 
     @AfterEach

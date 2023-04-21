@@ -3,19 +3,19 @@ package org.nico.quoted.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.nico.quoted.TestConfig;
 import org.nico.quoted.domain.Article;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.nico.quoted.TestConfig.TEST_EMF;
 
 class ArticleRepositoryTest {
-    private ArticleRepository articleRepository;
+    private RepositoryImplementation<Article> articleRepository;
 
     @BeforeEach
     void setUp() {
-        articleRepository = new ArticleRepository(TestConfig.TEST_EMF);
+        articleRepository = new RepositoryImplementation<>(Article.class, TEST_EMF);
     }
 
     @AfterEach

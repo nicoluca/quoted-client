@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import org.nico.quoted.config.UiConstants;
+import org.nico.quoted.config.UIConfig;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
@@ -87,7 +87,7 @@ public class NewViewController extends MainController {
                     errorLabel.setTextFill(Color.GREEN);
                     errorLabel.setText("Quote added!");
                 }),
-                new KeyFrame(Duration.millis(UiConstants.DURATION_INFO_MESSAGE), event -> {
+                new KeyFrame(Duration.millis(UIConfig.DURATION_INFO_MESSAGE), event -> {
                     errorLabel.setTextFill(Color.RED);
                     errorLabel.setText("");
                 })

@@ -4,108 +4,106 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.domain.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// TODO Can this be refactored with less boilerpolate code?
-
 @Slf4j
-public class BookRepository implements CRUDRepository<Book> {
+public class RepositoryImplementation<T> implements CRUDRepository<T> {
+    private final Class<T> type;
     private final EntityManagerFactory emf;
     private EntityManager em;
 
-    public BookRepository(EntityManagerFactory emf) {
+    public RepositoryImplementation(Class<T> type, EntityManagerFactory emf) {
+        this.type = type;
         this.emf = emf;
     }
-
-
     @Override
-    public void create(Book book) {
+    public void create(T t) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            em.persist(book);
+            em.persist(t);
 
             em.getTransaction().commit();
             em.close();
 
         } catch (IllegalStateException e) {
-            log.error("Error while creating book: " + e.getMessage());
+            log.error("Error while creating Article: " + e.getMessage());
             e.printStackTrace();
         }
+
     }
 
     @Override
-    public Optional<Book> readById(long id) {
-        Book book;
+    public Optional<T> readById(long id) {
+        T t;
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            book = em.find(Book.class, id);
+            t = em.find(type, id);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.warn("Book not found.");
+            log.warn("T not found.");
             e.printStackTrace();
             return Optional.empty();
         }
-        return Optional.ofNullable(book);
+        return Optional.ofNullable(t);
     }
 
     @Override
-    public List<Book> readAll() {
-        List<Book> books = new ArrayList<>();
+    public List<T> readAll() {
+        List<T> ts = new ArrayList<>();
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            TypedQuery<Book> query = em.createQuery("select a from Book a", Book.class);
-            books = query.getResultList();
+            TypedQuery<T> query = em.createQuery("select t from " + type.getSimpleName() + " t", type);
+            ts = query.getResultList();
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.warn("No books could be retrieved.");
+            log.warn("No Ts could be retrieved.");
             e.printStackTrace();
         }
-        return books;
+        return ts;
     }
 
     @Override
-    public void update(Book book) {
+    public void update(T t) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            em.merge(book);
+            em.merge(t);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while updating book: " + e.getMessage());
+            log.error("Error while updating t: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
-    public void delete(Book book) {
+    public void delete(T t) {
         try {
             em = emf.createEntityManager();
             em.getTransaction().begin();
 
-            Book bookToDelete = em.merge(book);
-            em.remove(bookToDelete);
+            T tToDelete = em.merge(t);
+            em.remove(tToDelete);
 
             em.getTransaction().commit();
             em.close();
         } catch (IllegalStateException e) {
-            log.error("Error while deleting book: " + e.getMessage());
+            log.error("Error while deleting T: " + e.getMessage());
             e.printStackTrace();
         }
     }

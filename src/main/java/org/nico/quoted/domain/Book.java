@@ -14,7 +14,7 @@ public class Book extends Source {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "author_id")
     private Author author;
-    private String coverPath;
+    private String coverPath; // TODO Currently unused
 
     public Book(String title, Author author, String coverPath) {
         super(title);

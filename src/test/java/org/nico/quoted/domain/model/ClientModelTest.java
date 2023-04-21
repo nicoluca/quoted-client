@@ -6,12 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.nico.quoted.config.BackendConstants;
+import org.nico.quoted.TestConfig;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.model.ClientModel;
 import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.model.RepositoryModel;
-import org.nico.quoted.repository.*;
+import org.nico.quoted.repository.CRUDRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -22,13 +22,13 @@ class ClientModelTest {
     @Mock
     private RepositoryModel repositoryModel = mock(RepositoryModel.class);
     @Mock
-    private AuthorRepository authorRepository = mock(AuthorRepository.class);
+    private CRUDRepository<Author> authorRepository = mock(CRUDRepository.class);
     @Mock
-    private BookRepository bookRepository = mock(BookRepository.class);
+    private CRUDRepository<Book> bookRepository = mock(CRUDRepository.class);
     @Mock
-    private QuoteRepository quoteRepository = mock(QuoteRepository.class);
+    private CRUDRepository<Quote> quoteRepository = mock(CRUDRepository.class);
     @Mock
-    private ArticleRepository articleRepository= mock(ArticleRepository.class);
+    private CRUDRepository<Article> articleRepository= mock(CRUDRepository.class);
 
     @BeforeAll
     static void init() {
@@ -43,10 +43,10 @@ class ClientModelTest {
         when(repositoryModel.getArticleRepository()).thenReturn(articleRepository);
 
         // The test model has 2 books by 1 author and 1 article; 3 quotes each from a different source.
-        when(bookRepository.readAll()).thenReturn(BackendConstants.defaultBooks());
-        when(articleRepository.readAll()).thenReturn(BackendConstants.defaultArticles());
-        when(quoteRepository.readAll()).thenReturn(BackendConstants.defaultQuotes());
-        when(authorRepository.readAll()).thenReturn(BackendConstants.defaultAuthors());
+        when(bookRepository.readAll()).thenReturn(TestConfig.defaultBooks());
+        when(articleRepository.readAll()).thenReturn(TestConfig.defaultArticles());
+        when(quoteRepository.readAll()).thenReturn(TestConfig.defaultQuotes());
+        when(authorRepository.readAll()).thenReturn(TestConfig.defaultAuthors());
 
         model = new ClientModel(repositoryModel);
     }
@@ -64,7 +64,7 @@ class ClientModelTest {
     @DisplayName("Test if the model returns sources by index correctly")
     void getSourceByIndex() {
         assert firstBook() != null;
-        assertEquals(BackendConstants.defaultBooks().get(0), firstBook());
+        assertEquals(TestConfig.defaultBooks().get(0), firstBook());
     }
 
     @Test
@@ -106,7 +106,7 @@ class ClientModelTest {
     @DisplayName("Test if the model returns the correct quote by index")
     void getQuoteByIndex() {
         assertNotNull(firstQuote());
-        assertEquals(BackendConstants.defaultQuotes().get(0), firstQuote());
+        assertEquals(TestConfig.defaultQuotes().get(0), firstQuote());
     }
 
     @Test

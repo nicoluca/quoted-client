@@ -15,6 +15,7 @@ import java.util.Set;
 @Inheritance(strategy = InheritanceType.JOINED) // JOINED to to have a dedicated source table, TABLE_PER_CLASS to have a table per subclass
 @DiscriminatorColumn(name="source_type")
 public abstract class Source {
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;

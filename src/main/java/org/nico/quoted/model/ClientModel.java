@@ -10,10 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
-import org.nico.quoted.repository.ArticleRepository;
-import org.nico.quoted.repository.AuthorRepository;
-import org.nico.quoted.repository.BookRepository;
-import org.nico.quoted.repository.QuoteRepository;
+import org.nico.quoted.repository.CRUDRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,10 +31,10 @@ public class ClientModel {
     private static Quote lastRandomQuote;
     private final BooleanProperty resetForm;
 
-    private final AuthorRepository authorRepository;
-    private final BookRepository bookRepository;
-    private final ArticleRepository articleRepository;
-    private final QuoteRepository quoteRepository;
+    private final CRUDRepository<Author> authorRepository;
+    private final CRUDRepository<Book> bookRepository;
+    private final CRUDRepository<Article> articleRepository;
+    private final CRUDRepository<Quote> quoteRepository;
 
     public ClientModel(RepositoryModel repositoryModel) {
 

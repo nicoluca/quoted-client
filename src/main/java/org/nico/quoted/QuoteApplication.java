@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-import static org.nico.quoted.config.UiConstants.*;
+import static org.nico.quoted.config.UIConfig.*;
 
 @Slf4j
 public class QuoteApplication extends Application {

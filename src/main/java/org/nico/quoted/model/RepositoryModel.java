@@ -1,33 +1,21 @@
 package org.nico.quoted.model;
 
-import org.nico.quoted.config.BackendConfig;
-import org.nico.quoted.repository.ArticleRepository;
-import org.nico.quoted.repository.AuthorRepository;
-import org.nico.quoted.repository.BookRepository;
-import org.nico.quoted.repository.QuoteRepository;
+import lombok.Getter;
+import org.nico.quoted.config.DBConfig;
+import org.nico.quoted.domain.Article;
+import org.nico.quoted.domain.Author;
+import org.nico.quoted.domain.Book;
+import org.nico.quoted.domain.Quote;
+import org.nico.quoted.repository.CRUDRepository;
+import org.nico.quoted.repository.RepositoryImplementation;
 
 // A model that contains all the repositories to be used in the ClientModel
 // Enables mocking of the repositories in the ClientModel for unit testing
 
+@Getter
 public class RepositoryModel {
-    private final AuthorRepository authorRepository = new AuthorRepository(BackendConfig.EMF);
-    private final BookRepository bookRepository = new BookRepository(BackendConfig.EMF);
-    private final ArticleRepository articleRepository = new ArticleRepository(BackendConfig.EMF);
-    private final QuoteRepository quoteRepository = new QuoteRepository(BackendConfig.EMF);
-
-    public AuthorRepository getAuthorRepository() {
-        return authorRepository;
-    }
-
-    public BookRepository getBookRepository() {
-        return bookRepository;
-    }
-
-    public ArticleRepository getArticleRepository() {
-        return articleRepository;
-    }
-
-    public QuoteRepository getQuoteRepository() {
-        return quoteRepository;
-    }
+    private final CRUDRepository<Author> authorRepository = new RepositoryImplementation<>(Author.class, DBConfig.EMF);
+    private final CRUDRepository<Book> bookRepository = new RepositoryImplementation<>(Book.class, DBConfig.EMF);
+    private final CRUDRepository<Article> articleRepository = new RepositoryImplementation<>(Article.class, DBConfig.EMF);
+    private final CRUDRepository<Quote> quoteRepository = new RepositoryImplementation<>(Quote.class, DBConfig.EMF);
 }
