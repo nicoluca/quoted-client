@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.repository.CRUDRepository;
+import org.nico.quoted.util.ModelUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,8 +29,9 @@ public class ClientModel {
 
     private final ObjectProperty<Source> selectedSource;
     private final ObjectProperty<Quote> selectedQuote;
-    private static Quote lastRandomQuote;
+
     private final BooleanProperty resetForm;
+    private static Quote lastRandomQuote;
 
     private final CRUDRepository<Author> authorRepository;
     private final CRUDRepository<Book> bookRepository;
@@ -50,33 +52,36 @@ public class ClientModel {
         this.articles = FXCollections.observableArrayList();
         this.quotes = FXCollections.observableArrayList();
 
-        readRepositories();
-
         // Selectors
-        selectedSource = new SimpleObjectProperty<>();
-        selectedQuote = new SimpleObjectProperty<>();
-        resetForm = new SimpleBooleanProperty();
+        // TODO are these used? Selection now working via row selection in table views
+        this.selectedSource = new SimpleObjectProperty<>();
+        this.selectedQuote = new SimpleObjectProperty<>();
+        this.resetForm = new SimpleBooleanProperty();
 
-        // Change Listeners
-        // TODO Register the change listeners to update the API/DB - Question: Just adding via quote or source?
+        // Initialisation
+        readRepositories();
+        registerChangeListeners();
+    }
+
+    private void readRepositories() {
+        this.sources.addAll(bookRepository.readAll());
+        this.sources.addAll(articleRepository.readAll());
+
+        // TODO Filter or read directly? Test with direct read.
+        this.books.addAll(ModelUtil.filterBooksFromSources(sources));
+        this.authors.addAll(ModelUtil.getAuthorsFromBooks(books));
+        this.articles.addAll(ModelUtil.filterArticlesFromSources(sources));
+
+        this.quotes.addAll(quoteRepository.readAll());
+        log.info("Repositories read into model.");
+    }
+
+    private void registerChangeListeners() {
         this.quotes.addListener(quoteListChangeListener());
         this.sources.addListener(sourceListChangeListener());
         this.books.addListener(bookListChangeListener());
         this.authors.addListener(authorListChangeListener());
         this.articles.addListener(articleListChangeListener());
-    }
-
-    private void readRepositories() {
-        // TODO Filter or read directly?
-        this.sources.addAll(bookRepository.readAll());
-        this.sources.addAll(articleRepository.readAll());
-
-        this.books.addAll(filterBooksFromSources());
-        this.authors.addAll(getAuthorsFromBooks());
-        this.articles.addAll(filterArticlesFromSources());
-
-        this.quotes.addAll(quoteRepository.readAll());
-        log.info("Repositories read into model.");
     }
 
     // ############################## Getters ###########################
@@ -153,7 +158,6 @@ public class ClientModel {
         return randomQuote;
     }
 
-
     public void updateQuote(Quote quote) {
         quote.setId(EditViewModel.getQuoteToEdit().getId());
         quotes.set(quotes.indexOf(EditViewModel.getQuoteToEdit()), quote);
@@ -161,16 +165,18 @@ public class ClientModel {
     }
 
     public ObservableList<Source> searchSources(String searchString) {
+        String regex = "(?i).*" + searchString + ".*";
         return sources.stream()
-                .filter(source -> source.getTitle().toLowerCase().contains(searchString.toLowerCase())
-                        || source.toString().toLowerCase().contains(searchString.toLowerCase()))
+                .filter(source -> source.getTitle().matches(regex)
+                        || source.toString().matches(regex))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     }
 
     public ObservableList<Quote> searchQuotes(String searchString) {
+        String regex = "(?i).*" + searchString + ".*";
         return quotes.stream()
-                .filter(quote -> quote.getText().toLowerCase().contains(searchString.toLowerCase())
-                        || quote.getSource().toString().toLowerCase().contains(searchString.toLowerCase()))
+                .filter(quote -> quote.getText().matches(regex)
+                        || quote.getSource().toString().matches(regex))
                 .collect(FXCollections::observableArrayList, ObservableList::add, ObservableList::addAll);
     }
 
@@ -247,10 +253,8 @@ public class ClientModel {
 
                 else if (c.wasRemoved()) {
                     log.info("Quote was removed");
-                    c.getRemoved().forEach(quote -> {
-                        quoteRepository.delete(quote);
-                        cleanSources();
-                    });
+                    c.getRemoved().forEach(quoteRepository::delete);
+                    cleanSources();
                 }
 
             }
@@ -313,7 +317,6 @@ public class ClientModel {
         return c -> {
             while (c.next()) {
                 if (c.wasReplaced()) {
-                    // TODO check if this is covered by unit test
                     c.getAddedSubList().forEach(book -> {
                         // If a matching author already exists, replace the author in the book with the existing one and delete the duplicate
                         if (this.authors.stream().anyMatch(author -> author.equals(book.getAuthor())))
@@ -350,7 +353,6 @@ public class ClientModel {
                 -> books.stream().noneMatch(remainingBook
                     -> remainingBook.getAuthor().equals(author)));
     }
-
 
     private ListChangeListener<? super Author> authorListChangeListener() {
         return c -> {
@@ -392,28 +394,6 @@ public class ClientModel {
                     c.getRemoved().forEach(articleRepository::delete);
             }
         };
-    }
-
-
-    private List<Book> filterBooksFromSources() {
-        return sources.stream()
-                .filter(Book.class::isInstance)
-                .map(Book.class::cast)
-                .collect(Collectors.toList());
-    }
-
-    private List<Article> filterArticlesFromSources() {
-        return sources.stream()
-                .filter(Article.class::isInstance)
-                .map(Article.class::cast)
-                .collect(Collectors.toList());
-    }
-
-    private List<Author> getAuthorsFromBooks() {
-        return books.stream()
-                .map(Book::getAuthor)
-                .distinct() // TODO check if this is necessary
-                .collect(Collectors.toList());
     }
 
 }
