@@ -8,10 +8,6 @@ import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.repository.CRUDRepository;
-import org.nico.quoted.util.ModelUtil;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class ClientModel {
@@ -64,9 +60,9 @@ public class ClientModel {
         this.sources.addAll(articleRepository.readAll());
 
         // TODO Filter or read directly? Test with direct read.
-        this.books.addAll(ModelUtil.filterBooksFromSources(sources));
-        this.authors.addAll(ModelUtil.getAuthorsFromBooks(books));
-        this.articles.addAll(ModelUtil.filterArticlesFromSources(sources));
+        this.books.addAll(bookRepository.readAll());
+        this.authors.addAll(authorRepository.readAll());
+        this.articles.addAll(articleRepository.readAll());
 
         this.quotes.addAll(quoteRepository.readAll());
         log.info("Repositories read into model.");
