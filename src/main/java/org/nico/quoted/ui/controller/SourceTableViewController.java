@@ -57,7 +57,7 @@ public class SourceTableViewController extends MainController {
     }
 
     private void bindSelectedSource() {
-        model.selectedSourceProperty().bind(sourceTableView.getSelectionModel().selectedItemProperty());
+        model.bindToSelectedSource(sourceTableView.getSelectionModel().selectedItemProperty());
     }
 
     private void fillTableView(ObservableList<Source> currentSources) {

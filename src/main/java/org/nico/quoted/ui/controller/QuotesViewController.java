@@ -52,7 +52,7 @@ public class QuotesViewController extends MainController {
     }
 
     private void bindQuoteSelection() {
-        model.selectedQuoteProperty().bind(quoteTableView.getSelectionModel().selectedItemProperty());
+        model.bindToSelectedQuote(quoteTableView.getSelectionModel().selectedItemProperty());
     }
 
     private void bindSearch() {
@@ -64,12 +64,12 @@ public class QuotesViewController extends MainController {
     }
 
     private void watchForChanges() {
-        model.selectedSourceProperty().addListener((observable, oldValue, newValue) -> {
+        model.addListenerToSelectedSource((observable, oldValue, newValue) -> {
             if (newValue == null)
                 fillQuoteTable(model.getQuotes());
         });
 
-        model.selectedQuoteProperty().addListener((observable, oldValue, newValue) -> {
+        model.addListenerToSelectedQuote((observable, oldValue, newValue) -> {
             if (newValue == null)
                 fillSourceTable(model.getSources());
         });

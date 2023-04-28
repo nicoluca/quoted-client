@@ -1,9 +1,6 @@
 package org.nico.quoted.model;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -53,7 +50,6 @@ public class ClientModel {
         this.quotes = FXCollections.observableArrayList();
 
         // Selectors
-        // TODO are these used? Selection now working via row selection in table views
         this.selectedSource = new SimpleObjectProperty<>();
         this.selectedQuote = new SimpleObjectProperty<>();
         this.resetForm = new SimpleBooleanProperty();
@@ -86,12 +82,21 @@ public class ClientModel {
 
     // ############################## Getters ###########################
 
-    public ObjectProperty<Source> selectedSourceProperty() {
-        return selectedSource; // TODO SETTING the selected source will throw an InvocationTargetException as the source is bound. Either remove the binding, or restrict access to the property.
+    // Used for filtering the quotes table per source
+    public void addListenerToSelectedSource(ChangeListener<Source> listener) {
+        selectedSource.addListener(listener);
     }
 
-    public ObjectProperty<Quote> selectedQuoteProperty() {
-        return selectedQuote;
+    public void addListenerToSelectedQuote(ChangeListener<Quote> listener) {
+        selectedQuote.addListener(listener);
+    }
+
+    public void bindToSelectedSource(ReadOnlyObjectProperty<Source> property) {
+        selectedSource.bind(property);
+    }
+
+    public void bindToSelectedQuote(ReadOnlyObjectProperty<Quote> property) {
+        selectedQuote.bind(property);
     }
 
     public ObservableList<Source> getSources() {
