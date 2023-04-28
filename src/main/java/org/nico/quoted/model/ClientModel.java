@@ -59,7 +59,6 @@ public class ClientModel {
         this.sources.addAll(bookRepository.readAll());
         this.sources.addAll(articleRepository.readAll());
 
-        // TODO Filter or read directly? Test with direct read.
         this.books.addAll(bookRepository.readAll());
         this.authors.addAll(authorRepository.readAll());
         this.articles.addAll(articleRepository.readAll());

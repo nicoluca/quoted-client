@@ -105,6 +105,5 @@ public class BookFormViewController extends MainController {
         File file = FileChooserUtil.chooseFile((Button) actionEvent.getSource());
         if (file != null)
             coverPathTextField.setText(file.getAbsolutePath());
-        // TODO Implement usage for coverPathTextField
     }
 }

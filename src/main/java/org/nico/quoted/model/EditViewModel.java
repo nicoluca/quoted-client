@@ -5,7 +5,6 @@ import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
 
 // A helper class to store the source and quote to edit
-// TODO Is there a more elegant way to do this?
 
 @Slf4j
 public final class EditViewModel {
