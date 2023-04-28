@@ -51,7 +51,6 @@ class ClientModelTest {
         model = new ClientModel(repositoryModel);
     }
 
-
     // ########## BASE TESTS ##########
 
     @Test
@@ -289,29 +288,6 @@ class ClientModelTest {
         assertEquals(1, numberOfAuthors());
     }
 
-//    @Test
-//    @DisplayName("Test: Change the book of a quote by changing its author to an existing author")
-//    // Disabled as no use case for user
-//    void changeAuthorOfBookOfQuoteToExistingAuthor() {
-//        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
-//        Quote quote = firstQuote();
-//        Book book = (Book) quote.getSource();
-//        Author existingAuthor = new Author("J.R.R.", "Tolkien");
-//        Author newAuthor = new Author("Test", "Test");
-//
-//        book.setAuthor(newAuthor);
-//        model.updateQuote(quote);
-//
-//        assertEquals("Test", ((Book) firstQuote().getSource()).getAuthor().getFirstName());
-//        assertEquals(2, numberOfAuthors());
-//
-//        book.setAuthor(existingAuthor);
-//        model.updateQuote(quote);
-//
-//        assertEquals("J.R.R.", ((Book) firstQuote().getSource()).getAuthor().getFirstName());
-//        assertEquals(1, numberOfAuthors());
-//    }
-
     @Test
     @DisplayName("Test: Change the article of a quote by changing its url")
     void changeArticleUrlOfQuote() {
@@ -362,8 +338,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Change source of quote from book to article")
     void changeSourceOfQuoteFromBookToArticle() {
-        // TODO EditViewModel does not need to be mocked, just set the value
-        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
+        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote()); // The model could also not be mocked but just called, but this is more explicit since we are not testing the EditViewModel here
         when(EditViewModel.getSourceToEdit()).thenReturn(firstQuote().getSource());
         Quote quote = firstQuote();
         assert quote.getSource() instanceof Book;
