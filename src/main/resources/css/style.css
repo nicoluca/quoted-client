@@ -1,4 +1,220 @@
+.root {
+    -fx-background-color: #F4F4F4;
+}
+
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 .button {
-    -fx-background-color: red;
+    -fx-background-color: #5563ad;
     -fx-text-fill: white;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #3e4a8f;
+}
+
+/* ************* Check box *************  */
+
+.check-box {
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #b2b0b0;
+    -fx-border-radius:3px;
+
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #b2b0b0;
+}
+
+/* ************* Text field *************  */
+
+.text-field {
+    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+}
+
+.text-field:focused {
+    -fx-border-color: #b2b0b0;
+    -fx-border-radius: 4px;
+}
+
+.text-field .text {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-border-radius: 4px;
+}
+
+.text-field:focused .text {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-border-color: transparent;
+}
+
+/* ************* Text area *************  */
+.text-area {
+    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+    -fx-border-color: transparent;
+    -fx-border-radius: 4px;
+}
+
+.text-area:focused {
+    -fx-border-color: #b2b0b0;
+    -fx-border-radius: 4px;
+}
+
+.text-area .content {
+    -fx-background-color: -fx-text-box-border, -fx-control-inner-background;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-border-radius: 4px;
+}
+
+.text-area:focused .content {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-border-color: transparent;
+}
+
+/* Same scroll bars as table */
+.text-area .scroll-pane {
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+/* ************* Tab *************  */
+
+.tab {
+    -fx-background-color: #8d8c8c;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.tab:selected {
+    -fx-background-color: #F4F4F4;
+    -fx-text-fill: white;
+    -fx-background-insets:0;
+}
+
+/* Remove the border from the tab */
+.tab-pane>*.tab-header-area>*.tab-header-background {
+    -fx-background-color: #8d8c8c;
+    -fx-background-insets:0;
+}
+
+/* Remove the border from selected tab */
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
+
+.tab:selected .content {
+    -fx-background-color: -fx-control-inner-background;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* ************* Choice box *************  */
+
+.choice-box {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-border-width: 1px;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 4px;
+}
+
+.choice-box .arrow-button {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 4px;
+}
+
+.choice-box .arrow {
+    -fx-background-color: #333333;
+    -fx-background-radius: 4px;
+}
+
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #5563ad ;
+}
+
+/* ************* Table *************  */
+/* Adapted from https://edencoding.com/style-tableview-javafx/ */
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background .filler {
+    -fx-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-background-color: #b2b0b0;
+}
+
+.table-view .column-header {
+    -fx-background-color: #FFFFFF;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+}
+
+
+.table-row-cell:odd {
+    -fx-background-color: #FFFFFF;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell:even {
+    -fx-background-color: #F4F4F4;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #a9b4d5;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color: #c7c7c7;
+}
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
 }

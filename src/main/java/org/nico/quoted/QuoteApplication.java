@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.nico.quoted.util.FormUtil;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import static org.nico.quoted.config.UIConfig.*;
 
@@ -19,9 +19,7 @@ public class QuoteApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(QuoteApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        scene.getStylesheets().add(
-                Objects.requireNonNull(QuoteApplication.class.getClassLoader().getResource("css/style.css")).toExternalForm()
-        );
+        FormUtil.addCssToScene(scene);
 
         stage.setTitle(APP_NAME);
         stage.setScene(scene);

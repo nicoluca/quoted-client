@@ -6,36 +6,26 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" maxHeight="430.0" maxWidth="600.0" prefHeight="430.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nico.quoted.ui.controller.MainController">
-   <TabPane fx:id="tabPane" prefHeight="430.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-     <tabs>
-       <Tab text="New">
-         <content>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                 <fx:include source="new-view.fxml" />
-             </AnchorPane>
-         </content>
-       </Tab>
-       <Tab text="Random">
-         <content>
+    <TabPane fx:id="tabPane" prefHeight="430.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="New">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <fx:include source="random-view.fxml" />
+                <fx:include source="new-view.fxml"/>
             </AnchorPane>
-         </content>
-       </Tab>
-         <Tab text="Quotes">
-           <content>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                   <fx:include source="quotes-view.fxml" />
-               </AnchorPane>
-           </content>
-         </Tab>
-         <Tab text="Sources">
-           <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <fx:include source="source-table-view.fxml" />
-              </AnchorPane>
-           </content>
-         </Tab>
-     </tabs>
-   </TabPane>
+        </Tab>
+        <Tab text="Random">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <fx:include source="random-view.fxml"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Quotes">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <fx:include source="quotes-view.fxml"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Sources">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <fx:include source="source-table-view.fxml"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
 </VBox>

@@ -3,7 +3,7 @@ package org.nico.quoted.ui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextArea;
 import org.nico.quoted.domain.Quote;
 
 public class RandomViewController extends MainController {
@@ -15,18 +15,26 @@ public class RandomViewController extends MainController {
     private Label quoteOriginTitle;
 
     @FXML
-    private Text quoteText;
+    private TextArea quoteText;
 
     @FXML
     void initialize() {
         checkAssertions();
         setNextRandomQuote();
+        setUpQuoteText();
     }
 
     private void setNextRandomQuote() {
         Quote quote = model.getRandomQuote();
         quoteText.setText(quote.getText());
         setQuoteOrigin(quote);
+        // Make label italic
+        quoteOriginTitle.setStyle("-fx-font-style: italic");
+    }
+
+    private void setUpQuoteText() {
+        quoteText.setWrapText(true);
+        quoteText.setEditable(false);
     }
 
     private void setQuoteOrigin(Quote quote) {
