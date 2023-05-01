@@ -35,7 +35,7 @@ class QuoteRepositoryTest {
 
         Author author = new Author("Test", "Test");
         authorRepository.create(author);
-        book = new Book("Test book", author, null);
+        book = new Book("Test book", author);
         bookRepository.create(book);
         article = new Article("Test article", "Test article");
         articleRepository.create(article);
@@ -64,7 +64,7 @@ class QuoteRepositoryTest {
     @DisplayName("Create quote for non-existing book")
     void createInvalidQuote() {
         Author authorTest = new Author("Test", "Test");
-        Book bookTest = new Book("Test book", authorTest, null);
+        Book bookTest = new Book("Test book", authorTest);
         Quote quote = new Quote("Test quote", bookTest);
         assertThrows(RollbackException.class, () -> quoteRepository.create(quote));
     }

@@ -153,7 +153,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Test adding a new book")
     void addBook() {
-        Book book = new Book("Test", new Author("Test", "Test"), "Test");
+        Book book = new Book("Test", new Author("Test", "Test"));
         Mockito.doNothing().when(bookRepository).create(book);
         model.addBook(book);
         assertEquals(4, numberOfSources());
@@ -172,7 +172,7 @@ class ClientModelTest {
 
         assert firstSource() instanceof Book;
         Book bookToUpdate = firstBook();
-        Book updatingBook = new Book("Test", bookToUpdate.getAuthor(), "Test");
+        Book updatingBook = new Book("Test", bookToUpdate.getAuthor());
         Mockito.doNothing().when(bookRepository).update(bookToUpdate);
 
 
@@ -249,7 +249,7 @@ class ClientModelTest {
     @DisplayName("Test: Add a book with an existing author (object)")
     void addBookWithExistingAuthor() {
         Author author = firstBook().getAuthor();
-        Book book = new Book("Test", author, "Test");
+        Book book = new Book("Test", author);
 
         Mockito.doNothing().when(bookRepository).create(book);
         model.addBook(book);
@@ -263,7 +263,7 @@ class ClientModelTest {
     @DisplayName("Test: Add a book with an existing author (String)")
     void addBookWithExistingAuthorString() {
         Author author = new Author("J.R.R.", "Tolkien");
-        Book book = new Book("Test", author, "Test");
+        Book book = new Book("Test", author);
 
         Mockito.doNothing().when(bookRepository).create(book);
         model.addBook(book);
@@ -277,7 +277,7 @@ class ClientModelTest {
     @DisplayName("Test: Add a quote with a new book with an existing author (String)")
     void addQuoteWithBookWithExistingAuthor() {
         Author author = new Author("J.R.R.", "Tolkien");
-        Book book = new Book("Test", author, "Test");
+        Book book = new Book("Test", author);
         Quote quote = new Quote("Test", book);
 
         Mockito.doNothing().when(bookRepository).create(book);

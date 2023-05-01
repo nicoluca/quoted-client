@@ -23,8 +23,8 @@ public class TestConfig {
     public static List<Book> defaultBooks() {
         Author author = defaultAuthors().get(0);
         return List.of(
-                new Book("Der Herr der Ringe", author, null),
-                new Book("Der kleine Hobbit", author, null)
+                new Book("Der Herr der Ringe", author),
+                new Book("Der kleine Hobbit", author)
         );
     }
     public static List<Article> defaultArticles() {

@@ -9,9 +9,9 @@ class QuoteTest {
     @BeforeEach
     void setUp() {
         quote = new Quote("Hello World!",
-                new Book("The Hobbit", new Author("J.R.R.", "Tolkien"), "abcd"));
+                new Book("The Hobbit", new Author("J.R.R.", "Tolkien")));
         quote2 = new Quote("Hello World!",
-                new Book("The Hobbit", new Author("J.R.R.", "Tolkien"), "abcd"));
+                new Book("The Hobbit", new Author("J.R.R.", "Tolkien")));
         quote3 = new Quote("Hello World!", new Article("Google", "https://www.google.com"));
     }
 

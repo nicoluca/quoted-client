@@ -35,7 +35,7 @@ class BookRepositoryTest {
 
     @Test
     void create() {
-        Book book = new Book("Test book", author, null);
+        Book book = new Book("Test book", author);
         bookRepository.create(book);
 
         assertEquals(book, bookRepository.readById(book.getId()).get());
@@ -52,7 +52,7 @@ class BookRepositoryTest {
 
         int count = 10;
         IntStream.range(0, count).forEach(i -> {
-            Book book = new Book("Test book", author, null);
+            Book book = new Book("Test book", author);
             bookRepository.create(book);
         });
 
@@ -61,7 +61,7 @@ class BookRepositoryTest {
 
     @Test
     void update() {
-        Book book = new Book("Test book", author, null);
+        Book book = new Book("Test book", author);
         bookRepository.create(book);
 
         String newTitle = "New title";
@@ -73,7 +73,7 @@ class BookRepositoryTest {
 
     @Test
     void delete() {
-        Book book = new Book("Test book", author, null);
+        Book book = new Book("Test book", author);
         bookRepository.create(book);
 
         bookRepository.delete(book);

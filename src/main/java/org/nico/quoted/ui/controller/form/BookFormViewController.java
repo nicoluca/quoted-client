@@ -39,6 +39,9 @@ public class BookFormViewController extends MainController {
     private TextField titleTextField;
 
     @FXML
+    private TextField isbnTextField;
+
+    @FXML
     void initialize() {
         checkAssertions();
         displayError("");
@@ -52,6 +55,8 @@ public class BookFormViewController extends MainController {
         assert coverPathButton != null : "fx:id=\"coverFilePathButton\" was not injected: check your FXML file 'book-form-view.fxml'.";
         assert titleTextField != null : "fx:id=\"titleTextField\" was not injected: check your FXML file 'book-form-view.fxml'.";
         assert errorLabel != null : "fx:id=\"errorLabel\" was not injected: check your FXML file 'book-form-view.fxml'.";
+        assert coverPathTextField != null : "fx:id=\"coverPathTextField\" was not injected: check your FXML file 'book-form-view.fxml'.";
+        assert isbnTextField != null : "fx:id=\"isbnTextField\" was not injected: check your FXML file 'book-form-view.fxml'.";
     }
 
     private void fillForm() {
@@ -74,7 +79,13 @@ public class BookFormViewController extends MainController {
                     authorLastNameTextField.getText()
             );
 
-            Book book = new Book(titleTextField.getText(), author, coverPathTextField.getText());
+            Book book = new Book(titleTextField.getText(), author);
+            if (!coverPathTextField.getText().isEmpty())
+                book.setCoverPath(coverPathTextField.getText());
+
+            if (!isbnTextField.getText().isEmpty())
+                book.setIsbn(isbnTextField.getText());
+
             if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book)
                 model.updateSource(book);
             else
@@ -98,7 +109,9 @@ public class BookFormViewController extends MainController {
     private boolean checkIfBookIsValid() {
         return StringUtil.isValidTitle(titleTextField.getText())
                 && StringUtil.isValidAuthor(authorFirstNameTextField.getText())
-                && StringUtil.isValidAuthor(authorLastNameTextField.getText());
+                && StringUtil.isValidAuthor(authorLastNameTextField.getText())
+                && (StringUtil.isValidCoverPath(coverPathTextField.getText()) || coverPathTextField.getText().isEmpty())
+                && (StringUtil.isValidISBN(isbnTextField.getText()) || isbnTextField.getText().isEmpty());
     }
 
     public void onCoverPathButtonClicked(ActionEvent actionEvent) {

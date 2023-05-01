@@ -15,12 +15,18 @@ public class Book extends Source {
     @JoinColumn(name = "author_id")
     private Author author;
     private String coverPath; // TODO Currently unused, intention to be used in future export to MD feature
+    private String isbn; // TODO Currently unused, intention to be used in future export to MD feature
 
-    public Book(String title, Author author, String coverPath) {
+    public Book(String title, Author author) {
         super(title);
         this.author = author;
-        this.coverPath = coverPath;
     }
+//
+//    public Book(String title, Author author, String coverPath) {
+//        super(title);
+//        this.author = author;
+//        this.coverPath = coverPath;
+//    }
 
     @Override
     public boolean equals(Object o) {
