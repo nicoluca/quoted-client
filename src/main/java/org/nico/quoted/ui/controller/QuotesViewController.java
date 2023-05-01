@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.QuoteFormView;
 
 @Slf4j
@@ -155,7 +154,7 @@ public class QuotesViewController extends MainController {
                     editButton.setOnAction(event -> {
                         // Index does not work here, because of filtering
                         Quote quote = getTableView().getItems().get(getIndex());
-                        EditViewModel.setQuoteToEdit(quote);
+                        model.setQuoteToEdit(quote);
                         openEditView();
                     });
                     setText(null);

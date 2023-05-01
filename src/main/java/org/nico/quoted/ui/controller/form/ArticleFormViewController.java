@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.nico.quoted.domain.Article;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
 
@@ -44,7 +43,7 @@ public class ArticleFormViewController extends MainController {
             return;
         }
 
-        Article article = (Article) EditViewModel.getSourceToEdit();
+        Article article = (Article) model.getSourceToEdit();
         article.setTitle(titleTextField.getText());
         article.setUrl(urlTextField.getText());
         article.setLastVisited(Timestamp.valueOf(datePicker.getValue().atStartOfDay()));
@@ -74,7 +73,7 @@ public class ArticleFormViewController extends MainController {
     }
 
     private void fillForm() {
-        if (EditViewModel.getSourceToEdit() != null && (EditViewModel.getSourceToEdit() instanceof Article article)) {
+        if (model.getSourceToEdit() != null && (model.getSourceToEdit() instanceof Article article)) {
             setTextForFields(article);
         } else
             throw new IllegalStateException("No article selected in the model.");

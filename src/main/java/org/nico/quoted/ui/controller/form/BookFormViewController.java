@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.FileChooserUtil;
 import org.nico.quoted.util.StringUtil;
@@ -60,7 +59,7 @@ public class BookFormViewController extends MainController {
     }
 
     private void fillForm() {
-        if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book book)
+        if (model.getSourceToEdit() != null && model.getSourceToEdit() instanceof Book book)
             fillTextFields(book);
     }
 
@@ -86,7 +85,7 @@ public class BookFormViewController extends MainController {
             if (!isbnTextField.getText().isEmpty())
                 book.setIsbn(isbnTextField.getText());
 
-            if (EditViewModel.getSourceToEdit() != null && EditViewModel.getSourceToEdit() instanceof Book)
+            if (model.getSourceToEdit() != null && model.getSourceToEdit() instanceof Book)
                 model.updateSource(book);
             else
                 model.addBook(book);

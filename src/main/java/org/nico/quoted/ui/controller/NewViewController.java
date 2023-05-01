@@ -12,7 +12,6 @@ import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.BookFormView;
 import org.nico.quoted.util.StringUtil;
 
@@ -132,7 +131,7 @@ public class NewViewController extends MainController {
     }
 
     public void onNewBookButtonClick() {
-        EditViewModel.setSourceToEdit(null);
+        model.setSourceToEdit(null);
         new BookFormView().show();
     }
 }

@@ -8,7 +8,6 @@ import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
 
@@ -85,7 +84,7 @@ public class QuoteFormViewController extends MainController {
     }
 
     private void fillQuoteForm() {
-        Quote quote = EditViewModel.getQuoteToEdit();
+        Quote quote = model.getQuoteToEdit();
 
         if (quote == null)
             throw new IllegalStateException("No quote selected");

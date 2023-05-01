@@ -1,6 +1,5 @@
 package org.nico.quoted.domain.model;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import org.mockito.Mockito;
 import org.nico.quoted.TestConfig;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.model.ClientModel;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.model.RepositoryModel;
 import org.nico.quoted.repository.CRUDRepository;
 
@@ -31,11 +29,6 @@ class ClientModelTest {
     private CRUDRepository<Quote> quoteRepository = mock(CRUDRepository.class);
     @Mock
     private CRUDRepository<Article> articleRepository= mock(CRUDRepository.class);
-
-    @BeforeAll
-    static void init() {
-        mockStatic(EditViewModel.class);
-    }
 
     @BeforeEach
     void setUp() {
@@ -119,8 +112,8 @@ class ClientModelTest {
     @Test
     @DisplayName("Test updating a quote")
     void updateQuote() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
-        when(EditViewModel.getSourceToEdit()).thenReturn(firstSource());
+        model.setQuoteToEdit(firstQuote());
+        model.setSourceToEdit(firstSource());
         Quote quote = new Quote("Test", firstSource());
         model.updateQuote(quote);
 
@@ -168,7 +161,7 @@ class ClientModelTest {
     }
 
     private void updateBook() {
-        when(EditViewModel.getSourceToEdit()).thenReturn(firstSource());
+        model.setSourceToEdit(firstSource());
 
         assert firstSource() instanceof Book;
         Book bookToUpdate = firstBook();
@@ -183,7 +176,7 @@ class ClientModelTest {
     }
 
     private void updateArticle() {
-        when(EditViewModel.getSourceToEdit()).thenReturn(firstArticle());
+        model.setSourceToEdit(firstArticle());
 
         assert model.getSourceByIndex(2).equals(firstArticle());
         Article articleToUpdate = firstArticle();
@@ -210,7 +203,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Test: Change the book of a quote by changing its title")
     void changeBookTitleOfQuote() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
+        model.setQuoteToEdit(firstQuote());
         Quote quote = firstQuote();
         Book book = (Book) quote.getSource();
 
@@ -223,7 +216,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Test: Change the book of a quote by changing its author to a new author")
     void changeAuthorOfBookOfQuote() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote());
+        model.setQuoteToEdit(firstQuote());
         Quote quote = firstQuote();
         Book book = (Book) quote.getSource();
 
@@ -237,7 +230,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Test: Change author of existing book to new author")
     void changeAuthorOfExistingBook() {
-        when(EditViewModel.getSourceToEdit()).thenReturn(firstSource());
+        model.setSourceToEdit(firstSource());
         firstBook().setAuthor(new Author("Max", "Frisch"));
         model.updateSource(firstBook());
 
@@ -293,7 +286,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Test: Change the article of a quote by changing its url")
     void changeArticleUrlOfQuote() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(model.getQuoteByIndex(2));
+        model.setQuoteToEdit(thirdQuote());
         Quote quote = model.getQuoteByIndex(2);
         Article article = (Article) quote.getSource();
 
@@ -308,7 +301,7 @@ class ClientModelTest {
     @Test
     @DisplayName("Test: Change the article of a quote by replacing it with a new article")
     void changeArticleOfQuote() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(thirdQuote());
+        model.setQuoteToEdit(thirdQuote());
         Quote quote = thirdQuote();
         Article newArticle = new Article("Test", "https://www.test.com");
         quote.setSource(newArticle);
@@ -340,8 +333,8 @@ class ClientModelTest {
     @Test
     @DisplayName("Change source of quote from book to article")
     void changeSourceOfQuoteFromBookToArticle() {
-        when(EditViewModel.getQuoteToEdit()).thenReturn(firstQuote()); // The model could also not be mocked but just called, but this is more explicit since we are not testing the EditViewModel here
-        when(EditViewModel.getSourceToEdit()).thenReturn(firstQuote().getSource());
+        model.setQuoteToEdit(firstQuote());
+        model.setSourceToEdit(firstQuote().getSource());
         Quote quote = firstQuote();
         assert quote.getSource() instanceof Book;
         Article article = new Article("Test", "https://www.test.com");

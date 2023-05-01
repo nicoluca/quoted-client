@@ -12,7 +12,7 @@ import org.nico.quoted.repository.CRUDRepository;
 import java.sql.Timestamp;
 
 @Slf4j
-public class ClientModel {
+public class ClientModel extends EditViewModel {
     
     // ############################## Setup ###########################
 
@@ -161,8 +161,8 @@ public class ClientModel {
     }
 
     public void updateQuote(Quote quote) {
-        quote.setId(EditViewModel.getQuoteToEdit().getId());
-        quotes.set(quotes.indexOf(EditViewModel.getQuoteToEdit()), quote);
+        quote.setId(this.getQuoteToEdit().getId());
+        quotes.set(quotes.indexOf(this.getQuoteToEdit()), quote);
         log.info("Updated quote: " + quote.getText() + ", from source: " + quote.getSource().toString());
     }
 
@@ -196,12 +196,12 @@ public class ClientModel {
 
     public void updateSource(Source source) {
         quotes.stream()
-                .filter(quote -> quote.getSource().equals(EditViewModel.getSourceToEdit()))
+                .filter(quote -> quote.getSource().equals(this.getSourceToEdit()))
                 .forEach(quote -> quote.setSource(source));
 
-        source.setId(EditViewModel.getSourceToEdit().getId());
+        source.setId(this.getSourceToEdit().getId());
 
-        sources.set(sources.indexOf(EditViewModel.getSourceToEdit()), source);
+        sources.set(sources.indexOf(this.getSourceToEdit()), source);
         log.info("Updated source: " + source);
         quotes.forEach(quote -> log.info("Updated quote: " + quote.getText() + " to new source: " + quote.getSource().toString()));
     }
@@ -310,12 +310,12 @@ public class ClientModel {
     }
 
     private void updateBook(Book book) {
-        int bookIndex = books.indexOf(EditViewModel.getSourceToEdit());
+        int bookIndex = books.indexOf(this.getSourceToEdit());
         this.books.set(bookIndex, book);
     }
 
     private void updateArticle(Article article) {
-        int articleIndex = articles.indexOf(EditViewModel.getSourceToEdit());
+        int articleIndex = articles.indexOf(this.getSourceToEdit());
         this.articles.set(articleIndex, article);
     }
 

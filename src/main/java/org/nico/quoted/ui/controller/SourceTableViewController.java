@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.ui.controller.form.ArticleFormView;
 import org.nico.quoted.ui.controller.form.BookFormView;
 
@@ -83,7 +82,7 @@ public class SourceTableViewController extends MainController {
                     setText(null);
                     setGraphic(editButton);
                     editButton.setOnAction(event -> {
-                        EditViewModel.setSourceToEdit(model.getSourceByIndex(getIndex()));
+                        model.setSourceToEdit(model.getSourceByIndex(getIndex()));
                         editSource();
                     });
                 }
@@ -92,7 +91,7 @@ public class SourceTableViewController extends MainController {
     }
 
     private void editSource() {
-        if (EditViewModel.getSourceToEdit() instanceof Book)
+        if (model.getSourceToEdit() instanceof Book)
             addOrEditBook();
         else
             editOnlineArticle();
@@ -138,7 +137,7 @@ public class SourceTableViewController extends MainController {
 
     public void onAddBookButtonClick() {
         sourceTableView.getSelectionModel().clearSelection();
-        EditViewModel.setSourceToEdit(null);
+        model.setSourceToEdit(null);
         addOrEditBook();
     }
 

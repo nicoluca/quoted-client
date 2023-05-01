@@ -7,29 +7,29 @@ import org.nico.quoted.domain.Source;
 // A helper class to store the source and quote to edit
 
 @Slf4j
-public final class EditViewModel {
-    private static Source sourceToEdit;
-    private static Quote quoteToEdit;
+public class EditViewModel {
+    private Source sourceToEdit;
+    private Quote quoteToEdit;
 
-    public static Source getSourceToEdit() {
+    public Source getSourceToEdit() {
         return sourceToEdit;
     }
 
-    public static void setSourceToEdit(Source sourceToEdit) {
+    public void setSourceToEdit(Source sourceToEdit) {
         if (sourceToEdit == null)
             log.info("Setting source to edit: null");
         else
             log.info("Setting source to edit: " + sourceToEdit.getTitle());
-        EditViewModel.sourceToEdit = sourceToEdit;
+        this.sourceToEdit = sourceToEdit;
     }
 
-    public static Quote getQuoteToEdit() {
+    public Quote getQuoteToEdit() {
         return quoteToEdit;
     }
 
-    public static void setQuoteToEdit(Quote quoteToEdit) {
+    public void setQuoteToEdit(Quote quoteToEdit) {
         log.info("Setting quote to edit: " + quoteToEdit.getText());
-        EditViewModel.quoteToEdit = quoteToEdit;
-        EditViewModel.sourceToEdit = quoteToEdit.getSource();
+        this.quoteToEdit = quoteToEdit;
+        this.sourceToEdit = quoteToEdit.getSource();
     }
 }
