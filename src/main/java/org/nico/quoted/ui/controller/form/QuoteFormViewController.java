@@ -11,6 +11,8 @@ import org.nico.quoted.domain.Source;
 import org.nico.quoted.ui.controller.MainController;
 import org.nico.quoted.util.StringUtil;
 
+import java.sql.Timestamp;
+
 public class QuoteFormViewController extends MainController {
 
     @FXML
@@ -60,7 +62,10 @@ public class QuoteFormViewController extends MainController {
             else
                 source = bookChoiceBox.getValue();
 
-            model.updateQuote(new Quote(quoteText, source));
+            Quote quote = new Quote(quoteText, source);
+            quote.setLastEdited(new Timestamp(System.currentTimeMillis()));
+
+            model.updateQuote(quote);
             model.resetForm();
             closeStage();
         }
