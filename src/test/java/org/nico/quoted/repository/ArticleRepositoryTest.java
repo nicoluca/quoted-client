@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.nico.quoted.domain.Article;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -69,5 +70,17 @@ class ArticleRepositoryTest {
         articleRepository.delete(article);
 
         assertEquals(Optional.empty(), articleRepository.readById(article.getId()));
+    }
+
+    @Test
+    void testLastVisited() {
+        Article article = new Article("Test article", "Test article");
+        articleRepository.create(article);
+
+        assertEquals(article.getLastVisited(), articleRepository.readById(article.getId()).get().getLastVisited());
+
+        LocalDate today = LocalDate.now();
+        LocalDate lastVisited = article.getLastVisited().toLocalDateTime().toLocalDate();
+        assertEquals(today, lastVisited);
     }
 }

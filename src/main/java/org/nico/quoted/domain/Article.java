@@ -1,10 +1,14 @@
 package org.nico.quoted.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
@@ -13,6 +17,9 @@ import lombok.Setter;
 public class Article extends Source {
 
     private String url;
+    @CreationTimestamp
+    @Column(name = "last_visited")
+    private Timestamp lastVisited;
 
     public Article(String title, String url) {
         super(title);

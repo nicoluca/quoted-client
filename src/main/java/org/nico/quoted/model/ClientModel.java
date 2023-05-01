@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.repository.CRUDRepository;
 
+import java.sql.Timestamp;
+
 @Slf4j
 public class ClientModel {
     
@@ -246,6 +248,11 @@ public class ClientModel {
                             sources.add(quote.getSource());
                         else
                             quote.setSource(sources.get(sources.indexOf(quote.getSource())));
+
+                        if (quote.getSource() instanceof Article article) {
+                            article.setLastVisited(new Timestamp(System.currentTimeMillis()));
+                            articleRepository.update(article);
+                        }
 
                         quoteRepository.create(quote);
                     });

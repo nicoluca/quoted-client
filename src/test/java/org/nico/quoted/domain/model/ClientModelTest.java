@@ -13,6 +13,8 @@ import org.nico.quoted.model.EditViewModel;
 import org.nico.quoted.model.RepositoryModel;
 import org.nico.quoted.repository.CRUDRepository;
 
+import java.sql.Timestamp;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -352,6 +354,32 @@ class ClientModelTest {
         assertEquals(2, numberOfArticles());
         assertEquals(1, numberOfBooks());
     }
+
+    @Test
+    @DisplayName("Test if timestamp of last visit is updated accordingly for article if quote is added")
+    void testTimestampOfLastVisitIsUpdatedForArticleIfQuoteIsAdded() {
+        Mockito.doNothing().when(quoteRepository).create(any(Quote.class));
+        Mockito.doNothing().when(articleRepository).create(any(Article.class));
+
+        firstArticle().setLastVisited(new Timestamp(0));
+
+        Quote quote = new Quote("Test", firstArticle());
+        model.addQuote(quote);
+        Timestamp timestamp1 = new Timestamp(firstArticle().getLastVisited().getTime());
+
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        model.addQuote(quote);
+        Timestamp timestamp2 = new Timestamp(firstArticle().getLastVisited().getTime());
+
+        assertTrue(timestamp2.after(timestamp1));
+    }
+
+    // ############################## Helper methods ##############################
 
     Quote firstQuote() {
         return model.getQuoteByIndex(0);

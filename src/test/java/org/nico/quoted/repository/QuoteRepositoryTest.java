@@ -11,6 +11,7 @@ import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -105,5 +106,17 @@ class QuoteRepositoryTest {
         quoteRepository.delete(quote);
 
         assertEquals(Optional.empty(), quoteRepository.readById(quote.getId()));
+    }
+
+    @Test
+    void testLastEdited() {
+        Quote quote = new Quote("Test quote", book);
+        quoteRepository.create(quote);
+
+        assertEquals(quote.getLastEdited(), quoteRepository.readById(quote.getId()).get().getLastEdited());
+
+        LocalDate today = LocalDate.now();
+        LocalDate lastEdited = quote.getLastEdited().toLocalDateTime().toLocalDate();
+        assertEquals(today, lastEdited);
     }
 }

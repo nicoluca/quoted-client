@@ -24,8 +24,6 @@ class QuoteTest {
 
     @Test
     void getSource() {
-        System.out.println(quote.getSource());
-        System.out.println(quote2.getSource());
         assert quote.getSource().equals(quote2.getSource());
         assert !quote.getSource().equals(quote3.getSource());
     }
