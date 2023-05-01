@@ -294,8 +294,8 @@ class ClientModelTest {
         model.updateQuote(quote);
 
         assertEquals("https://www.test.com", ((Article) model.getQuoteByIndex(2).getSource()).getUrl());
-        assertEquals(3, model.getSources().size());
-        assertEquals(1, model.getArticles().size());
+        assertEquals(4, model.getSources().size());
+        assertEquals(2, model.getArticles().size());
     }
 
     @Test
@@ -308,8 +308,8 @@ class ClientModelTest {
         model.updateQuote(quote);
 
         assertEquals("https://www.test.com", ((Article) thirdQuote().getSource()).getUrl());
-        assertEquals(3, numberOfSources());
-        assertEquals(1, numberOfArticles());
+        assertEquals(4, numberOfSources());
+        assertEquals(2, numberOfArticles());
     }
 
     @Test
@@ -343,9 +343,9 @@ class ClientModelTest {
         model.updateQuote(quote);
 
         assertTrue(quote.getSource() instanceof Article);
-        assertEquals(3, numberOfSources());
+        assertEquals(4, numberOfSources());
         assertEquals(2, numberOfArticles());
-        assertEquals(1, numberOfBooks());
+        assertEquals(2, numberOfBooks());
     }
 
     @Test

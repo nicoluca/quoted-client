@@ -2,6 +2,7 @@ package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.nico.quoted.domain.Book;
@@ -11,6 +12,8 @@ import org.nico.quoted.ui.controller.form.BookFormView;
 
 public class SourceTableViewController extends MainController {
 
+    @FXML
+    private Button deleteEmptySourcesButton;
     @FXML
     private TableColumn<Source, Button> deleteButtonColumn;
     @FXML
@@ -133,6 +136,7 @@ public class SourceTableViewController extends MainController {
         assert typeColumn != null : "fx:id=\"typeColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert searchTextField != null : "fx:id=\"searchTextField\" was not injected: check your FXML file 'source-table-view.fxml'.";
         assert deleteButtonColumn != null : "fx:id=\"deleteButtonColumn\" was not injected: check your FXML file 'source-table-view.fxml'.";
+        assert deleteEmptySourcesButton != null : "fx:id=\"deleteEmptySourcesButton\" was not injected: check your FXML file 'source-table-view.fxml'.";
     }
 
     public void onAddBookButtonClick() {
@@ -141,4 +145,7 @@ public class SourceTableViewController extends MainController {
         addOrEditBook();
     }
 
+    public void onDeleteEmptySourcesButtonClick() {
+        model.deleteEmptySources();
+    }
 }

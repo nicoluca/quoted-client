@@ -219,6 +219,11 @@ public class ClientModel extends EditViewModel {
         this.resetForm.addListener(listener);
     }
 
+    public void deleteEmptySources() {
+        sources.removeIf(source ->
+                getQuotesBySource(source).isEmpty());
+        cleanAuthors();
+    }
 
     // ############################## Change listeners ###########################
 
@@ -237,8 +242,6 @@ public class ClientModel extends EditViewModel {
 
                         quoteRepository.update(quote);
                     });
-
-                    cleanSources();
                 }
 
                 else if (c.wasAdded()) {
@@ -261,16 +264,10 @@ public class ClientModel extends EditViewModel {
                 else if (c.wasRemoved()) {
                     log.info("Quote was removed");
                     c.getRemoved().forEach(quoteRepository::delete);
-                    cleanSources();
                 }
 
             }
         };
-    }
-
-    private void cleanSources() {
-        sources.removeIf(source ->
-                getQuotesBySource(source).isEmpty());
     }
 
     private ListChangeListener<Source> sourceListChangeListener() {
