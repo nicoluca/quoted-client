@@ -11,11 +11,12 @@ import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class QuoteRepositoryTest {
     private CRUDRepository<Quote> quoteRepository;
@@ -118,5 +119,23 @@ class QuoteRepositoryTest {
         LocalDate today = LocalDate.now();
         LocalDate lastEdited = quote.getLastEdited().toLocalDateTime().toLocalDate();
         assertEquals(today, lastEdited);
+    }
+
+    @Test
+    @DisplayName("Load test - create 1000 new quotes with books and authors, read all in under 1 second")
+    void loadTest() {
+        Instant start = Instant.now();
+        for (int i = 0; i < 1000; i++) {
+            Author author = new Author("Test", "Test");
+            authorRepository.create(author);
+            Book book = new Book("Test Title", author);
+            bookRepository.create(book);
+            Quote quote = new Quote("Test quote " + i, book);
+            quoteRepository.create(quote);
+        }
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+        assertTrue(duration.toMillis() < 1000);
+        assertEquals(1000, quoteRepository.readAll().size());
     }
 }

@@ -12,6 +12,8 @@ import org.nico.quoted.model.RepositoryModel;
 import org.nico.quoted.repository.CRUDRepository;
 
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -370,6 +372,21 @@ class ClientModelTest {
         Timestamp timestamp2 = new Timestamp(firstArticle().getLastVisited().getTime());
 
         assertTrue(timestamp2.after(timestamp1));
+    }
+
+    // ############################## Load test ##############################
+
+    @Test
+    @DisplayName("Test: Create 1000 quotes with 1000 sources in under 1 second")
+    void create1000QuotesWith1000Sources() {
+        Instant start = Instant.now();
+        for (int i = 0; i < 1000; i++) {
+            model.addQuote(new Quote("Test", new Book("Test", new Author("Test", "Test"))));
+        }
+        Instant end = Instant.now();
+
+        long durationInMillis = Duration.between(start, end).toMillis();
+        assertTrue(durationInMillis < 1000);
     }
 
     // ############################## Helper methods ##############################
