@@ -38,7 +38,7 @@
 }
 
 .check-box:selected .box {
-    -fx-background-color: #b2b0b0;
+    -fx-background-color: #5563ad;
 }
 
 /* ************* Text field *************  */
