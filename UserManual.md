@@ -111,7 +111,8 @@ To edit or delete a source, select the "Sources" tab. You can search for the sou
 
 ### Deleting Sources
 To delete a source, click the "Delete" button in the row of the respective source. The source will be deleted from the database.
-⚠️ If you delete a source, all quotes that have this source will be deleted as well.
+
+⚠️If you delete a source, all quotes that have this source will be deleted as well.
 
 To delete all 'empty' sources, i.e. sources that are not associated with any quotes, click the "Delete Empty Sources" button.
 
@@ -119,11 +120,13 @@ To delete all 'empty' sources, i.e. sources that are not associated with any quo
 To edit a source, select the source in the right table and click the "Edit" button. The following window allows you to edit the source, depending on which the quote is a Website or a Book. Press "Confirm" to save the changes.
 
 For books, you can edit the title, author and (optionally) the ISBN and cover picture path.
+
 <img src="images/edit_book.png" width="400" alt="Edit Book">
 
-ℹ️ The cover picture path is optional and will not be used by the application. It is currently only for your reference, and will be used in a future version of the application to support export functionality.
+ℹ️The cover picture path is optional and will not be used by the application. It is currently only for your reference, and will be used in a future version of the application to support export functionality.
 
-For websites, you can edit the URL, the title, and the date of the last visit
+For websites, you can edit the URL, the title, and the date of the last visit.
+
 <img src="images/edit_website.png" width="400" alt="Edit Website">
 
 ## Closing the Application

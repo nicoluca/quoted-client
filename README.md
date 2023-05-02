@@ -10,7 +10,7 @@ This is a simple quote management app. It allows you to create, edit, delete and
 - Search quotes and by keyword or source, search sources by keyword
 
 ## User Manual
-Can be found [here](UserManual.md)
+Can be found [here](UserManual.md).
 
 ## Requirements
 - Java 19
