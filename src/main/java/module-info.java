@@ -9,6 +9,7 @@ module org.nico.quoted {
     requires jakarta.xml.bind;
     requires org.hibernate.orm.core;
 
+
     opens org.nico.quoted to javafx.fxml;
     exports org.nico.quoted;
     exports org.nico.quoted.ui.controller;

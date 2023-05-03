@@ -14,7 +14,7 @@ Can be found [here](UserManual.md).
 
 ## Requirements
 - Java 19
-- JavaFX 19
+- JavaFX 20
 - Gradle 7.6 to build the project including dependencies
 - Postgresql 14
 

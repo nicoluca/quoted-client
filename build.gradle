@@ -6,7 +6,7 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0'
 }
 
-group 'com.example'
+group 'org.nico.quoted'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -26,11 +26,11 @@ tasks.withType(JavaCompile).configureEach {
 
 application {
     mainModule = 'org.nico.quoted'
-    mainClass = 'org.nico.quoted.QuoteApplication'
+    mainClass = 'org.nico.quoted.Launcher'
 }
 
 javafx {
-    version = '19'
+    version = '20'
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
@@ -48,7 +48,6 @@ dependencies {
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.+'
     annotationProcessor 'org.projectlombok:lombok:1.18.+'
-
     testCompileOnly 'org.projectlombok:lombok:1.18.+'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.+'
 
