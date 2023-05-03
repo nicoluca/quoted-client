@@ -67,6 +67,7 @@ public class BookFormViewController extends MainController {
         titleTextField.setText(book.getTitle());
         authorFirstNameTextField.setText(book.getAuthor().getFirstName());
         authorLastNameTextField.setText(book.getAuthor().getLastName());
+        isbnTextField.setText(book.getIsbn());
         coverPathTextField.setText(book.getCoverPath());
     }
 
