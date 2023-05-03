@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
@@ -16,6 +17,8 @@ import java.io.File;
 
 public class BookFormViewController extends MainController {
 
+    @FXML
+    private ImageView coverImageView;
     @FXML
     private TextField authorFirstNameTextField;
 
@@ -69,6 +72,8 @@ public class BookFormViewController extends MainController {
         authorLastNameTextField.setText(book.getAuthor().getLastName());
         isbnTextField.setText(book.getIsbn());
         coverPathTextField.setText(book.getCoverPath());
+        if (book.getCoverPath() != null && !book.getCoverPath().isEmpty())
+            coverImageView.setImage(FileChooserUtil.getImageFromPath(book.getCoverPath()));
     }
 
     public void onConfirmButtonClicked() {
@@ -129,7 +134,9 @@ public class BookFormViewController extends MainController {
 
     public void onCoverPathButtonClicked(ActionEvent actionEvent) {
         File file = FileChooserUtil.chooseFile((Button) actionEvent.getSource());
-        if (file != null)
+        if (file != null) {
             coverPathTextField.setText(file.getAbsolutePath());
+            coverImageView.setImage(FileChooserUtil.getImageFromPath(file.getAbsolutePath()));
+        }
     }
 }
