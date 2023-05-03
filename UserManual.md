@@ -119,9 +119,13 @@ To delete all 'empty' sources, i.e. sources that are not associated with any quo
 ### Editing Sources
 To edit a source, select the source in the right table and click the "Edit" button. The following window allows you to edit the source, depending on which the quote is a Website or a Book. Press "Confirm" to save the changes.
 
-For books, you can edit the title, author and (optionally) the ISBN and cover picture path.
+For books, you can edit the title, author and (optionally) the ISBN and cover picture path. If available, the cover picture will be displayed in the form window.
+
+If any input was invalid, you will see a respective error message (e.g. ISBNs must consist of either 10 or 13 digits plus optional dashes, and the cover picture path must be a valid path to an image file)
 
 <img src="images/edit_book.png" width="400" alt="Edit Book">
+
+(Photo by <a href="https://unsplash.com/@thelondoner?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tim Alex</a> on <a href="https://unsplash.com/photos/xG5VJW-7Bio?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>)
 
 ℹ️The cover picture path is optional and will not be used by the application. It is currently only for your reference, and will be used in a future version of the application to support export functionality.
 
