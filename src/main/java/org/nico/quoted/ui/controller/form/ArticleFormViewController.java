@@ -39,7 +39,7 @@ public class ArticleFormViewController extends MainController {
     @FXML
     void onConfirmButtonClicked() {
         if (!isValidInput()) {
-            displayError("Invalid input.");
+            displayFormError();
             return;
         }
 
@@ -51,6 +51,15 @@ public class ArticleFormViewController extends MainController {
 
         model.resetForm();
         closeStage();
+    }
+
+    private void displayFormError() {
+        if (titleTextField.getText().isBlank())
+            displayError("Title cannot be empty.");
+        else if (!StringUtil.isValidURL(urlTextField.getText()))
+            displayError("Invalid URL.");
+        else if (datePicker.getValue() == null)
+            displayError("Date cannot be empty.");
     }
 
 

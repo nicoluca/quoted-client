@@ -52,7 +52,7 @@ public class QuoteFormViewController extends MainController {
     @FXML
     void onConfirmButtonClicked() {
         if (!isInputValid())
-            displayError("Invalid input");
+            displayFormError();
         else {
             String quoteText = quoteTextField.getText();
 
@@ -69,6 +69,15 @@ public class QuoteFormViewController extends MainController {
             model.resetForm();
             closeStage();
         }
+    }
+
+    private void displayFormError() {
+        if (quoteTextField.getText().isBlank())
+            displayError("Quote cannot be empty.");
+        else if (urlCheckBox.isSelected() && !StringUtil.isValidURL(urlTextField.getText()))
+            displayError("Invalid URL.");
+        else if (!urlCheckBox.isSelected() && bookChoiceBox.getValue() == null)
+            displayError("No book selected.");
     }
 
     private void closeStage() {

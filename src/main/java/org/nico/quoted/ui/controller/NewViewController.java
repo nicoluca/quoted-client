@@ -87,8 +87,8 @@ public class NewViewController extends MainController {
                     errorLabel.setText("Quote added!");
                 }),
                 new KeyFrame(Duration.millis(UIConfig.DURATION_INFO_MESSAGE), event -> {
-                    errorLabel.setTextFill(Color.RED);
                     errorLabel.setText("");
+                    errorLabel.setTextFill(Color.RED);
                 })
         );
         timeline.setCycleCount(1); // Play once
@@ -121,7 +121,12 @@ public class NewViewController extends MainController {
     }
 
     private void displayError() {
-        errorLabel.setText("Invalid input");
+        if (quoteInputField.getText().isEmpty())
+            errorLabel.setText("Quote cannot be empty.");
+        else if (toggleURL.isSelected() && !StringUtil.isValidURL(urlInputField.getText()))
+            errorLabel.setText("Invalid URL");
+        else if (!toggleURL.isSelected() && bookChoiceBox.getValue() == null)
+            errorLabel.setText("Please select a book");
     }
 
     private boolean inputIsValid() {

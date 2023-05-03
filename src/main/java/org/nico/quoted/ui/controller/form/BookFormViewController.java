@@ -79,10 +79,10 @@ public class BookFormViewController extends MainController {
             );
 
             Book book = new Book(titleTextField.getText(), author);
-            if (!coverPathTextField.getText().isEmpty())
+            if (coverPathTextField.getText() != null && !coverPathTextField.getText().isEmpty())
                 book.setCoverPath(coverPathTextField.getText());
 
-            if (!isbnTextField.getText().isEmpty())
+            if (isbnTextField.getText() != null && !isbnTextField.getText().isEmpty())
                 book.setIsbn(isbnTextField.getText());
 
             if (model.getSourceToEdit() != null && model.getSourceToEdit() instanceof Book)
@@ -93,7 +93,20 @@ public class BookFormViewController extends MainController {
             model.resetForm();
             closeStage();
         } else
-            displayError("Invalid book data");
+            displayErrorForFields();
+    }
+
+    private void displayErrorForFields() {
+        if (!StringUtil.isValidTitle(titleTextField.getText()))
+            displayError("Title text invalid.");
+        else if (!StringUtil.isValidAuthor(authorFirstNameTextField.getText()))
+            displayError("Author first invalid.");
+        else if (!StringUtil.isValidAuthor(authorLastNameTextField.getText()))
+            displayError("Author last name invalid.");
+        else if (coverPathTextField.getText() != null && !coverPathTextField.getText().isEmpty() && !StringUtil.isValidCoverPath(coverPathTextField.getText()))
+            displayError("Cover path invalid.");
+        else if (isbnTextField.getText() != null && !isbnTextField.getText().isEmpty() && !StringUtil.isValidISBN(isbnTextField.getText()))
+            displayError("ISBN invalid.");
     }
 
     private void displayError(String s) {
@@ -109,8 +122,8 @@ public class BookFormViewController extends MainController {
         return StringUtil.isValidTitle(titleTextField.getText())
                 && StringUtil.isValidAuthor(authorFirstNameTextField.getText())
                 && StringUtil.isValidAuthor(authorLastNameTextField.getText())
-                && (StringUtil.isValidCoverPath(coverPathTextField.getText()) || coverPathTextField.getText().isEmpty())
-                && (StringUtil.isValidISBN(isbnTextField.getText()) || isbnTextField.getText().isEmpty());
+                && (coverPathTextField.getText() == null || coverPathTextField.getText().isEmpty() || StringUtil.isValidCoverPath(coverPathTextField.getText()))
+                && (isbnTextField.getText() == null || isbnTextField.getText().isEmpty() || StringUtil.isValidISBN(isbnTextField.getText()));
     }
 
     public void onCoverPathButtonClicked(ActionEvent actionEvent) {
