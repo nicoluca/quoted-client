@@ -38,6 +38,7 @@ class StringUtilTest {
         assertTrue(StringUtil.isValidCoverPath("src/main/resources/cover.gif"));
         assertTrue(StringUtil.isValidCoverPath("src/main/resources/cover.bmp"));
         assertTrue(StringUtil.isValidCoverPath("/src/main/resources/cover.jpg"));
+        assertTrue(StringUtil.isValidCoverPath("/Users/jprie/CloudStation/Geschäftlich/JavaKurse/Resources/BookLibrary/spring-start-here-laurentiu-spilca.jpeg"));
 
         assertFalse(StringUtil.isValidCoverPath("src/main/resources/cover"));
         assertFalse(StringUtil.isValidCoverPath("src/main/resources/cover."));
@@ -51,6 +52,7 @@ class StringUtilTest {
         assertTrue(StringUtil.isValidISBN("1234567890123"));
         assertTrue(StringUtil.isValidISBN("123-456-789-0"));
         assertTrue(StringUtil.isValidISBN("123-456-789-0123"));
+        assertTrue(StringUtil.isValidISBN("978-1617298691"));
 
         assertFalse(StringUtil.isValidISBN("TenDigits!"));
         assertFalse(StringUtil.isValidISBN("123456789"));
