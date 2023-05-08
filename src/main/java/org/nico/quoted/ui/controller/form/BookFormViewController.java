@@ -99,10 +99,10 @@ public class BookFormViewController extends MainController {
             model.resetForm();
             closeStage();
         } else
-            displayErrorForFields();
+            displayFormError();
     }
 
-    private void displayErrorForFields() {
+    private void displayFormError() {
         if (!StringUtil.isValidTitle(titleTextField.getText()))
             displayError("Title text invalid.");
         else if (!StringUtil.isValidAuthor(authorFirstNameTextField.getText()))

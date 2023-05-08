@@ -8,7 +8,7 @@ import java.util.Objects;
 public class FormUtil {
     public static void addCssToScene(Scene scene) {
         scene.getStylesheets().add(
-                Objects.requireNonNull(FormUtil.class.getClassLoader().getResource(UIConfig.CSS_PATH)).toExternalForm()
+                Objects.requireNonNull(FormUtil.class.getResource(UIConfig.CSS_PATH)).toExternalForm()
         );
     }
 }

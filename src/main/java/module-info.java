@@ -4,11 +4,13 @@ module org.nico.quoted {
     requires org.slf4j;
     requires static lombok;
     requires jakarta.persistence;
-    requires net.bytebuddy;
-    requires com.fasterxml.classmate;
-    requires jakarta.xml.bind;
     requires org.hibernate.orm.core;
 
+    // Required for Hibernate
+    requires net.bytebuddy;
+    requires org.hibernate.commons.annotations;
+    requires com.fasterxml.classmate;
+    requires jakarta.xml.bind;
 
     opens org.nico.quoted to javafx.fxml;
     exports org.nico.quoted;
