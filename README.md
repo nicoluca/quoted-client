@@ -14,7 +14,7 @@ Can be found [here](UserManual.md).
 
 ## Requirements
 - Java 19
-- JavaFX 20
+- JavaFX 19
 - Gradle 7.6 to build the project including dependencies
 - Postgresql 14
 
@@ -34,3 +34,6 @@ Can be found [here](UserManual.md).
 4. Create the database `quote_db` either using the `CREATE DATABASE quote_db;` command or by using the [pgAdmin](https://www.pgadmin.org) GUI.
 5. In case you want to use a different database name or port, you must change the `hibernate.connection.url` in `src/main/resources/META-INF/persistence.xml` and the `DB_NAME` in `src/main/java/org/nico/quoted/config/BackendConfig.java` accordingly.
 6. In case you want to run tests, also create a database `quote_db_test` or change the `DB_NAME_TEST` in `src/main/java/org/nico/quoted/config/BackendConfig.java` accordingly.
+7. To run the application, run `./gradlew run` in the project root directory.
+8. (To run tests, run `./gradlew test` in the project root directory.)
+9. (To build a jar file, uncomment the jar section in [build.gradle](build.gradle) run `./gradlew jar` in the project root directory. The executable 'fat' jar file will be located in `build/libs`. To run the jar file, run `java -jar build/libs/quoted-1.0-SNAPSHOT.jar` in the project root directory. To run 'normally' again, comment out the jar section in [build.gradle](build.gradle) go to step 7.)
