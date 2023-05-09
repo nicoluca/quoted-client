@@ -32,7 +32,7 @@ public class Article extends Source {
 
     @Override
     public String toString() {
-        if (this.getTitle().equals(this.url))
+        if (this.getTitle() == null || this.getTitle().equals(this.url))
             return this.getTitle();
         else
             return super.toString();

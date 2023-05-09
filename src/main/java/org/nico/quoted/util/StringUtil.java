@@ -17,7 +17,7 @@ public class StringUtil {
 
     public static boolean isValidCoverPath(String text) {
         // Can start with slash, character/number sections followed by slash, should end with .jpg, .png, .jpeg, .gif, .bmp
-        return text.matches("^/?[\\u00C0-\\u017FA-Za-z0-9\\-]+(/[\\u00C0-\\u017FA-Za-z0-9\\-]+)*\\.(jpg|png|jpeg|gif|bmp)$");
+        return text.matches("^/?[\\u00C0-\\u017FA-Za-z0-9\\-]+(/[\\u00C0-\\u017F.\\sA-Za-z0-9\\-]+)*\\.(jpg|png|jpeg|gif|bmp)$");
     }
 
     public static boolean isValidISBN(String text) {

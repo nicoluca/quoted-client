@@ -1,9 +1,10 @@
 package org.nico.quoted.config;
 
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.spi.PersistenceProvider;
 
 public class DBConfig {
-    public static final String DB_NAME = "quote_db";
-    public static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory(DB_NAME);
+    private static final String DB_NAME = "quote_db";
+    private static final PersistenceProvider provider = new org.hibernate.jpa.HibernatePersistenceProvider();
+    public static final EntityManagerFactory EMF = provider.createEntityManagerFactory(DB_NAME, null);
 }

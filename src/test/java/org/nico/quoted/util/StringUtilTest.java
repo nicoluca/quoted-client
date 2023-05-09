@@ -39,6 +39,7 @@ class StringUtilTest {
         assertTrue(StringUtil.isValidCoverPath("src/main/resources/cover.bmp"));
         assertTrue(StringUtil.isValidCoverPath("/src/main/resources/cover.jpg"));
         assertTrue(StringUtil.isValidCoverPath("/Users/jprie/CloudStation/Geschäftlich/JavaKurse/Resources/BookLibrary/spring-start-here-laurentiu-spilca.jpeg"));
+        assertTrue(StringUtil.isValidCoverPath("/Users/nico/Desktop/Screenshot 2023-05-09 at 19.09.36.png"));
 
         assertFalse(StringUtil.isValidCoverPath("src/main/resources/cover"));
         assertFalse(StringUtil.isValidCoverPath("src/main/resources/cover."));
