@@ -1,7 +1,7 @@
 # Quoted
 A client-side quote management application.
 
-TODO
+TODO - will be updated soon
 
 ~~test~~
 ## Description
