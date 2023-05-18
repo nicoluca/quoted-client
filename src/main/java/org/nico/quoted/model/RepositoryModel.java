@@ -2,6 +2,7 @@ package org.nico.quoted.model;
 
 import lombok.Getter;
 import org.nico.quoted.config.DBConfig;
+import org.nico.quoted.config.DBConfigExample;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;

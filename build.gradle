@@ -52,6 +52,11 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.+'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.+'
 
+    // Apache HTTP Client
+    implementation 'org.apache.httpcomponents:httpclient:4.5'
+    implementation 'org.apache.httpcomponents.core5:httpcore5:5.2.1'
+
+
     // Junit 5
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.+'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.+'

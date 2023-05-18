@@ -11,6 +11,8 @@ module org.nico.quoted {
     requires org.hibernate.commons.annotations;
     requires com.fasterxml.classmate;
     requires jakarta.xml.bind;
+    requires httpclient;
+    requires httpcore;
 
     opens org.nico.quoted to javafx.fxml;
     exports org.nico.quoted;
