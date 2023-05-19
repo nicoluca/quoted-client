@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
@@ -28,8 +25,10 @@ public class HttpServiceImpl implements HttpService {
         try (CloseableHttpResponse response =
                      (CloseableHttpResponse) httpClient.execute(httpGet)) {
 
-            if (statusCodeNot2xx(response))
-                throw new RuntimeException("Error while retrieving " + url + ": " + response.getStatusLine().getStatusCode());
+            if (response.getStatusLine().getStatusCode() == 404)
+                return null;
+            else if (statusCodeNot2xx(response))
+                throw new RuntimeException("Unkown error while retrieving " + url + ": " + response.getStatusLine().getStatusCode());
 
             HttpEntity entity = response.getEntity();
             return EntityUtils.toString(entity, StandardCharsets.UTF_8);
@@ -88,8 +87,19 @@ public class HttpServiceImpl implements HttpService {
     }
 
     @Override
-    public void delete(String endPoint) {
-        // TODO
+    public void delete(String url) {
+        final HttpDelete httpDelete = new HttpDelete(url);
+
+        try (CloseableHttpResponse response =
+                     (CloseableHttpResponse) httpClient.execute(httpDelete)) {
+
+            if (statusCodeNot2xx(response))
+                throw new RuntimeException("Error while deleting " + url + ": " + response.getStatusLine().getStatusCode());
+
+        } catch (IOException e) {
+            log.warn("Error while deleting " + url + ": " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     private static boolean statusCodeNot2xx(HttpResponse response) {

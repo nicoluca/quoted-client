@@ -16,6 +16,7 @@ import org.nico.quoted.serialization.AuthorDeserializer;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class AuthorRepositoryTest {
@@ -39,7 +40,7 @@ class AuthorRepositoryTest {
 
     @AfterEach
     void tearDown() {
-        // authorRepository.readAll().forEach(authorRepository::delete);
+        authorService.readAll().forEach(authorService::delete);
     }
 
     @Test
@@ -93,11 +94,10 @@ class AuthorRepositoryTest {
     @DisplayName("Delete author")
     void delete() {
         Author author = new Author("Neil", "Stephenson");
-        authorService.create(author);
-
+        author = authorService.create(author);
         authorService.delete(author);
-
-        assertEquals(0, authorService.readAll().size());
+        Optional<Author> authorOptional = authorService.readById(author.getId());
+        assertTrue(authorOptional.isEmpty());
     }
 
 }

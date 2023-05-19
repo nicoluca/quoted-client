@@ -76,13 +76,7 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
 
     @Override
     public void delete(T t) {
-        try {
-            HttpResponse response = HttpUtil.delete(url + "/" + t.getId());
-            checkIfResponseIsOk(response);
-        } catch (IOException e) {
-            log.error("Error while deleting t: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        httpService.delete(url + "/" + t.getId());
     }
 
     private void checkIfResponseIsOk(HttpResponse response) {
