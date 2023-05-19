@@ -50,7 +50,7 @@ public class QuoteApplication extends Application {
 
     private static void checkServerHealth() {
         try {
-            HttpResponse response = HttpUtil.get(DBConfig.HEALTH_ENDPOINT);
+            HttpResponse response = HttpUtil.get(DBConfig.BASE_URL + DBConfig.HEALTH_ENDPOINT);
 
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
                 showServerNotAvailableAlert();

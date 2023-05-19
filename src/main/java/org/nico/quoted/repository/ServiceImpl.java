@@ -46,21 +46,24 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
 
     @Override
     public Optional<T> readById(long id) {
-        String jsonResult = httpService.get(url + "/" + id);
+        Optional<String> jsonResult = httpService.get(url + "/" + id);
 
-        if (jsonResult == null)
+        if (jsonResult.isEmpty())
             return Optional.empty();
 
-        T t = gson.fromJson(jsonResult, type);
+        T t = gson.fromJson(jsonResult.get(), type);
         return Optional.of(t);
     }
 
     @Override
     public List<T> readAll() {
-        String jsonResult = httpService.get(url);
+        Optional<String> jsonResult = httpService.get(url);
+
+        if (jsonResult.isEmpty())
+            return List.of();
 
         return new JsonUtil<T>()
-                .deserializeList(jsonResult,
+                .deserializeList(jsonResult.get(),
                         gson,
                         type.getSimpleName().toLowerCase() + "s",
                         type);

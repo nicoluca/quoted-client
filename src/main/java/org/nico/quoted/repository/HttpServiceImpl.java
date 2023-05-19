@@ -11,6 +11,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Slf4j
@@ -18,25 +19,12 @@ public class HttpServiceImpl implements HttpService {
 
     private final HttpClient httpClient;
 
+
+
     @Override
-    public String get(String url) {
+    public Optional<String> get(String url) {
         final HttpGet httpGet = new HttpGet(url);
-
-        try (CloseableHttpResponse response =
-                     (CloseableHttpResponse) httpClient.execute(httpGet)) {
-
-            if (response.getStatusLine().getStatusCode() == 404)
-                return null;
-            else if (statusCodeNot2xx(response))
-                throw new RuntimeException("Unkown error while retrieving " + url + ": " + response.getStatusLine().getStatusCode());
-
-            HttpEntity entity = response.getEntity();
-            return EntityUtils.toString(entity, StandardCharsets.UTF_8);
-
-        } catch (IOException e) {
-            log.warn("Error while retrieving " + url + ": " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        return execute(httpGet);
     }
 
 
@@ -48,58 +36,61 @@ public class HttpServiceImpl implements HttpService {
         HttpEntity entity = new StringEntity(payload, "UTF-8");
         httpPost.setEntity(entity);
 
-        try (CloseableHttpResponse response =
-                     (CloseableHttpResponse) httpClient.execute(httpPost)) {
+        Optional<String> result = execute(httpPost);
 
-            if (statusCodeNot2xx(response))
-                throw new RuntimeException("Error while posting to  " + url + " with payload '" + payload + "': " + response.getStatusLine().getStatusCode());
+        if (result.isEmpty())
+            throw new RuntimeException("Error while posting " + url + ": " + payload);
 
-            HttpEntity responseEntity = response.getEntity();
-            return EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
-
-        } catch (IOException e) {
-            log.warn("Error while posting to " + url + ": " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        return result.get();
     }
 
     @Override
-    public String put(String url, String body) {
+    public String put(String url, String payload) {
         final HttpPut httpPut = new HttpPut(url);
         httpPut.setHeader("Content-type", "application/json");
         httpPut.setHeader("Accept", "application/json"); // If this is not set, no json is returned
-        HttpEntity entity = new StringEntity(body, "UTF-8");
+        HttpEntity entity = new StringEntity(payload, "UTF-8");
         httpPut.setEntity(entity);
 
-        try (CloseableHttpResponse response =
-                     (CloseableHttpResponse) httpClient.execute(httpPut)) {
+        Optional<String> result = execute(httpPut);
 
-            if (statusCodeNot2xx(response))
-                throw new RuntimeException("Error while putting to  " + url + " with payload '" + body + "': " + response.getStatusLine().getStatusCode());
+        if (result.isEmpty())
+            throw new RuntimeException("Error while posting " + url + ": " + payload);
 
-            HttpEntity responseEntity = response.getEntity();
-            return EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
-
-        } catch (IOException e) {
-            log.warn("Error while putting to " + url + ": " + e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
+        return result.get();    }
 
     @Override
     public void delete(String url) {
         final HttpDelete httpDelete = new HttpDelete(url);
+        execute(httpDelete);
+    }
 
+    private Optional<String> execute(HttpRequestBase request) {
         try (CloseableHttpResponse response =
-                     (CloseableHttpResponse) httpClient.execute(httpDelete)) {
+                     (CloseableHttpResponse) httpClient.execute(request)) {
 
-            if (statusCodeNot2xx(response))
-                throw new RuntimeException("Error while deleting " + url + ": " + response.getStatusLine().getStatusCode());
+            if (response.getStatusLine().getStatusCode() == 404)
+                return Optional.empty();
+            else if (statusCodeNot2xx(response))
+                throw new RuntimeException("Unknown error while retrieving " + request.getURI() + ": " + response.getStatusLine().getStatusCode());
+
+            return evaluateResponse(response, request);
 
         } catch (IOException e) {
-            log.warn("Error while deleting " + url + ": " + e.getMessage());
+            log.warn("Error while retrieving " + request.getURI() + ": " + e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    private Optional<String> evaluateResponse(CloseableHttpResponse response, HttpRequestBase request) throws IOException {
+        if (response.getEntity() == null) {
+            log.info("No entity found for " + request.getURI());
+            return Optional.empty();
+        }
+
+        HttpEntity entity = response.getEntity();
+        String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+        return Optional.of(responseString);
     }
 
     private static boolean statusCodeNot2xx(HttpResponse response) {
