@@ -8,6 +8,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
@@ -61,23 +62,29 @@ public class HttpServiceImpl implements HttpService {
             log.warn("Error while posting to " + url + ": " + e.getMessage());
             throw new RuntimeException(e);
         }
-
-//        try {
-//            HttpResponse response = httpClient.execute(httpPost);
-//            if (statusCodeNot2xx(response))
-//                throw new RuntimeException("Error while posting to  " + url + " with payload '" + payload + "': " + response.getStatusLine().getStatusCode());
-//
-//            HttpEntity responseEntity = response.getEntity();
-//            return EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
-//        } catch (IOException e) {
-//            log.warn("Error while posting to " + url + ": " + e.getMessage());
-//            throw new RuntimeException(e);
-//        }
     }
 
     @Override
-    public String put(String endPoint, String body) {
-        return null; // TODO
+    public String put(String url, String body) {
+        final HttpPut httpPut = new HttpPut(url);
+        httpPut.setHeader("Content-type", "application/json");
+        httpPut.setHeader("Accept", "application/json"); // If this is not set, no json is returned
+        HttpEntity entity = new StringEntity(body, "UTF-8");
+        httpPut.setEntity(entity);
+
+        try (CloseableHttpResponse response =
+                     (CloseableHttpResponse) httpClient.execute(httpPut)) {
+
+            if (statusCodeNot2xx(response))
+                throw new RuntimeException("Error while putting to  " + url + " with payload '" + body + "': " + response.getStatusLine().getStatusCode());
+
+            HttpEntity responseEntity = response.getEntity();
+            return EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+
+        } catch (IOException e) {
+            log.warn("Error while putting to " + url + ": " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

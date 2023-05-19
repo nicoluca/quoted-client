@@ -69,15 +69,9 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
 
     @Override
     public T update(T t) {
-        try {
-            String json = gson.toJson(t);
-            HttpResponse response = HttpUtil.put(url + "/" + t.getId(), json);
-            checkIfResponseIsOk(response);
-            return gson.fromJson(response.getEntity().getContent().toString(), type);
-        } catch (IOException e) {
-            log.error("Error while updating t: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        String json = gson.toJson(t);
+        String response = httpService.put(url + "/" + t.getId(), json);
+        return gson.fromJson(response, type);
     }
 
     @Override

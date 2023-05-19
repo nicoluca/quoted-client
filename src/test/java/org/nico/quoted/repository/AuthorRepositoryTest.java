@@ -60,8 +60,6 @@ class AuthorRepositoryTest {
         Optional<Author> author2Optional = authorService.readById(author2.getId());
         assert author2Optional.isPresent();
         assertEquals(author2Optional.get(), author2);
-
-        // assertEquals(2, authorRepository.readAll().size());
     }
 
     @Test
@@ -78,13 +76,17 @@ class AuthorRepositoryTest {
     @Test
     @DisplayName("Update author")
     void update() {
-        Author author = new Author("Neil", "Stephenson");
-        authorService.create(author);
+        Author author = new Author("OldName", "Stephenson");
+        author = authorService.create(author);
 
-        author.setFirstName("Neil deGrasse");
-        authorService.update(author);
+        author.setFirstName("NewName");
+        Author newAuthor = authorService.update(author);
 
-        assertEquals(authorService.readById(author.getId()).get(), author);
+        assertEquals(author, newAuthor);
+
+        Optional<Author> authorOptional = authorService.readById(author.getId());
+        assert authorOptional.isPresent();
+        assertEquals(authorOptional.get(), author);
     }
 
     @Test
