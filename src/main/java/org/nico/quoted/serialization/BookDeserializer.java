@@ -23,19 +23,4 @@ public class BookDeserializer implements JsonDeserializer<Book> {
         book.setCoverPath(coverPath);
         return book;
     }
-
-    public static List<Book> parseBooks(String json, Gson gson, Author author) {
-        List<Book> books = new ArrayList<>();
-        JsonElement jsonElement = gson.fromJson(json, JsonElement.class);
-        JsonElement jsonBooks = jsonElement.getAsJsonObject()
-                .get("_embedded").getAsJsonObject()
-                .get("books").getAsJsonArray();
-
-        for (JsonElement jsonBook : jsonBooks.getAsJsonArray()) {
-            Book book = gson.fromJson(jsonBook, Book.class);
-            book.setAuthor(author);
-            books.add(book);
-        }
-        return books;
-    }
 }

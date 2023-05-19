@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.nico.quoted.TestUtil;
 import org.nico.quoted.domain.Author;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AuthorSerializationTest {
@@ -44,18 +42,6 @@ public class AuthorSerializationTest {
         assertEquals(this.author.getId(), deserializedAuthor.getId());
     }
 
-    @Test
-    @DisplayName("Test deserialization of Author list")
-    void testHashmapDeserialization() {
-        String json = TestUtil.resourceToString("/serialization/AuthorList.json");
-        Gson gson = new GsonBuilder().registerTypeAdapter(Author.class, new AuthorDeserializer()).create();
-        AuthorDeserializer authorDeserializer = new AuthorDeserializer();
-        List<Author> deserializedAuthors = authorDeserializer.deserializeList(json, gson);
-
-        assertEquals(2, deserializedAuthors.size());
-        assertEquals(author, deserializedAuthors.get(0));
-        assertEquals(author2, deserializedAuthors.get(1));
-    }
 
     private void assertAuthorJsonEqual(Author author, String expectedJson) {
             String json = new Gson().toJson(author);

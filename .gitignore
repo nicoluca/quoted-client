@@ -51,4 +51,4 @@ gradle/wrapper/gradle-wrapper.jar
 ### Confidential ###
 application.properties
 src/main/resources/META-INF/persistence.xml
-src/main/java/org/nico/quoted/config/DBConfig.java
+src/main/java/org/nico/quoted/config/Config.java

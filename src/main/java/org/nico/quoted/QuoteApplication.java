@@ -6,16 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.ParseException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.nico.quoted.config.DBConfig;
+import org.nico.quoted.config.Config;
 import org.nico.quoted.http.HttpUtil;
 import org.nico.quoted.util.FormUtil;
 
@@ -50,7 +43,7 @@ public class QuoteApplication extends Application {
 
     private static void checkServerHealth() {
         try {
-            HttpResponse response = HttpUtil.get(DBConfig.BASE_URL + DBConfig.HEALTH_ENDPOINT);
+            HttpResponse response = HttpUtil.get(Config.BASE_URL + Config.HEALTH_ENDPOINT);
 
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
                 showServerNotAvailableAlert();

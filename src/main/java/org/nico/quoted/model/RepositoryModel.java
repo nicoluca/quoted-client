@@ -1,7 +1,7 @@
 package org.nico.quoted.model;
 
 import lombok.Getter;
-import org.nico.quoted.config.DBConfig;
+import org.nico.quoted.config.Config;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
@@ -19,11 +19,11 @@ import org.nico.quoted.serialization.QuoteDeserializer;
 @Getter
 public class RepositoryModel {
     private final CrudService<Author> authorRepository =
-            new ServiceImpl<>(Author.class, DBConfig.AUTHORS_URL, new AuthorDeserializer(), DBConfig.HTTP_SERVICE);
+            new ServiceImpl<>(Author.class, Config.AUTHORS_URL, new AuthorDeserializer(), Config.HTTP_SERVICE);
     private final CrudService<Book> bookRepository =
-            new ServiceImpl<>(Book.class, DBConfig.BOOKS_URL, new BookDeserializer(), DBConfig.HTTP_SERVICE);
+            new ServiceImpl<>(Book.class, Config.BOOKS_URL, new BookDeserializer(), Config.HTTP_SERVICE);
     private final CrudService<Article> articleRepository =
-            new ServiceImpl<>(Article.class, DBConfig.ARTICLE_URL, new ArticleDeserializer(), DBConfig.HTTP_SERVICE);
+            new ServiceImpl<>(Article.class, Config.ARTICLES_URL, new ArticleDeserializer(), Config.HTTP_SERVICE);
     private final CrudService<Quote> quoteRepository =
-            new ServiceImpl<>(Quote.class, DBConfig.QUOTES_URL, new QuoteDeserializer(), DBConfig.HTTP_SERVICE);
+            new ServiceImpl<>(Quote.class, Config.QUOTES_URL, new QuoteDeserializer(), Config.HTTP_SERVICE);
 }

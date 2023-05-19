@@ -3,22 +3,14 @@ package org.nico.quoted.repository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.nico.quoted.config.DBConfig;
 import org.nico.quoted.domain.Identifiable;
-import org.nico.quoted.http.HttpUtil;
 import org.nico.quoted.http.JsonUtil;
 
 @Slf4j
@@ -32,6 +24,16 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
         this.type = type;
         this.url = url;
         this.gson = new GsonBuilder()
+                .registerTypeAdapter(type, jsonDeserializer)
+                .create();
+        this.httpService = httpService;
+    }
+
+    public ServiceImpl(Class<T> type, String url, JsonSerializer<T>jsonSerializer, JsonDeserializer<T> jsonDeserializer, HttpService httpService) {
+        this.type = type;
+        this.url = url;
+        this.gson = new GsonBuilder()
+                .registerTypeAdapter(type, jsonSerializer)
                 .registerTypeAdapter(type, jsonDeserializer)
                 .create();
         this.httpService = httpService;

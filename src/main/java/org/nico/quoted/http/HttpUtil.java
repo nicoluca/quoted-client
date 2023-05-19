@@ -1,12 +1,10 @@
 package org.nico.quoted.http;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.nico.quoted.config.DBConfig;
+import org.nico.quoted.config.Config;
 
 import java.io.IOException;
 
@@ -18,7 +16,7 @@ public class HttpUtil {
 
     private static HttpResponse getHttpResponse(HttpGet httpGet) throws IOException{
         try (CloseableHttpClient client = HttpClientBuilder.create()
-                .setDefaultCredentialsProvider(DBConfig.getCredentialsProvider())
+                .setDefaultCredentialsProvider(Config.getCredentialsProvider())
                 .build();
              CloseableHttpResponse response = client.execute(httpGet))
         {

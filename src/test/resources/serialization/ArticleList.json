@@ -1,0 +1,90 @@
+{
+  "_embedded": {
+    "articles": [
+      {
+        "id": 1,
+        "lastVisited": "2023-05-19T20:58:12.066+00:00",
+        "url": "https://www.sz,de",
+        "title": "sz.de",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/articles/1"
+          },
+          "article": {
+            "href": "http://localhost:8080/api/articles/1{?projection}",
+            "templated": true
+          },
+          "quotes": {
+            "href": "http://localhost:8080/api/articles/1/quotes{?projection}",
+            "templated": true
+          }
+        }
+      },
+      {
+        "id": 2,
+        "lastVisited": "2023-05-19T21:10:35.762+00:00",
+        "url": "https://www.sz,de",
+        "title": "sz.de",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/articles/2"
+          },
+          "article": {
+            "href": "http://localhost:8080/api/articles/2{?projection}",
+            "templated": true
+          },
+          "quotes": {
+            "href": "http://localhost:8080/api/articles/2/quotes{?projection}",
+            "templated": true
+          }
+        }
+      },
+      {
+        "id": 3,
+        "lastVisited": "2023-03-19T23:11:07.988+00:00",
+        "url": "https://www.sz,de",
+        "title": "sz.de",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/articles/3"
+          },
+          "article": {
+            "href": "http://localhost:8080/api/articles/3{?projection}",
+            "templated": true
+          },
+          "quotes": {
+            "href": "http://localhost:8080/api/articles/3/quotes{?projection}",
+            "templated": true
+          }
+        }
+      },
+      {
+        "id": 4,
+        "lastVisited": "2023-05-19T23:13:35.013+00:00",
+        "url": "https://www.sz.de",
+        "title": "sz.de",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/articles/4"
+          },
+          "article": {
+            "href": "http://localhost:8080/api/articles/4{?projection}",
+            "templated": true
+          },
+          "quotes": {
+            "href": "http://localhost:8080/api/articles/4/quotes{?projection}",
+            "templated": true
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/articles"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/articles"
+    }
+  }
+}
