@@ -1,12 +1,9 @@
 package org.nico.quoted.serialization;
 
 import com.google.gson.*;
-import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BookDeserializer implements JsonDeserializer<Book> {
     @Override

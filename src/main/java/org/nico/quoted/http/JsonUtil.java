@@ -2,7 +2,6 @@ package org.nico.quoted.http;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import org.nico.quoted.domain.Author;
 
 import java.util.ArrayList;
 import java.util.List;

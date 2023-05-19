@@ -1,6 +1,8 @@
 package org.nico.quoted.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter

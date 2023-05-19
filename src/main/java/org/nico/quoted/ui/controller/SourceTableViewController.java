@@ -2,7 +2,6 @@ package org.nico.quoted.ui.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.nico.quoted.domain.Book;

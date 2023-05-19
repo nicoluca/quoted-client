@@ -2,7 +2,6 @@ package org.nico.quoted.serialization;
 
 import com.google.gson.*;
 import org.nico.quoted.domain.Article;
-import org.nico.quoted.domain.Author;
 
 import java.lang.reflect.Type;
 import java.sql.Timestamp;

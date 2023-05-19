@@ -4,8 +4,6 @@ import com.google.gson.*;
 import org.nico.quoted.domain.Author;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AuthorDeserializer implements JsonDeserializer<Author> {
     @Override

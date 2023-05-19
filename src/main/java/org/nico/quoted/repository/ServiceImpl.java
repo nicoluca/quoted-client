@@ -6,12 +6,11 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
+import org.nico.quoted.domain.Identifiable;
+import org.nico.quoted.http.JsonUtil;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.nico.quoted.domain.Identifiable;
-import org.nico.quoted.http.JsonUtil;
 
 @Slf4j
 public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
