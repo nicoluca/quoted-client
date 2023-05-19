@@ -57,25 +57,13 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
 
     @Override
     public List<T> readAll() {
-        List<T> tList;
+        String jsonResult = httpService.get(url);
 
-        try {
-            HttpResponse response = HttpUtil.get(url);
-            checkIfResponseIsOk(response);
-
-            String jsonResult = response.getEntity().getContent().toString();
-            tList = new JsonUtil<T>()
-                    .deserializeList(jsonResult,
-                            gson,
-                            type.getSimpleName().toLowerCase() + "s",
-                            type);
-
-        } catch (IOException e) {
-            log.warn("No " + type.getSimpleName() + "s could be retrieved.");
-            throw new RuntimeException(e);
-        }
-
-        return tList;
+        return new JsonUtil<T>()
+                .deserializeList(jsonResult,
+                        gson,
+                        type.getSimpleName().toLowerCase() + "s",
+                        type);
     }
 
 

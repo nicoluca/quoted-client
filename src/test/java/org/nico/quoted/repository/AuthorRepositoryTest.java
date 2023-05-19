@@ -43,8 +43,8 @@ class AuthorRepositoryTest {
     }
 
     @Test
-    @DisplayName("Create authors and confirm they are in database")
-    void create() {
+    @DisplayName("Create authors and confirm they are saved in backend")
+    void createAndRetrieve() {
         Author author = new Author("Neil", "Stephenson");
         author = authorService.create(author);
 
@@ -65,20 +65,10 @@ class AuthorRepositoryTest {
     }
 
     @Test
-    @DisplayName("Read author by id")
-    void readById() {
-        Author author = new Author("Neil", "Stephenson");
-        authorService.create(author);
-
-        assertEquals(authorService.readById(author.getId()).get(), author);
-    }
-
-    @Test
-    @DisplayName("Read all authors")
+    @DisplayName("Write authors, read all and confirm they are saved in backend")
     void readAll() {
         Author author = new Author("Neil", "Stephenson");
         authorService.create(author);
-
         Author author2 = new Author("Neil", "Armstrong");
         authorService.create(author2);
 
