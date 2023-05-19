@@ -46,15 +46,21 @@ class AuthorRepositoryTest {
     @DisplayName("Create authors and confirm they are in database")
     void create() {
         Author author = new Author("Neil", "Stephenson");
-        authorService.create(author);
+        author = authorService.create(author);
 
         Author author2 = new Author("Neil", "Armstrong");
-        authorService.create(author2);
+        author2 = authorService.create(author2);
 
         // Assert if author is in database
-        Optional<Author> authorOptional = authorService.readById(1L);
+        Optional<Author> authorOptional = authorService.readById(author.getId());
         assert authorOptional.isPresent();
         assertEquals(authorOptional.get(), author);
+
+        // Assert if author2 is in database
+        Optional<Author> author2Optional = authorService.readById(author2.getId());
+        assert author2Optional.isPresent();
+        assertEquals(author2Optional.get(), author2);
+
         // assertEquals(2, authorRepository.readAll().size());
     }
 

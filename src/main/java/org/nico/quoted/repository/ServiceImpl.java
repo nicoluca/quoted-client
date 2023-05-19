@@ -38,9 +38,10 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
     }
 
     @Override
-    public void create(T t) {
+    public T create(T t) {
         String json = gson.toJson(t);
-        httpService.post(url, json);
+        String response = httpService.post(url, json);
+        return gson.fromJson(response, type);
     }
 
     @Override
@@ -79,11 +80,12 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
 
 
     @Override
-    public void update(T t) {
+    public T update(T t) {
         try {
             String json = gson.toJson(t);
             HttpResponse response = HttpUtil.put(url + "/" + t.getId(), json);
             checkIfResponseIsOk(response);
+            return gson.fromJson(response.getEntity().getContent().toString(), type);
         } catch (IOException e) {
             log.error("Error while updating t: " + e.getMessage());
             throw new RuntimeException(e);

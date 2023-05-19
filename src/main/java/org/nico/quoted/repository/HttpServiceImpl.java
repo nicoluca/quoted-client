@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -21,9 +22,11 @@ public class HttpServiceImpl implements HttpService {
 
     @Override
     public String get(String url) {
-        try {
-            HttpGet httpGet = new HttpGet(url);
-            HttpResponse response = httpClient.execute(httpGet);
+        final HttpGet httpGet = new HttpGet(url);
+
+        try (CloseableHttpResponse response =
+                     (CloseableHttpResponse) httpClient.execute(httpGet)) {
+
             if (statusCodeNot2xx(response))
                 throw new RuntimeException("Error while retrieving " + url + ": " + response.getStatusLine().getStatusCode());
 
@@ -41,20 +44,35 @@ public class HttpServiceImpl implements HttpService {
     public String post(String url, String payload) {
         final HttpPost httpPost = new HttpPost(url);
         httpPost.setHeader("Content-type", "application/json");
+        httpPost.setHeader("Accept", "application/json"); // If this is not set, no json is returned
         HttpEntity entity = new StringEntity(payload, "UTF-8");
         httpPost.setEntity(entity);
 
-        try {
-            HttpResponse response = httpClient.execute(httpPost);
+        try (CloseableHttpResponse response =
+                     (CloseableHttpResponse) httpClient.execute(httpPost)) {
+
             if (statusCodeNot2xx(response))
                 throw new RuntimeException("Error while posting to  " + url + " with payload '" + payload + "': " + response.getStatusLine().getStatusCode());
 
             HttpEntity responseEntity = response.getEntity();
             return EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+
         } catch (IOException e) {
             log.warn("Error while posting to " + url + ": " + e.getMessage());
             throw new RuntimeException(e);
         }
+
+//        try {
+//            HttpResponse response = httpClient.execute(httpPost);
+//            if (statusCodeNot2xx(response))
+//                throw new RuntimeException("Error while posting to  " + url + " with payload '" + payload + "': " + response.getStatusLine().getStatusCode());
+//
+//            HttpEntity responseEntity = response.getEntity();
+//            return EntityUtils.toString(responseEntity, StandardCharsets.UTF_8);
+//        } catch (IOException e) {
+//            log.warn("Error while posting to " + url + ": " + e.getMessage());
+//            throw new RuntimeException(e);
+//        }
     }
 
     @Override
