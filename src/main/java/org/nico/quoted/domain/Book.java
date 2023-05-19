@@ -1,18 +1,11 @@
 package org.nico.quoted.domain;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
-@Entity
-@DiscriminatorValue("book")
 public class Book extends Source {
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "author_id")
     private Author author;
     private String coverPath; // TODO Currently unused, intention to be used in future export to MD feature
     private String isbn; // TODO Currently unused, intention to be used in future export to MD feature
@@ -21,12 +14,6 @@ public class Book extends Source {
         super(title);
         this.author = author;
     }
-//
-//    public Book(String title, Author author, String coverPath) {
-//        super(title);
-//        this.author = author;
-//        this.coverPath = coverPath;
-//    }
 
     @Override
     public boolean equals(Object o) {

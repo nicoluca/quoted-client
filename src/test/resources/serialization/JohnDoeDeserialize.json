@@ -1,0 +1,45 @@
+{
+  "id": 1,
+  "firstName": "John",
+  "lastName": "Doe",
+  "_embedded": {
+    "books": [
+      {
+        "id": 1,
+        "title": "Test title",
+        "author": {
+          "id": 1,
+          "firstName": "John",
+          "lastName": "Doe"
+        },
+        "_links": {
+          "quotes": {
+            "href": "http://localhost:8080/api/books/1/quotes{?projection}",
+            "templated": true
+          },
+          "author": {
+            "href": "http://localhost:8080/api/books/1/author{?projection}",
+            "templated": true
+          },
+          "self": {
+            "href": "http://localhost:8080/api/books/1{?projection}",
+            "templated": true
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/authors/1"
+    },
+    "author": {
+      "href": "http://localhost:8080/api/authors/1{?projection}",
+      "templated": true
+    },
+    "books": {
+      "href": "http://localhost:8080/api/authors/1/books{?projection}",
+      "templated": true
+    }
+  }
+}

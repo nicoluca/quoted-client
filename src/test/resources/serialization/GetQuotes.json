@@ -1,0 +1,60 @@
+{
+  "_embedded": {
+    "quotes": [
+      {
+        "id": 1,
+        "text": "blablabla artikel",
+        "source": {
+          "type": "article",
+          "id": 2,
+          "title": "sz.de",
+          "url": "https://www.sz,de",
+          "lastVisited": "2023-05-18T16:18:04.362+00:00"
+        },
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/quotes/1"
+          },
+          "quote": {
+            "href": "http://localhost:8080/api/quotes/1{?projection}",
+            "templated": true
+          },
+          "source": {
+            "href": "http://localhost:8080/api/quotes/1/source"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "text": "blablabla buch",
+        "source": {
+          "type": "book",
+          "id": 3,
+          "title": "Test title",
+          "coverPath": null,
+          "isbn": null
+        },
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/quotes/2"
+          },
+          "quote": {
+            "href": "http://localhost:8080/api/quotes/2{?projection}",
+            "templated": true
+          },
+          "source": {
+            "href": "http://localhost:8080/api/quotes/2/source"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/quotes"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/quotes"
+    }
+  }
+}

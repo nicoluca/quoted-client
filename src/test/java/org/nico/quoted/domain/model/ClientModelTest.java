@@ -9,7 +9,7 @@ import org.nico.quoted.TestConfig;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.model.ClientModel;
 import org.nico.quoted.model.RepositoryModel;
-import org.nico.quoted.repository.CRUDRepository;
+import org.nico.quoted.repository.CrudService;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -24,13 +24,13 @@ class ClientModelTest {
     @Mock
     private RepositoryModel repositoryModel = mock(RepositoryModel.class);
     @Mock
-    private CRUDRepository<Author> authorRepository = mock(CRUDRepository.class);
+    private CrudService<Author> authorRepository = mock(CrudService.class);
     @Mock
-    private CRUDRepository<Book> bookRepository = mock(CRUDRepository.class);
+    private CrudService<Book> bookRepository = mock(CrudService.class);
     @Mock
-    private CRUDRepository<Quote> quoteRepository = mock(CRUDRepository.class);
+    private CrudService<Quote> quoteRepository = mock(CrudService.class);
     @Mock
-    private CRUDRepository<Article> articleRepository= mock(CRUDRepository.class);
+    private CrudService<Article> articleRepository= mock(CrudService.class);
 
     @BeforeEach
     void setUp() {

@@ -1,6 +1,5 @@
 package org.nico.quoted.domain;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +10,9 @@ import java.util.Set;
 @NoArgsConstructor // Needed for JPA
 @AllArgsConstructor
 @Getter @Setter
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED) // JOINED to to have a dedicated source table, TABLE_PER_CLASS to have a table per subclass
-@DiscriminatorColumn(name="source_type")
-public abstract class Source {
+public abstract class Source extends Identifiable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private long id;
     private String title;
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "source")
     private Set<Quote> quotes;
 
     public Source(String title) {

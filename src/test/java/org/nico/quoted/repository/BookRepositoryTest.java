@@ -3,7 +3,6 @@ package org.nico.quoted.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.nico.quoted.TestConfig;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
 
@@ -13,15 +12,15 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BookRepositoryTest {
-    private CRUDRepository<Book> bookRepository;
-    private CRUDRepository<Author> authorRepository;
+    private CrudService<Book> bookRepository;
+    private CrudService<Author> authorRepository;
 
     private Author author;
 
     @BeforeEach
     void setUp() {
-        bookRepository = new RepositoryImplementation<>(Book.class, TestConfig.TEST_EMF);
-        authorRepository = new RepositoryImplementation<>(Author.class, TestConfig.TEST_EMF);
+//        bookRepository = new RepositoryImplementation<>(Book.class, TestConfig.TEST_EMF);
+//        authorRepository = new RepositoryImplementation<>(Author.class, TestConfig.TEST_EMF);
 
         author = new Author("Test", "Test");
         authorRepository.create(author);

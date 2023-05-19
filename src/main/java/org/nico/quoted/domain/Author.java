@@ -1,6 +1,5 @@
 package org.nico.quoted.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,16 +8,11 @@ import java.util.Set;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
-@Entity
-public class Author {
+public class Author extends Identifiable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
     private String firstName;
     private String lastName;
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "author")
     private Set<Book> books;
 
     public Author(String firstName, String lastName) {

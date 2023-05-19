@@ -13,11 +13,13 @@ module org.nico.quoted {
     requires jakarta.xml.bind;
     requires httpclient;
     requires httpcore;
+    requires com.google.gson;
 
     opens org.nico.quoted to javafx.fxml;
     exports org.nico.quoted;
     exports org.nico.quoted.ui.controller;
     opens org.nico.quoted.ui.controller to javafx.fxml;
     opens org.nico.quoted.ui.controller.form to javafx.fxml;
-    opens org.nico.quoted.domain to org.hibernate.orm.core;
+    opens org.nico.quoted.domain to org.hibernate.orm.core, com.google.gson;
+    opens org.nico.quoted.serialization to org.hibernate.orm.core;
 }

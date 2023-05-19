@@ -1,0 +1,52 @@
+{
+    "_embedded": {
+        "articles": [
+            {
+                "id": 1,
+                "lastVisited": "2023-05-18T16:18:03.405+00:00",
+                "title": "sz.de",
+                "url": "https://www.sz,de",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/articles/1"
+                    },
+                    "article": {
+                        "href": "http://localhost:8080/api/articles/1{?projection}",
+                        "templated": true
+                    },
+                    "quotes": {
+                        "href": "http://localhost:8080/api/articles/1/quotes{?projection}",
+                        "templated": true
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "lastVisited": "2023-05-18T16:18:04.362+00:00",
+                "title": "sz.de",
+                "url": "https://www.sz,de",
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:8080/api/articles/2"
+                    },
+                    "article": {
+                        "href": "http://localhost:8080/api/articles/2{?projection}",
+                        "templated": true
+                    },
+                    "quotes": {
+                        "href": "http://localhost:8080/api/articles/2/quotes{?projection}",
+                        "templated": true
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/api/articles"
+        },
+        "profile": {
+            "href": "http://localhost:8080/api/profile/articles"
+        }
+    }
+}

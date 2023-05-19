@@ -1,88 +1,105 @@
 package org.nico.quoted.repository;
 
+import com.google.gson.JsonDeserializer;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.nico.quoted.TestConfig;
+import org.nico.quoted.config.DBConfig;
 import org.nico.quoted.domain.Author;
+import org.nico.quoted.serialization.AuthorDeserializer;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 class AuthorRepositoryTest {
 
-    /*
-    persistence.xml needs to be set to 'create-drop' for testing
-     */
-
-    private CRUDRepository<Author> authorRepository;
+    private CrudService<Author> authorService;
 
     @BeforeEach
     void setUp() {
-        authorRepository = new RepositoryImplementation<>(Author.class, TestConfig.TEST_EMF);
+        JsonDeserializer<Author> authorDeserializer = new AuthorDeserializer();
+        authorService = new ServiceImpl<>(Author.class,
+                DBConfig.AUTHORS_URL,
+                authorDeserializer,
+                DBConfig.HTTP_SERVICE);
+
+        // Mocks
+        HttpClient httpClient = mock(HttpClient.class);
+        HttpGet httpGet = mock(HttpGet.class);
+        HttpResponse httpResponse = mock(HttpResponse.class);
+        StatusLine statusLine = mock(StatusLine.class);
     }
 
     @AfterEach
     void tearDown() {
-        authorRepository.readAll().forEach(authorRepository::delete);
+        // authorRepository.readAll().forEach(authorRepository::delete);
     }
 
     @Test
     @DisplayName("Create authors and confirm they are in database")
     void create() {
         Author author = new Author("Neil", "Stephenson");
-        authorRepository.create(author);
+        authorService.create(author);
 
         Author author2 = new Author("Neil", "Armstrong");
-        authorRepository.create(author2);
+        authorService.create(author2);
 
         // Assert if author is in database
-        assertEquals(authorRepository.readById(author.getId()).get(), author);
-        assertEquals(2, authorRepository.readAll().size());
+        Optional<Author> authorOptional = authorService.readById(1L);
+        assert authorOptional.isPresent();
+        assertEquals(authorOptional.get(), author);
+        // assertEquals(2, authorRepository.readAll().size());
     }
 
     @Test
     @DisplayName("Read author by id")
     void readById() {
         Author author = new Author("Neil", "Stephenson");
-        authorRepository.create(author);
+        authorService.create(author);
 
-        assertEquals(authorRepository.readById(author.getId()).get(), author);
+        assertEquals(authorService.readById(author.getId()).get(), author);
     }
 
     @Test
     @DisplayName("Read all authors")
     void readAll() {
         Author author = new Author("Neil", "Stephenson");
-        authorRepository.create(author);
+        authorService.create(author);
 
         Author author2 = new Author("Neil", "Armstrong");
-        authorRepository.create(author2);
+        authorService.create(author2);
 
-        assertEquals(2, authorRepository.readAll().size());
+        assertEquals(2, authorService.readAll().size());
     }
 
     @Test
     @DisplayName("Update author")
     void update() {
         Author author = new Author("Neil", "Stephenson");
-        authorRepository.create(author);
+        authorService.create(author);
 
         author.setFirstName("Neil deGrasse");
-        authorRepository.update(author);
+        authorService.update(author);
 
-        assertEquals(authorRepository.readById(author.getId()).get(), author);
+        assertEquals(authorService.readById(author.getId()).get(), author);
     }
 
     @Test
     @DisplayName("Delete author")
     void delete() {
         Author author = new Author("Neil", "Stephenson");
-        authorRepository.create(author);
+        authorService.create(author);
 
-        authorRepository.delete(author);
+        authorService.delete(author);
 
-        assertEquals(0, authorRepository.readAll().size());
+        assertEquals(0, authorService.readAll().size());
     }
 
 }

@@ -1,7 +1,6 @@
 package org.nico.quoted.repository;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.nico.quoted.domain.Article;
 
@@ -9,15 +8,14 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.nico.quoted.TestConfig.TEST_EMF;
 
 class ArticleRepositoryTest {
-    private RepositoryImplementation<Article> articleRepository;
+    private ServiceImpl<Article> articleRepository;
 
-    @BeforeEach
-    void setUp() {
-        articleRepository = new RepositoryImplementation<>(Article.class, TEST_EMF);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        articleRepository = new RepositoryImplementation<>(Article.class, TEST_EMF);
+//    }
 
     @AfterEach
     void tearDown() {

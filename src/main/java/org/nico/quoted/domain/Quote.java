@@ -1,6 +1,5 @@
 package org.nico.quoted.domain;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,23 +7,14 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
-@Entity
 @NoArgsConstructor
 @Getter @Setter
-public class Quote {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Quote extends Identifiable {
 
     @CreationTimestamp
-    @Column(name = "last_edited")
     private Timestamp lastEdited;
 
-    @Column(columnDefinition = "TEXT")
     private String text;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "source_id")
     private Source source;
 
     public Quote(String text, Source source) {
@@ -40,5 +30,4 @@ public class Quote {
         return text.equals(quote.text) &&
                 source.equals(quote.source);
     }
-
 }

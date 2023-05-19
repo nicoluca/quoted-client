@@ -1,0 +1,32 @@
+{
+  "_embedded": {
+    "authors": [
+      {
+        "id": 1,
+        "firstName": "Petra",
+        "lastName": "Witzig",
+        "_links": {
+          "self": {
+            "href": "http://localhost:8080/api/authors/1"
+          },
+          "author": {
+            "href": "http://localhost:8080/api/authors/1{?projection}",
+            "templated": true
+          },
+          "books": {
+            "href": "http://localhost:8080/api/authors/1/books{?projection}",
+            "templated": true
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/api/authors"
+    },
+    "profile": {
+      "href": "http://localhost:8080/api/profile/authors"
+    }
+  }
+}

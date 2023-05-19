@@ -7,7 +7,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
-import org.nico.quoted.repository.CRUDRepository;
+import org.nico.quoted.repository.CrudService;
 
 import java.sql.Timestamp;
 
@@ -28,10 +28,10 @@ public class ClientModel extends EditViewModel {
     private final BooleanProperty resetForm;
     private static Quote lastRandomQuote;
 
-    private final CRUDRepository<Author> authorRepository;
-    private final CRUDRepository<Book> bookRepository;
-    private final CRUDRepository<Article> articleRepository;
-    private final CRUDRepository<Quote> quoteRepository;
+    private final CrudService<Author> authorRepository;
+    private final CrudService<Book> bookRepository;
+    private final CrudService<Article> articleRepository;
+    private final CrudService<Quote> quoteRepository;
 
     public ClientModel(RepositoryModel repositoryModel) {
 
