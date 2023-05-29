@@ -1,0 +1,38 @@
+package org.nico.quoted.config;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.nico.quoted.repository.HttpServiceImpl;
+
+public class ConfigExample {
+    public static final String HEALTH_ENDPOINT = "/actuator/health";
+    public static final String BASE_URL = "http://localhost:8080";
+    public static final String API_URL = "/api";
+
+    public static final String SERVER_URL = BASE_URL + API_URL;
+    public static final String BOOKS_URL = SERVER_URL + "/books";
+    public static final String AUTHORS_URL = SERVER_URL + "/authors";
+    public static final String ARTICLES_URL = SERVER_URL + "/articles";
+    public static final String QUOTES_URL = SERVER_URL + "/quotes";
+
+    private static final HttpClient HTTP_CLIENT = HttpClientBuilder.create()
+            .setDefaultCredentialsProvider(getCredentialsProvider())
+            .build();
+
+    public static final HttpServiceImpl HTTP_SERVICE = new HttpServiceImpl(HTTP_CLIENT);
+
+    // TODO - set your own username and password
+    private static final String BASIC_AUTH_USERNAME = "USERNAME";
+    private static final String BASIC_AUTH_PASSWORD = "PASSWORD";
+
+    public static BasicCredentialsProvider getCredentialsProvider() {
+        BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(
+                org.apache.http.auth.AuthScope.ANY,
+                new org.apache.http.auth.UsernamePasswordCredentials(BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD));
+        return credentialsProvider;
+    }
+
+
+}
