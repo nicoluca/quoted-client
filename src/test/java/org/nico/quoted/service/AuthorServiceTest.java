@@ -1,7 +1,6 @@
-package org.nico.quoted.repository;
+package org.nico.quoted.service;
 
 import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonSerializer;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -46,26 +45,6 @@ class AuthorServiceTest {
     }
 
     @Test
-    @DisplayName("Create authors and confirm they are saved in backend")
-    void createAndRetrieve() {
-        Author author = new Author("Neil", "Stephenson");
-        author = authorService.create(author);
-
-        Author author2 = new Author("Neil", "Armstrong");
-        author2 = authorService.create(author2);
-
-        // Assert if author is in database
-        Optional<Author> authorOptional = authorService.readById(author.getId());
-        assert authorOptional.isPresent();
-        assertEquals(authorOptional.get(), author);
-
-        // Assert if author2 is in database
-        Optional<Author> author2Optional = authorService.readById(author2.getId());
-        assert author2Optional.isPresent();
-        assertEquals(author2Optional.get(), author2);
-    }
-
-    @Test
     @DisplayName("Write authors, read all and confirm they are saved in backend")
     void readAll() {
         Author author = new Author("Neil", "Stephenson");
@@ -74,32 +53,6 @@ class AuthorServiceTest {
         authorService.create(author2);
 
         assertEquals(2, authorService.readAll().size());
-    }
-
-    @Test
-    @DisplayName("Update author")
-    void update() {
-        Author author = new Author("OldName", "Stephenson");
-        author = authorService.create(author);
-
-        author.setFirstName("NewName");
-        Author newAuthor = authorService.update(author);
-
-        assertEquals(author, newAuthor);
-
-        Optional<Author> authorOptional = authorService.readById(author.getId());
-        assert authorOptional.isPresent();
-        assertEquals(authorOptional.get(), author);
-    }
-
-    @Test
-    @DisplayName("Delete author")
-    void delete() {
-        Author author = new Author("Neil", "Stephenson");
-        author = authorService.create(author);
-        authorService.delete(author);
-        Optional<Author> authorOptional = authorService.readById(author.getId());
-        assertTrue(authorOptional.isEmpty());
     }
 
 }

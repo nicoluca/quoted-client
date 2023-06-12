@@ -1,7 +1,5 @@
 package org.nico.quoted;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
@@ -11,7 +9,6 @@ import java.util.List;
 
 public class TestConfig {
     public static final String TEST_DB_NAME = "quote_db_test";
-    public static final EntityManagerFactory TEST_EMF = Persistence.createEntityManagerFactory(TEST_DB_NAME);
 
 
     public static List<Author> defaultAuthors() {

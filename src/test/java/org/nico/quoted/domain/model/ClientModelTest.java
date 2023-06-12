@@ -9,7 +9,7 @@ import org.nico.quoted.TestConfig;
 import org.nico.quoted.domain.*;
 import org.nico.quoted.model.ClientModel;
 import org.nico.quoted.model.RepositoryModel;
-import org.nico.quoted.repository.CrudService;
+import org.nico.quoted.service.CrudService;
 
 import java.sql.Timestamp;
 import java.time.Duration;

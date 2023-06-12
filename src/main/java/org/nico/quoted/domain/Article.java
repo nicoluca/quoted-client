@@ -1,5 +1,6 @@
 package org.nico.quoted.domain;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
+@JsonTypeName("book")
 public class Article extends Source {
 
     private String url;
@@ -24,7 +26,9 @@ public class Article extends Source {
 
     @Override
     public String toString() {
-        if (this.getTitle() == null || this.getTitle().equals(this.url))
+        if (this.getTitle() == null || this.getTitle().isBlank())
+            return this.url;
+        if (this.getTitle().equals(this.url))
             return this.getTitle();
         else
             return super.toString();

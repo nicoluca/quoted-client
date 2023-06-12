@@ -1,18 +1,32 @@
 package org.nico.quoted.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+
 
 import java.util.Set;
 
 @NoArgsConstructor // Needed for JPA
 @AllArgsConstructor
 @Getter @Setter
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Book.class, name = "book"),
+        @JsonSubTypes.Type(value = Article.class, name = "article")
+})
 public abstract class Source extends Identifiable {
 
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+
+
     private String title;
+    @JsonIgnore
     private Set<Quote> quotes;
 
     public Source(String title) {

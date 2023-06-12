@@ -1,14 +1,19 @@
 package org.nico.quoted.domain;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
+@JsonTypeName("book")
 public class Book extends Source {
 
+    @JsonIncludeProperties({"firstName", "lastName"})
     private Author author;
+
     private String coverPath; // TODO Currently unused, intention to be used in future export to MD feature
     private String isbn; // TODO Currently unused, intention to be used in future export to MD feature
 

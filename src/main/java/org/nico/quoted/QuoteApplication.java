@@ -26,14 +26,14 @@ public class QuoteApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         log.info("Starting application");
+
+        checkServerHealth();
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(
                 Objects.requireNonNull(
                         getClass().getResource("main-view.fxml")));
         Scene scene = new Scene(fxmlLoader.load(), WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        checkServerHealth();
-
         FormUtil.addCssToScene(scene);
 
         stage.setTitle(APP_NAME);

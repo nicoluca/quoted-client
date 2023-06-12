@@ -1,0 +1,56 @@
+[
+  {
+    "type": "article",
+    "id": 1,
+    "title": "Article 1",
+    "url": "article1.com",
+    "lastVisited": "2023-06-05T10:26:39.685+00:00"
+  },
+  {
+    "type": "article",
+    "id": 2,
+    "title": "Article 2",
+    "url": "article2.com",
+    "lastVisited": "2023-06-05T10:27:53.230+00:00"
+  },
+  {
+    "type": "article",
+    "id": 3,
+    "title": null,
+    "url": "article3.com",
+    "lastVisited": "2023-06-05T10:28:43.198+00:00"
+  },
+  {
+    "type": "book",
+    "id": 4,
+    "title": "Test Book 1",
+    "author": {
+      "firstName": "Firstname",
+      "lastName": "Lastname"
+    },
+    "coverPath": "something",
+    "isbn": "something"
+  },
+  {
+    "type": "book",
+    "id": 5,
+    "title": "Test Book 2",
+    "author": {
+      "firstName": "Firstname",
+      "lastName": "Lastname"
+    },
+    "coverPath": null,
+    "isbn": "something"
+  },
+  {
+    "type": "book",
+    "id": 6,
+    "title": "Test Book 3",
+    "author": {
+      "firstName": "Different-Firstname",
+      "lastName": "Different-Lastname"
+    },
+    "coverPath": null,
+    "isbn": null
+  }
+]

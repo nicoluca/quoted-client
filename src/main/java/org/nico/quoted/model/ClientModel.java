@@ -7,7 +7,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
-import org.nico.quoted.repository.CrudService;
+import org.nico.quoted.service.CrudService;
 
 import java.sql.Timestamp;
 

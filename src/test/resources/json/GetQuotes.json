@@ -1,0 +1,63 @@
+[
+
+    {
+        "id": 5,
+        "lastEdited": "2023-06-05T10:09:13.702+00:00",
+        "text": "blablabla",
+        "source": {
+            "type": "article",
+            "id": 1,
+            "title": "Article 1"
+        }
+    },
+    {
+        "id": 6,
+        "lastEdited": "2023-06-05T10:13:50.041+00:00",
+        "text": "blablabla",
+        "source": {
+            "type": "book",
+            "id": 4,
+            "title": "Test Book 1"
+        }
+    },
+    {
+        "id": 7,
+        "lastEdited": "2023-06-05T10:13:53.435+00:00",
+        "text": "blablabla",
+        "source": {
+            "type": "book",
+            "id": 5,
+            "title": "Test Book 2"
+        }
+    },
+    {
+        "id": 8,
+        "lastEdited": "2023-06-05T10:13:58.443+00:00",
+        "text": "blablabla",
+        "source": {
+            "type": "book",
+            "id": 5,
+            "title": "Test Book 2"
+        }
+    },
+    {
+        "id": 9,
+        "lastEdited": "2023-06-05T10:16:16.838+00:00",
+        "text": "blablabla",
+        "source": {
+            "type": "article",
+            "id": 1,
+            "title": "Article 1"
+        }
+    },
+    {
+        "id": 10,
+        "lastEdited": "2023-06-05T10:25:24.721+00:00",
+        "text": "blablabla",
+        "source": {
+            "type": "article",
+            "id": 1,
+            "title": "Article 1"
+        }
+    }
+]

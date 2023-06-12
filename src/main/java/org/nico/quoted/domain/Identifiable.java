@@ -5,5 +5,5 @@ import lombok.Setter;
 
 @Getter @Setter
 public abstract class Identifiable {
-    private transient long id;
+    private long id;
 }

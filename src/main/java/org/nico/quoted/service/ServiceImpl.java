@@ -1,4 +1,4 @@
-package org.nico.quoted.repository;
+package org.nico.quoted.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,17 +46,6 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
     }
 
     @Override
-    public Optional<T> readById(long id) {
-        Optional<String> jsonResult = httpService.get(url + "/" + id);
-
-        if (jsonResult.isEmpty())
-            return Optional.empty();
-
-        T t = gson.fromJson(jsonResult.get(), type);
-        return Optional.of(t);
-    }
-
-    @Override
     public List<T> readAll() {
         Optional<String> jsonResult = httpService.get(url);
 
@@ -81,10 +70,5 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
     @Override
     public void delete(T t) {
         httpService.delete(url + "/" + t.getId());
-    }
-
-    private void checkIfResponseIsOk(HttpResponse response) {
-        if (response.getStatusLine().getStatusCode() != 200)
-            throw new RuntimeException("Failed : HTTP error code : " + response.getStatusLine().getStatusCode());
     }
 }

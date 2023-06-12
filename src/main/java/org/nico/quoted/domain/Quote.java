@@ -3,7 +3,6 @@ package org.nico.quoted.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -11,8 +10,7 @@ import java.sql.Timestamp;
 @Getter @Setter
 public class Quote extends Identifiable {
 
-    @CreationTimestamp
-    private Timestamp lastEdited;
+    private Timestamp lastEdited; // TODO - Was previously used with @CreationTimestamp from HIbernate, now needs to come from server
 
     private String text;
     private Source source;

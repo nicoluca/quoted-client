@@ -1,4 +1,4 @@
-package org.nico.quoted.repository;
+package org.nico.quoted.service;
 
 import java.util.Optional;
 

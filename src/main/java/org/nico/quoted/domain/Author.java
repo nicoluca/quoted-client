@@ -1,5 +1,6 @@
 package org.nico.quoted.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class Author extends Identifiable {
     private String firstName;
     private String lastName;
 
+    @JsonIgnore
     private Set<Book> books;
 
     public Author(String firstName, String lastName) {

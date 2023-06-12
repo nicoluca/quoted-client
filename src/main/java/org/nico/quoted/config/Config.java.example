@@ -3,7 +3,7 @@ package org.nico.quoted.config;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.nico.quoted.repository.HttpServiceImpl;
+import org.nico.quoted.service.HttpServiceImpl;
 
 public class ConfigExample {
     public static final String HEALTH_ENDPOINT = "/actuator/health";
