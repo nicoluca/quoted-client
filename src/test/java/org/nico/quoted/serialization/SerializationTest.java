@@ -5,8 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.nico.quoted.TestUtil;
+import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,14 +29,19 @@ public class SerializationTest {
         book.setIsbn("TestIsbn");
         String json = objectMapper.writeValueAsString(book);
 
-        // Compare the json objects using Jackson
          JsonNode expected = objectMapper.readTree(TestUtil.resourceToString("/json/SerializedBook.json"));
          JsonNode actual = objectMapper.readTree(json);
          assertEquals(expected, actual);
     }
 
     @Test
-    void serializeArticle() {
+    void serializeArticle() throws JsonProcessingException {
+        Article article = new Article("TestArticle", "TestUrl");
+        article.setLastVisited(Timestamp.valueOf("2023-06-05 10:25:54"));
+        String json = objectMapper.writeValueAsString(article);
 
+        JsonNode expected = objectMapper.readTree(TestUtil.resourceToString("/json/SerializedArticle.json"));
+        JsonNode actual = objectMapper.readTree(json);
+        assertEquals(expected, actual);
     }
 }

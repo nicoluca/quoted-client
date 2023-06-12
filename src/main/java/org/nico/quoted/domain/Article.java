@@ -1,5 +1,6 @@
 package org.nico.quoted.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,13 @@ import java.sql.Timestamp;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
-@JsonTypeName("book")
+@JsonTypeName("article")
 public class Article extends Source {
 
     private String url;
+
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Europe/Paris")
     private Timestamp lastVisited;
 
     public Article(String title, String url) {
