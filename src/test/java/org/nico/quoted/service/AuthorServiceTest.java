@@ -5,13 +5,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.nico.quoted.config.Config;
 import org.nico.quoted.domain.Author;
-import org.nico.quoted.serialization.AuthorDeserializer;
 
 import java.util.Optional;
 
@@ -25,11 +21,6 @@ class AuthorServiceTest {
 
     @BeforeEach
     void setUp() {
-        JsonDeserializer<Author> authorDeserializer = new AuthorDeserializer();
-        authorService = new ServiceImpl<>(Author.class,
-                Config.AUTHORS_URL,
-                authorDeserializer,
-                Config.HTTP_SERVICE);
 
         // Mocks
         // TODO - move to @BeforeAll, currently tests against real backend
@@ -46,6 +37,7 @@ class AuthorServiceTest {
 
     @Test
     @DisplayName("Write authors, read all and confirm they are saved in backend")
+    @Disabled("Needs a running server")
     void readAll() {
         Author author = new Author("Neil", "Stephenson");
         authorService.create(author);

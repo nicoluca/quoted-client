@@ -22,10 +22,8 @@ import java.util.Set;
 })
 public abstract class Source extends Identifiable {
 
-    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
-
-
     private String title;
+
     @JsonIgnore
     private Set<Quote> quotes;
 
@@ -41,6 +39,7 @@ public abstract class Source extends Identifiable {
         return this.title.equals(source.title);
     }
 
+    @JsonIgnore
     public abstract String getOrigin();
 
     @Override

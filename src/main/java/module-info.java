@@ -19,6 +19,4 @@ module org.nico.quoted {
     exports org.nico.quoted.domain to com.fasterxml.jackson.databind;
     opens org.nico.quoted.ui.controller to javafx.fxml;
     opens org.nico.quoted.ui.controller.form to javafx.fxml;
-    opens org.nico.quoted.domain to org.hibernate.orm.core, com.google.gson;
-    opens org.nico.quoted.serialization to org.hibernate.orm.core;
 }

@@ -2,17 +2,10 @@ package org.nico.quoted.service;
 
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.nico.quoted.config.Config;
 import org.nico.quoted.domain.Article;
-import org.nico.quoted.serialization.ArticleDeserializer;
-import org.nico.quoted.serialization.ArticleSerializer;
 
-import java.time.LocalDate;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,13 +14,6 @@ class ArticleServiceTest {
 
     @BeforeEach
     void setUp() {
-        JsonDeserializer<Article> articleDeserializer = new ArticleDeserializer();
-        JsonSerializer<Article> articleSerializer = new ArticleSerializer();
-        articleService = new ServiceImpl<>(Article.class,
-                Config.ARTICLES_URL,
-                articleSerializer,
-                articleDeserializer,
-                Config.HTTP_SERVICE);
     }
 
     @AfterEach
@@ -38,6 +24,7 @@ class ArticleServiceTest {
 
     @Test
     @DisplayName("Read all articles")
+    @Disabled("Needs a running server")
     void readAll() {
         assertEquals(0, articleService.readAll().size());
 

@@ -85,7 +85,8 @@ class ClientModelTest {
     @DisplayName("Test if the model returns the correct number of quotes after adding a new quote")
     void addQuote() {
         Quote quote = new Quote("Test", firstBook());
-        Mockito.doNothing().when(quoteRepository).create(quote);
+        //Mockito.doNothing().when(quoteRepository).create(quote);
+        when(quoteRepository.create(any(Quote.class))).thenReturn(quote);
         model.addQuote(quote);
         assertEquals(4, numberOfQuotes());
     }
