@@ -24,7 +24,7 @@ class ArticleServiceTest {
 
     @Test
     @DisplayName("Read all articles")
-    @Disabled("Needs a running server")
+    @Disabled("Needs a running server - mock the server through httpservice instead")
     void readAll() {
         assertEquals(0, articleService.readAll().size());
 

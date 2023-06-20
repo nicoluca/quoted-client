@@ -28,15 +28,15 @@ public class ClientModel extends EditViewModel {
     private final BooleanProperty resetForm;
     private static Quote lastRandomQuote;
 
-    private final CrudService<Book> bookRepository;
-    private final CrudService<Article> articleRepository;
-    private final CrudService<Quote> quoteRepository;
+    private final CrudService<Book> bookService;
+    private final CrudService<Article> articleService;
+    private final CrudService<Quote> quoteService;
 
     public ClientModel(RepositoryModel repositoryModel) {
 
-        this.bookRepository = repositoryModel.getBookRepository();
-        this.articleRepository = repositoryModel.getArticleRepository();
-        this.quoteRepository = repositoryModel.getQuoteRepository();
+        this.bookService = repositoryModel.getBookRepository();
+        this.articleService = repositoryModel.getArticleRepository();
+        this.quoteService = repositoryModel.getQuoteRepository();
 
         // Lists
         this.sources = FXCollections.observableArrayList();
@@ -56,17 +56,17 @@ public class ClientModel extends EditViewModel {
     }
 
     private void readRepositories() {
-        this.sources.addAll(bookRepository.readAll());
-        this.sources.addAll(articleRepository.readAll());
+        this.sources.addAll(bookService.readAll());
+        this.sources.addAll(articleService.readAll());
 
-        this.books.addAll(bookRepository.readAll());
+        this.books.addAll(bookService.readAll());
         this.books.stream()
                 .map(Book::getAuthor)
                 .distinct()
                 .forEach(authors::add);
-        this.articles.addAll(articleRepository.readAll());
+        this.articles.addAll(articleService.readAll());
 
-        this.quotes.addAll(quoteRepository.readAll());
+        this.quotes.addAll(quoteService.readAll());
         log.info("Repositories read into model.");
     }
 
@@ -241,7 +241,7 @@ public class ClientModel extends EditViewModel {
                         } else
                             sources.add(quote.getSource());
 
-                        quoteRepository.update(quote);
+                        quoteService.update(quote);
                     });
                 }
 
@@ -255,16 +255,16 @@ public class ClientModel extends EditViewModel {
 
                         if (quote.getSource() instanceof Article article) {
                             article.setLastVisited(new Timestamp(System.currentTimeMillis()));
-                            articleRepository.update(article);
+                            articleService.update(article);
                         }
 
-                        quoteRepository.create(quote);
+                        quoteService.create(quote);
                     });
                 }
 
                 else if (c.wasRemoved()) {
                     log.info("Quote was removed");
-                    c.getRemoved().forEach(quoteRepository::delete);
+                    c.getRemoved().forEach(quoteService::delete);
                 }
 
             }
@@ -329,7 +329,7 @@ public class ClientModel extends EditViewModel {
                         else
                             authors.add(book.getAuthor());
 
-                        bookRepository.update(book);
+                        bookService.update(book);
                     });
 
                     cleanAuthors();
@@ -342,11 +342,11 @@ public class ClientModel extends EditViewModel {
                         else
                             authors.add(book.getAuthor());
 
-                        bookRepository.create(book);
+                        bookService.create(book);
                     });
 
                 else if (c.wasRemoved()) {
-                    c.getRemoved().forEach(bookRepository::delete);
+                    c.getRemoved().forEach(bookService::delete);
                     cleanAuthors();
                 }
             }
@@ -390,13 +390,13 @@ public class ClientModel extends EditViewModel {
         return c -> {
             while (c.next()) {
                 if (c.wasReplaced())
-                    c.getAddedSubList().forEach(articleRepository::update);
+                    c.getAddedSubList().forEach(articleService::update);
 
                 else if (c.wasAdded())
-                    c.getAddedSubList().forEach(articleRepository::create);
+                    c.getAddedSubList().forEach(articleService::create);
 
                 else if (c.wasRemoved())
-                    c.getRemoved().forEach(articleRepository::delete);
+                    c.getRemoved().forEach(articleService::delete);
             }
         };
     }
