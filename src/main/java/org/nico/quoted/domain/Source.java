@@ -20,7 +20,9 @@ import java.util.Set;
         @JsonSubTypes.Type(value = Book.class, name = "book"),
         @JsonSubTypes.Type(value = Article.class, name = "article")
 })
-public abstract class Source extends Identifiable {
+public abstract class Source implements Identifiable {
+
+    private long id;
 
     private String title;
 

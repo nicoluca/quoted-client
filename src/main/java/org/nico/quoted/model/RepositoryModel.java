@@ -14,8 +14,6 @@ import org.nico.quoted.service.ServiceImpl;
 
 @Getter
 public class RepositoryModel {
-    private final CrudService<Author> authorRepository =
-            new ServiceImpl<>(Author.class, Config.AUTHORS_URL, Config.HTTP_SERVICE);
     private final CrudService<Book> bookRepository =
             new ServiceImpl<>(Book.class, Config.BOOKS_URL, Config.HTTP_SERVICE);
     private final CrudService<Article> articleRepository =

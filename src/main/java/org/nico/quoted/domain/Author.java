@@ -9,7 +9,7 @@ import java.util.Set;
 
 @NoArgsConstructor // Needed for JPA
 @Getter @Setter
-public class Author extends Identifiable {
+public class Author {
 
     private String firstName;
     private String lastName;

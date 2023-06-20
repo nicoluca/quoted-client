@@ -24,8 +24,6 @@ class ClientModelTest {
     @Mock
     private RepositoryModel repositoryModel = mock(RepositoryModel.class);
     @Mock
-    private CrudService<Author> authorRepository = mock(CrudService.class);
-    @Mock
     private CrudService<Book> bookRepository = mock(CrudService.class);
     @Mock
     private CrudService<Quote> quoteRepository = mock(CrudService.class);
@@ -34,7 +32,6 @@ class ClientModelTest {
 
     @BeforeEach
     void setUp() {
-        when(repositoryModel.getAuthorRepository()).thenReturn(authorRepository);
         when(repositoryModel.getBookRepository()).thenReturn(bookRepository);
         when(repositoryModel.getQuoteRepository()).thenReturn(quoteRepository);
         when(repositoryModel.getArticleRepository()).thenReturn(articleRepository);
@@ -43,7 +40,6 @@ class ClientModelTest {
         when(bookRepository.readAll()).thenReturn(TestConfig.defaultBooks());
         when(articleRepository.readAll()).thenReturn(TestConfig.defaultArticles());
         when(quoteRepository.readAll()).thenReturn(TestConfig.defaultQuotes());
-        when(authorRepository.readAll()).thenReturn(TestConfig.defaultAuthors());
 
         model = new ClientModel(repositoryModel);
     }
@@ -150,7 +146,7 @@ class ClientModelTest {
     @DisplayName("Test adding a new book")
     void addBook() {
         Book book = new Book("Test", new Author("Test", "Test"));
-        Mockito.doNothing().when(bookRepository).create(book);
+        when(bookRepository.create(any(Book.class))).thenReturn(book);
         model.addBook(book);
         assertEquals(4, numberOfSources());
         assertEquals(3, numberOfBooks());
@@ -169,7 +165,7 @@ class ClientModelTest {
         assert firstSource() instanceof Book;
         Book bookToUpdate = firstBook();
         Book updatingBook = new Book("Test", bookToUpdate.getAuthor());
-        Mockito.doNothing().when(bookRepository).update(bookToUpdate);
+        when(bookRepository.update(bookToUpdate)).thenReturn(new Book("Test", bookToUpdate.getAuthor()));
 
 
         model.updateSource(updatingBook);
@@ -184,7 +180,7 @@ class ClientModelTest {
         assert model.getSourceByIndex(2).equals(firstArticle());
         Article articleToUpdate = firstArticle();
         Article updatingArticle = new Article("Test", "https://www.test.com");
-        Mockito.doNothing().when(articleRepository).update(articleToUpdate);
+        when(articleRepository.update(articleToUpdate)).thenReturn(new Article("Test", "https://www.test.com"));
 
         model.updateSource(updatingArticle);
         assertEquals("Test", firstArticle().getTitle());
@@ -247,7 +243,7 @@ class ClientModelTest {
         Author author = firstBook().getAuthor();
         Book book = new Book("Test", author);
 
-        Mockito.doNothing().when(bookRepository).create(book);
+        when(bookRepository.create(any(Book.class))).thenReturn(book);
         model.addBook(book);
 
         assertEquals(4, numberOfSources());
@@ -261,7 +257,7 @@ class ClientModelTest {
         Author author = new Author("J.R.R.", "Tolkien");
         Book book = new Book("Test", author);
 
-        Mockito.doNothing().when(bookRepository).create(book);
+        when(bookRepository.create(any(Book.class))).thenReturn(book);
         model.addBook(book);
 
         assertEquals(4, numberOfSources());
@@ -276,8 +272,9 @@ class ClientModelTest {
         Book book = new Book("Test", author);
         Quote quote = new Quote("Test", book);
 
-        Mockito.doNothing().when(bookRepository).create(book);
-        Mockito.doNothing().when(quoteRepository).create(quote);
+
+        when(bookRepository.create(book)).thenReturn(book);
+        when(quoteRepository.create(quote)).thenReturn(quote);
 
         model.addQuote(quote);
         assertEquals(4, numberOfQuotes());
@@ -354,8 +351,8 @@ class ClientModelTest {
     @Test
     @DisplayName("Test if timestamp of last visit is updated accordingly for article if quote is added")
     void testTimestampOfLastVisitIsUpdatedForArticleIfQuoteIsAdded() {
-        Mockito.doNothing().when(quoteRepository).create(any(Quote.class));
-        Mockito.doNothing().when(articleRepository).create(any(Article.class));
+        when(quoteRepository.create(any(Quote.class))).thenReturn(firstQuote());
+        when(articleRepository.create(any(Article.class))).thenReturn(firstArticle());
 
         firstArticle().setLastVisited(new Timestamp(0));
 

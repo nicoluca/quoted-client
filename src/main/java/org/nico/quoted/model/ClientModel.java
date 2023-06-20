@@ -28,14 +28,12 @@ public class ClientModel extends EditViewModel {
     private final BooleanProperty resetForm;
     private static Quote lastRandomQuote;
 
-    private final CrudService<Author> authorRepository;
     private final CrudService<Book> bookRepository;
     private final CrudService<Article> articleRepository;
     private final CrudService<Quote> quoteRepository;
 
     public ClientModel(RepositoryModel repositoryModel) {
 
-        this.authorRepository = repositoryModel.getAuthorRepository();
         this.bookRepository = repositoryModel.getBookRepository();
         this.articleRepository = repositoryModel.getArticleRepository();
         this.quoteRepository = repositoryModel.getQuoteRepository();
@@ -62,7 +60,10 @@ public class ClientModel extends EditViewModel {
         this.sources.addAll(articleRepository.readAll());
 
         this.books.addAll(bookRepository.readAll());
-        this.authors.addAll(authorRepository.readAll());
+        this.books.stream()
+                .map(Book::getAuthor)
+                .distinct()
+                .forEach(authors::add);
         this.articles.addAll(articleRepository.readAll());
 
         this.quotes.addAll(quoteRepository.readAll());
@@ -372,15 +373,15 @@ public class ClientModel extends EditViewModel {
                         if (!authors.contains(author))
                             authors.add(author);
 
-                        authorRepository.update(author);
                     });
                 }
 
-                else if (c.wasAdded())
-                    c.getAddedSubList().forEach(authorRepository::create);
+                // TODO
+                //else if (c.wasAdded())
+                //    c.getAddedSubList().forEach(authorRepository::create);
 
-                else if (c.wasRemoved())
-                    c.getRemoved().forEach(authorRepository::delete);
+                //else if (c.wasRemoved())
+                //    c.getRemoved().forEach(authorRepository::delete);
             }
         };
     }

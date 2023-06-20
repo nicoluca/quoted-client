@@ -8,6 +8,7 @@ import org.nico.quoted.TestUtil;
 import org.nico.quoted.domain.Article;
 import org.nico.quoted.domain.Author;
 import org.nico.quoted.domain.Book;
+import org.nico.quoted.domain.Quote;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -19,8 +20,19 @@ public class SerializationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void serializeQuote() {
+    void serializeQuote() throws JsonProcessingException {
+        Quote quote = Quote.builder()
+                .text("TestQuote")
+                .source(new Book("TestBook", new Author("TestFirstname", "TestLastname")))
+                .build();
 
+        quote.getSource().setId(1L);
+        quote.setLastEdited(Timestamp.valueOf("2023-06-05 10:25:54"));
+        String json = objectMapper.writeValueAsString(quote);
+
+        JsonNode expected = objectMapper.readTree(TestUtil.resourceToString("/json/SerializedQuoteBook.json"));
+        JsonNode actual = objectMapper.readTree(json);
+        assertEquals(expected, actual);
     }
 
     @Test

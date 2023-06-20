@@ -53,9 +53,8 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
 
     @Override
     public T update(T t) {
-        String json = null;
         try {
-            json = objectMapper.writeValueAsString(t);
+            String json = objectMapper.writeValueAsString(t);
             String response = httpService.put(url + "/" + t.getId(), json);
             return objectMapper.convertValue(response, type);
         } catch (JsonProcessingException e) {
