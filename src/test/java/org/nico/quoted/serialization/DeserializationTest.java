@@ -7,10 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.nico.quoted.TestUtil;
 import org.nico.quoted.domain.Article;
+import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
-import org.nico.quoted.domain.Book;
-
 
 import java.util.List;
 import java.util.Map;

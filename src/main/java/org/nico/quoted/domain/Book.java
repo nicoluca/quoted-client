@@ -2,9 +2,9 @@ package org.nico.quoted.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,6 +29,14 @@ public class Book extends Source {
     public Book(String title, Author author) {
         super(title);
         this.author = author;
+    }
+
+    @Builder
+    public Book(String title, Author author, String coverPath, String isbn) {
+        super(title);
+        this.author = author;
+        this.coverPath = coverPath;
+        this.isbn = isbn;
     }
 
     @Override

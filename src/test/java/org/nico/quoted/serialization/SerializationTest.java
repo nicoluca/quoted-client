@@ -11,7 +11,6 @@ import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

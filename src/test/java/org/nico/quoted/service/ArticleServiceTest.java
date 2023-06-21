@@ -3,7 +3,6 @@ package org.nico.quoted.service;
 import org.junit.jupiter.api.*;
 import org.nico.quoted.domain.Article;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ArticleServiceTest {

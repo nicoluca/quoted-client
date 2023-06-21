@@ -1,0 +1,10 @@
+{
+  "type": "book",
+  "title": "test",
+  "isbn": "test",
+  "id": 1,
+  "author": {
+    "firstName": "first_name",
+    "lastName": "last_name"
+  }
+}

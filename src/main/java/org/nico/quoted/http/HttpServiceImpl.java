@@ -8,7 +8,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
-import org.nico.quoted.http.HttpService;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

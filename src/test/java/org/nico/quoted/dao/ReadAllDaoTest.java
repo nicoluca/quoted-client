@@ -31,7 +31,7 @@ class ReadAllDaoTest {
                         TestUtil.resourceToString("/json/GetSources.json")
                 ));
 
-        ReadAllDao<Source> readAllDao = new ReadAllDao<>(Config.SOURCE_URL, httpService, Source.class);
+        ReadAllDao<Source> readAllDao = new ReadAllDao<>(Source.class, Config.SOURCE_URL, httpService);
 
         List<Source> sources = readAllDao.readAll();
 
@@ -59,7 +59,7 @@ class ReadAllDaoTest {
                         TestUtil.resourceToString("/json/GetQuotes.json")
                 ));
 
-        ReadAllDao<Quote> readAllDao = new ReadAllDao<>(Config.QUOTES_URL, httpService, Quote.class);
+        ReadAllDao<Quote> readAllDao = new ReadAllDao<>(Quote.class, Config.QUOTES_URL, httpService);
 
         List<Quote> quotes = readAllDao.readAll();
 
