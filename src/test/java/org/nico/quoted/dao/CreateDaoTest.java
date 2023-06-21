@@ -8,8 +8,6 @@ import org.nico.quoted.domain.Book;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.http.HttpServiceImpl;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
