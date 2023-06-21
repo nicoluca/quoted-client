@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.nico.quoted.config.Config;
-import org.nico.quoted.http.HttpUtil;
+import org.nico.quoted.util.HttpUtil;
 import org.nico.quoted.util.FormUtil;
 
 import java.io.IOException;

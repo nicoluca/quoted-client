@@ -1,4 +1,4 @@
-package org.nico.quoted.http;
+package org.nico.quoted.util;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;

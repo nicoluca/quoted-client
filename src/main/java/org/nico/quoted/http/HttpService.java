@@ -1,4 +1,4 @@
-package org.nico.quoted.service;
+package org.nico.quoted.http;
 
 import java.util.Optional;
 

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Identifiable;
+import org.nico.quoted.http.HttpService;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class ServiceImpl<T extends Identifiable> implements CrudService<T> {
         }
     }
 
+    // DONE
     @Override
     public List<T> readAll() {
         Optional<String> jsonResult = httpService.get(url);

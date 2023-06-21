@@ -1,9 +1,6 @@
 package org.nico.quoted.service;
 
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonSerializer;
 import org.junit.jupiter.api.*;
-import org.nico.quoted.config.Config;
 import org.nico.quoted.domain.Article;
 
 

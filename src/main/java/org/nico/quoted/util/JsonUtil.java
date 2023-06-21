@@ -1,4 +1,4 @@
-package org.nico.quoted.http;
+package org.nico.quoted.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
