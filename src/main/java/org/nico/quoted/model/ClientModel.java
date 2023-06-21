@@ -7,7 +7,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.*;
-import org.nico.quoted.service.CrudService;
+import org.nico.quoted.service.ArticleService;
+import org.nico.quoted.service.BookService;
+import org.nico.quoted.service.QuoteService;
+import org.nico.quoted.service.SourceService;
 
 import java.sql.Timestamp;
 
@@ -28,15 +31,17 @@ public class ClientModel extends EditViewModel {
     private final BooleanProperty resetForm;
     private static Quote lastRandomQuote;
 
-    private final CrudService<Book> bookService;
-    private final CrudService<Article> articleService;
-    private final CrudService<Quote> quoteService;
+    private final SourceService sourceService;
+    private final BookService bookService;
+    private final ArticleService articleService;
+    private final QuoteService quoteService;
 
     public ClientModel(RepositoryModel repositoryModel) {
 
-        this.bookService = repositoryModel.getBookRepository();
-        this.articleService = repositoryModel.getArticleRepository();
-        this.quoteService = repositoryModel.getQuoteRepository();
+        this.sourceService = repositoryModel.getSourceService();
+        this.bookService = repositoryModel.getBookService();
+        this.quoteService = repositoryModel.getQuoteService();
+        this.articleService = repositoryModel.getArticleService();
 
         // Lists
         this.sources = FXCollections.observableArrayList();
@@ -56,18 +61,31 @@ public class ClientModel extends EditViewModel {
     }
 
     private void readRepositories() {
-        this.sources.addAll(bookService.readAll());
-        this.sources.addAll(articleService.readAll());
+        this.sources.addAll(sourceService.readAll());
 
-        this.books.addAll(bookService.readAll());
-        this.books.stream()
-                .map(Book::getAuthor)
-                .distinct()
-                .forEach(authors::add);
-        this.articles.addAll(articleService.readAll());
+        this.books.addAll(
+                this.sources.stream()
+                        .filter(source -> source instanceof Book)
+                        .map(source -> (Book) source)
+                        .toList());
+        this.articles.addAll(
+                this.sources.stream()
+                        .filter(source -> source instanceof Article)
+                        .map(source -> (Article) source)
+                        .toList());
+        this.authors.addAll(
+                this.books.stream()
+                        .map(Book::getAuthor)
+                        .distinct()
+                        .toList());
 
         this.quotes.addAll(quoteService.readAll());
-        log.info("Repositories read into model.");
+        this.quotes.forEach(quote -> quote.setSource(sources.stream()
+                .filter(source -> source.getId() == quote.getSource().getId())
+                .findFirst()
+                .orElseThrow()));
+
+        log.info("Server info.");
     }
 
     private void registerChangeListeners() {
@@ -392,8 +410,9 @@ public class ClientModel extends EditViewModel {
                 if (c.wasReplaced())
                     c.getAddedSubList().forEach(articleService::update);
 
-                else if (c.wasAdded())
-                    c.getAddedSubList().forEach(articleService::create);
+                //
+                //else if (c.wasAdded())
+                //    c.getAddedSubList().forEach(articleService::create);
 
                 else if (c.wasRemoved())
                     c.getRemoved().forEach(articleService::delete);
