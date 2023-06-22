@@ -7,15 +7,10 @@ import org.nico.quoted.dao.Update;
 import org.nico.quoted.dao.UpdateDao;
 import org.nico.quoted.domain.Article;
 
-public class ArticleService implements Update<Article>, Delete<Article> {
+public class ArticleService implements Update<Article> {
 
     private final UpdateDao<Article> updateDao = new UpdateDao<>(Article.class, Config.ARTICLES_URL);
-    private final DeleteDao<Article> deleteDao = new DeleteDao<>(Article.class, Config.ARTICLES_URL);
 
-    @Override
-    public void delete(Article article) {
-        deleteDao.delete(article);
-    }
 
     @Override
     public Article update(Article article) {

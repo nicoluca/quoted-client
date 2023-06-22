@@ -354,7 +354,7 @@ public class ClientModel extends EditViewModel {
                     });
 
                 else if (c.wasRemoved()) {
-                    c.getRemoved().forEach(bookService::delete);
+                    c.getRemoved().forEach(sourceService::delete);
                     cleanAuthors();
                 }
             }
@@ -405,7 +405,7 @@ public class ClientModel extends EditViewModel {
                 //    c.getAddedSubList().forEach(articleService::create);
 
                 else if (c.wasRemoved())
-                    c.getRemoved().forEach(articleService::delete);
+                    c.getRemoved().forEach(sourceService::delete);
             }
         };
     }

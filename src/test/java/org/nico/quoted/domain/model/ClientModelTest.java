@@ -210,14 +210,14 @@ class ClientModelTest {
     @DisplayName("Test deleting sources")
     void deleteSourceByIndex() {
         Book source = (Book) model.getSourceByIndex(0);
-        doNothing().when(bookService).delete(source);
+        doNothing().when(sourceService).delete(source);
 
         model.deleteSourceByIndex(0);
         assertEquals(2, numberOfSources());
         assertEquals(1, numberOfBooks());
         assertEquals(1, numberOfArticles());
 
-        verify(bookService, times(1)).delete(source);
+        verify(sourceService, times(1)).delete(source);
     }
 
     // ######### EDGE CASES #########
