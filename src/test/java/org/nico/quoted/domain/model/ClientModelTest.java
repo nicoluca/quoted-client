@@ -6,141 +6,157 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.nico.quoted.TestConfig;
-import org.nico.quoted.domain.*;
+import org.nico.quoted.domain.Article;
+import org.nico.quoted.domain.Book;
+import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.Source;
 import org.nico.quoted.model.ClientModel;
-import org.nico.quoted.model.RepositoryModel;
+import org.nico.quoted.model.ServiceModel;
+import org.nico.quoted.service.ArticleService;
+import org.nico.quoted.service.BookService;
+import org.nico.quoted.service.QuoteService;
+import org.nico.quoted.service.SourceService;
 
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 class ClientModelTest {
-//    private ClientModel model;
-//
-//    @Mock
-//    private RepositoryModel repositoryModel = mock(RepositoryModel.class);
-//    @Mock
-//    private CrudService<Book> bookRepository = mock(CrudService.class);
-//    @Mock
-//    private CrudService<Quote> quoteRepository = mock(CrudService.class);
-//    @Mock
-//    private CrudService<Article> articleRepository= mock(CrudService.class);
-//
-//    @BeforeEach
-//    void setUp() {
-//        when(repositoryModel.getBookRepository()).thenReturn(bookRepository);
-//        when(repositoryModel.getQuoteRepository()).thenReturn(quoteRepository);
-//        when(repositoryModel.getArticleRepository()).thenReturn(articleRepository);
-//
-//        // The test model has 2 books by 1 author and 1 article; 3 quotes each from a different source.
-//        when(bookRepository.readAll()).thenReturn(TestConfig.defaultBooks());
-//        when(articleRepository.readAll()).thenReturn(TestConfig.defaultArticles());
-//        when(quoteRepository.readAll()).thenReturn(TestConfig.defaultQuotes());
-//
-//        model = new ClientModel(repositoryModel);
-//    }
-//
-//    // ########## BASE TESTS ##########
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct number of sources")
-//    void getSources() {
-//        assertEquals(3, numberOfSources());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns sources by index correctly")
-//    void getSourceByIndex() {
-//        assert firstBook() != null;
-//        assertEquals(TestConfig.defaultBooks().get(0), firstBook());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct number of books")
-//    void getBooks() {
-//        assertEquals(2, numberOfBooks());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct authors")
-//    void getAuthors() {
-//        assertEquals(1, numberOfAuthors());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct number of quotes")
-//    void getQuotes() {
-//        assertEquals(3, numberOfQuotes());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct number of quotes after adding a new quote")
-//    void addQuote() {
-//        Quote quote = new Quote("Test", firstBook());
-//        //Mockito.doNothing().when(quoteRepository).create(quote);
-//        when(quoteRepository.create(any(Quote.class))).thenReturn(quote);
-//        model.addQuote(quote);
-//        assertEquals(4, numberOfQuotes());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct number of quotes after deleting a quote")
-//    void deleteQuoteByIndex() {
-//        Mockito.doNothing().when(quoteRepository).delete(firstQuote());
-//        model.deleteQuoteByIndex(0);
-//        assertEquals(2, numberOfQuotes());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if the model returns the correct quote by index")
-//    void getQuoteByIndex() {
-//        assertNotNull(firstQuote());
-//        assertEquals(TestConfig.defaultQuotes().get(0), firstQuote());
-//    }
-//
-//    @Test
-//    @DisplayName("Test returning a random quote")
-//    void getRandomQuote() {
-//        assertNotNull(model.getRandomQuote());
-//    }
-//
-//    @Test
-//    @DisplayName("Test updating a quote")
-//    void updateQuote() {
-//        model.setQuoteToEdit(firstQuote());
-//        model.setSourceToEdit(firstSource());
-//        Quote quote = new Quote("Test", firstSource());
-//        model.updateQuote(quote);
-//
-//        assertEquals("Test", firstQuote().getText());
-//        assertEquals(3, numberOfQuotes());
-//    }
-//
-//    @Test
-//    @DisplayName("Test searching sources by text")
-//    void searchSources() {
-//        assertEquals(2, model.searchSources("Tolkien").size());
-//    }
-//
-//    @Test
-//    @DisplayName("Test searching quotes by text")
-//    void searchQuotes() {
-//        assertEquals(1, model.searchQuotes("Lorem").size());
-//        assertEquals(2, model.searchQuotes("Tolkien").size());
-//    }
-//
-//    @Test
-//    @DisplayName("Test filtering quotes by source")
-//    void getQuotesBySource() {
-//        assertEquals(1, model.getQuotesBySource(firstSource()).size());
-//        Quote quote = new Quote("Test", firstSource());
-//        model.addQuote(quote);
-//        assertEquals(2, model.getQuotesBySource(firstSource()).size());
-//    }
-//
+
+    private ClientModel model;
+
+    @Mock
+    private ServiceModel serviceModel = mock(ServiceModel.class);
+    @Mock
+    private ArticleService articleService = mock(ArticleService.class);
+    @Mock
+    private BookService bookService = mock(BookService.class);
+    @Mock
+    private QuoteService quoteService = mock(QuoteService.class);
+    @Mock
+    private SourceService sourceService = mock(SourceService.class);
+
+
+    @BeforeEach
+    void setUp() {
+        when(serviceModel.getArticleService()).thenReturn(articleService);
+        when(serviceModel.getQuoteService()).thenReturn(quoteService);
+        when(serviceModel.getBookService()).thenReturn(bookService);
+        when(serviceModel.getSourceService()).thenReturn(sourceService);
+
+        // The test model has 2 books by 1 author and 1 article; 3 quotes each from a different source.
+        List<Source> sources = new ArrayList<>();
+        sources.addAll(TestConfig.defaultBooks());
+        sources.addAll(TestConfig.defaultArticles());
+
+        when(sourceService.readAll()).thenReturn(sources);
+        when(quoteService.readAll()).thenReturn(TestConfig.defaultQuotes());
+
+        model = new ClientModel(serviceModel);
+    }
+
+    // ########## BASE TESTS ##########
+
+    @Test
+    @DisplayName("Test if the model returns the correct number of sources")
+    void getSources() {
+        assertEquals(3, numberOfSources());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns sources by index correctly")
+    void getSourceByIndex() {
+        assert firstBook() != null;
+        assertEquals(TestConfig.defaultBooks().get(0), firstBook());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns the correct number of books")
+    void getBooks() {
+        assertEquals(2, numberOfBooks());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns the correct authors")
+    void getAuthors() {
+        assertEquals(1, numberOfAuthors());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns the correct number of quotes")
+    void getQuotes() {
+        assertEquals(3, numberOfQuotes());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns the correct number of quotes after adding a new quote")
+    void addQuote() {
+        Quote quote = new Quote("Test", firstBook());
+
+        when(quoteService.create(any(Quote.class))).thenReturn(quote);
+        model.addQuote(quote);
+        assertEquals(4, numberOfQuotes());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns the correct number of quotes after deleting a quote")
+    void deleteQuoteByIndex() {
+        Mockito.doNothing().when(quoteService).delete(firstQuote());
+        model.deleteQuoteByIndex(0);
+        assertEquals(2, numberOfQuotes());
+    }
+
+    @Test
+    @DisplayName("Test if the model returns the correct quote by index")
+    void getQuoteByIndex() {
+        assertNotNull(firstQuote());
+        assertEquals(TestConfig.defaultQuotes().get(0), firstQuote());
+    }
+
+    @Test
+    @DisplayName("Test returning a random quote")
+    void getRandomQuote() {
+        when(quoteService.readRandomQuote()).thenReturn(firstQuote());
+        assertNotNull(model.getRandomQuote());
+    }
+
+    @Test
+    @DisplayName("Test updating a quote")
+    void updateQuote() {
+        model.setQuoteToEdit(firstQuote());
+        model.setSourceToEdit(firstSource());
+        Quote quote = new Quote("Test", firstSource());
+        model.updateQuote(quote);
+
+        assertEquals("Test", firstQuote().getText());
+        assertEquals(3, numberOfQuotes());
+    }
+
+    @Test
+    @DisplayName("Test searching sources by text")
+    void searchSources() {
+        assertEquals(2, model.searchSources("Tolkien").size());
+    }
+
+    @Test
+    @DisplayName("Test searching quotes by text")
+    void searchQuotes() {
+        assertEquals(1, model.searchQuotes("Lorem").size());
+        assertEquals(2, model.searchQuotes("Tolkien").size());
+    }
+
+    @Test
+    @DisplayName("Test filtering quotes by source")
+    void getQuotesBySource() {
+        assertEquals(1, model.getQuotesBySource(firstSource()).size());
+        Quote quote = new Quote("Test", firstSource());
+        model.addQuote(quote);
+        assertEquals(2, model.getQuotesBySource(firstSource()).size());
+    }
+
 //    @Test
 //    @DisplayName("Test adding a new book")
 //    void addBook() {
@@ -386,46 +402,46 @@ class ClientModelTest {
 //        assertTrue(durationInMillis < 1000);
 //    }
 //
-//    // ############################## Helper methods ##############################
-//
-//    Quote firstQuote() {
-//        return model.getQuoteByIndex(0);
-//    }
-//
-//    Quote thirdQuote() {
-//        return model.getQuoteByIndex(2);
-//    }
-//
-//    Source firstSource() {
-//        return model.getSourceByIndex(0);
-//    }
-//
-//    Book firstBook() {
-//        return (Book) model.getSourceByIndex(0);
-//    }
-//
-//    Article firstArticle() {
-//        return (Article) model.getSourceByIndex(2);
-//    }
-//
-//    int numberOfSources() {
-//        return model.getSources().size();
-//    }
-//
-//    int numberOfBooks() {
-//        return model.getBooks().size();
-//    }
-//
-//    int numberOfArticles() {
-//        return model.getArticles().size();
-//    }
-//
-//    int numberOfAuthors() {
-//        return model.getAuthors().size();
-//    }
-//
-//    int numberOfQuotes() {
-//        return model.getQuotes().size();
-//    }
+    // ############################## Helper methods ##############################
+
+    private Quote firstQuote() {
+        return model.getQuoteByIndex(0);
+    }
+
+    private Quote thirdQuote() {
+        return model.getQuoteByIndex(2);
+    }
+
+    private Source firstSource() {
+        return model.getSourceByIndex(0);
+    }
+
+    private Book firstBook() {
+        return (Book) model.getSourceByIndex(0);
+    }
+
+    private Article firstArticle() {
+        return (Article) model.getSourceByIndex(2);
+    }
+
+    private int numberOfSources() {
+        return model.getSources().size();
+    }
+
+    private int numberOfBooks() {
+        return model.getBooks().size();
+    }
+
+    private int numberOfArticles() {
+        return model.getArticles().size();
+    }
+
+    private int numberOfAuthors() {
+        return model.getAuthors().size();
+    }
+
+    private int numberOfQuotes() {
+        return model.getQuotes().size();
+    }
 }
 

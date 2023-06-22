@@ -1,9 +1,6 @@
 package org.nico.quoted;
 
-import org.nico.quoted.domain.Article;
-import org.nico.quoted.domain.Author;
-import org.nico.quoted.domain.Book;
-import org.nico.quoted.domain.Quote;
+import org.nico.quoted.domain.*;
 
 import java.util.List;
 
@@ -17,17 +14,23 @@ public class TestConfig {
         );
     }
 
-    public static List<Book> defaultBooks() {
+    public static List<Source> defaultBooks() {
         Author author = defaultAuthors().get(0);
+        Book book = new Book("Der Herr der Ringe", author);
+        book.setId(1L);
+        Book book2 = new Book("Der kleine Hobbit", author);
+        book2.setId(2L);
         return List.of(
-                new Book("Der Herr der Ringe", author),
-                new Book("Der kleine Hobbit", author)
+                book,
+                book2
         );
     }
     public static List<Article> defaultArticles() {
+        Article article = new Article("Diesen Text schrieb der US-Reporter Evan Gershkovich, bevor er in Russland verhaftet wurde",
+                "https://www.zeit.de/2023/15/russland-wirtschaft-energie-export-inflation");
+        article.setId(3L);
         return List.of(
-                new Article("Diesen Text schrieb der US-Reporter Evan Gershkovich, bevor er in Russland verhaftet wurde",
-                        "https://www.zeit.de/2023/15/russland-wirtschaft-energie-export-inflation")
+                article
         );
     }
 

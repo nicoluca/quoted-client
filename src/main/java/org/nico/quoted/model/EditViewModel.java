@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.domain.Quote;
 import org.nico.quoted.domain.Source;
 
-// A helper class to store the source and quote to edit
+/*
+    A helper class to store the source and quote to edit.
+ */
 
 @Slf4j
 public class EditViewModel {

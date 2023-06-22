@@ -26,7 +26,6 @@ public class HttpServiceImpl implements HttpService {
         return execute(httpGet);
     }
 
-
     @Override
     public String post(String url, String payload) {
         final HttpPost httpPost = new HttpPost(url);
@@ -41,6 +40,13 @@ public class HttpServiceImpl implements HttpService {
         return execute(httpPut, payload);
     }
 
+    @Override
+    public void delete(String url) {
+        final HttpDelete httpDelete = new HttpDelete(url);
+        log.info("Deleting from " + url);
+        execute(httpDelete);
+    }
+
     private String execute(HttpEntityEnclosingRequestBase request, String payload) {
         request.setHeader("Content-type", "application/json");
         request.setHeader("Accept", "application/json"); // If this is not set, no json is returned
@@ -53,12 +59,6 @@ public class HttpServiceImpl implements HttpService {
             throw new RuntimeException("Error while posting to " + request.getURI() + " with payload: " + payload);
 
         return result.get();
-    }
-    @Override
-    public void delete(String url) {
-        final HttpDelete httpDelete = new HttpDelete(url);
-        log.info("Deleting from " + url);
-        execute(httpDelete);
     }
 
     private Optional<String> execute(HttpRequestBase request) {

@@ -36,12 +36,12 @@ public class ClientModel extends EditViewModel {
     private final ArticleService articleService;
     private final QuoteService quoteService;
 
-    public ClientModel(RepositoryModel repositoryModel) {
+    public ClientModel(ServiceModel serviceModel) {
 
-        this.sourceService = repositoryModel.getSourceService();
-        this.bookService = repositoryModel.getBookService();
-        this.quoteService = repositoryModel.getQuoteService();
-        this.articleService = repositoryModel.getArticleService();
+        this.sourceService = serviceModel.getSourceService();
+        this.bookService = serviceModel.getBookService();
+        this.quoteService = serviceModel.getQuoteService();
+        this.articleService = serviceModel.getArticleService();
 
         // Lists
         this.sources = FXCollections.observableArrayList();
