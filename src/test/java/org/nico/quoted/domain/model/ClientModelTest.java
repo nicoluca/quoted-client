@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.nico.quoted.TestConfig;
-import org.nico.quoted.domain.Article;
-import org.nico.quoted.domain.Book;
-import org.nico.quoted.domain.Quote;
-import org.nico.quoted.domain.Source;
+import org.nico.quoted.domain.*;
 import org.nico.quoted.model.ClientModel;
 import org.nico.quoted.model.ServiceModel;
 import org.nico.quoted.service.ArticleService;
@@ -17,11 +14,12 @@ import org.nico.quoted.service.BookService;
 import org.nico.quoted.service.QuoteService;
 import org.nico.quoted.service.SourceService;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ClientModelTest {
@@ -157,251 +155,230 @@ class ClientModelTest {
         assertEquals(2, model.getQuotesBySource(firstSource()).size());
     }
 
-//    @Test
-//    @DisplayName("Test adding a new book")
-//    void addBook() {
-//        Book book = new Book("Test", new Author("Test", "Test"));
-//        when(bookRepository.create(any(Book.class))).thenReturn(book);
-//        model.addBook(book);
-//        assertEquals(4, numberOfSources());
-//        assertEquals(3, numberOfBooks());
-//    }
-//
-//    @Test
-//    @DisplayName("Test updating sources")
-//    void updateSource() {
-//        updateBook();
-//        updateArticle();
-//    }
-//
-//    private void updateBook() {
-//        model.setSourceToEdit(firstSource());
-//
-//        assert firstSource() instanceof Book;
-//        Book bookToUpdate = firstBook();
-//        Book updatingBook = new Book("Test", bookToUpdate.getAuthor());
-//        when(bookRepository.update(bookToUpdate)).thenReturn(new Book("Test", bookToUpdate.getAuthor()));
-//
-//
-//        model.updateSource(updatingBook);
-//        assertEquals("Test", firstSource().getTitle());
-//        assertEquals(3, numberOfSources());
-//        assertEquals(2, numberOfBooks());
-//    }
-//
-//    private void updateArticle() {
-//        model.setSourceToEdit(firstArticle());
-//
-//        assert model.getSourceByIndex(2).equals(firstArticle());
-//        Article articleToUpdate = firstArticle();
-//        Article updatingArticle = new Article("Test", "https://www.test.com");
-//        when(articleRepository.update(articleToUpdate)).thenReturn(new Article("Test", "https://www.test.com"));
-//
-//        model.updateSource(updatingArticle);
-//        assertEquals("Test", firstArticle().getTitle());
-//        assertEquals("https://www.test.com", firstArticle().getUrl());
-//        assertEquals(3, numberOfSources());
-//        assertEquals(1, numberOfArticles());
-//    }
-//
-//    @Test
-//    @DisplayName("Test deleting sources")
-//    void deleteSourceByIndex() {
-//        model.deleteSourceByIndex(0);
-//        assertEquals(2, numberOfSources());
-//        assertEquals(1, numberOfBooks());
-//        assertEquals(1, numberOfArticles());
-//    }
-//
-//    // ######### EDGE CASES #########
-//    @Test
-//    @DisplayName("Test: Change the book of a quote by changing its title")
-//    void changeBookTitleOfQuote() {
-//        model.setQuoteToEdit(firstQuote());
-//        Quote quote = firstQuote();
-//        Book book = (Book) quote.getSource();
-//
-//        book.setTitle("Test");
-//        model.updateQuote(quote);
-//
-//        assertEquals("Test", firstQuote().getSource().getTitle());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Change the book of a quote by changing its author to a new author")
-//    void changeAuthorOfBookOfQuote() {
-//        model.setQuoteToEdit(firstQuote());
-//        Quote quote = firstQuote();
-//        Book book = (Book) quote.getSource();
-//
-//        book.setAuthor(new Author("Test", "Test"));
-//        model.updateQuote(quote);
-//
-//        assertTrue(model.getAuthors().stream().anyMatch(author -> author.equals(new Author("Test", "Test"))));
-//        assertEquals(2, numberOfAuthors());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Change author of existing book to new author")
-//    void changeAuthorOfExistingBook() {
-//        model.setSourceToEdit(firstSource());
-//        firstBook().setAuthor(new Author("Max", "Frisch"));
-//        model.updateSource(firstBook());
-//
-//        assertEquals(2, numberOfAuthors());
-//        assertTrue(model.getAuthors().stream().anyMatch(author -> author.equals(new Author("Max", "Frisch"))));
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Add a book with an existing author (object)")
-//    void addBookWithExistingAuthor() {
-//        Author author = firstBook().getAuthor();
-//        Book book = new Book("Test", author);
-//
-//        when(bookRepository.create(any(Book.class))).thenReturn(book);
-//        model.addBook(book);
-//
-//        assertEquals(4, numberOfSources());
-//        assertEquals(3, numberOfBooks());
-//        assertEquals(1, numberOfAuthors());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Add a book with an existing author (String)")
-//    void addBookWithExistingAuthorString() {
-//        Author author = new Author("J.R.R.", "Tolkien");
-//        Book book = new Book("Test", author);
-//
-//        when(bookRepository.create(any(Book.class))).thenReturn(book);
-//        model.addBook(book);
-//
-//        assertEquals(4, numberOfSources());
-//        assertEquals(3, numberOfBooks());
-//        assertEquals(1, numberOfAuthors());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Add a quote with a new book with an existing author (String)")
-//    void addQuoteWithBookWithExistingAuthor() {
-//        Author author = new Author("J.R.R.", "Tolkien");
-//        Book book = new Book("Test", author);
-//        Quote quote = new Quote("Test", book);
-//
-//
-//        when(bookRepository.create(book)).thenReturn(book);
-//        when(quoteRepository.create(quote)).thenReturn(quote);
-//
-//        model.addQuote(quote);
-//        assertEquals(4, numberOfQuotes());
-//        assertEquals(4, numberOfSources());
-//        assertEquals(3, numberOfBooks());
-//        assertEquals(1, numberOfAuthors());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Change the article of a quote by changing its url")
-//    void changeArticleUrlOfQuote() {
-//        model.setQuoteToEdit(thirdQuote());
-//        Quote quote = model.getQuoteByIndex(2);
-//        Article article = (Article) quote.getSource();
-//
-//        article.setUrl("https://www.test.com");
-//        model.updateQuote(quote);
-//
-//        assertEquals("https://www.test.com", ((Article) model.getQuoteByIndex(2).getSource()).getUrl());
-//        assertEquals(4, model.getSources().size());
-//        assertEquals(2, model.getArticles().size());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Change the article of a quote by replacing it with a new article")
-//    void changeArticleOfQuote() {
-//        model.setQuoteToEdit(thirdQuote());
-//        Quote quote = thirdQuote();
-//        Article newArticle = new Article("Test", "https://www.test.com");
-//        quote.setSource(newArticle);
-//        model.updateQuote(quote);
-//
-//        assertEquals("https://www.test.com", ((Article) thirdQuote().getSource()).getUrl());
-//        assertEquals(4, numberOfSources());
-//        assertEquals(2, numberOfArticles());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Delete a book with a quote")
-//    void deleteBookWithQuote() {
-//        model.deleteSourceByIndex(0);
-//        assertEquals(2, numberOfSources());
-//        assertEquals(2, numberOfQuotes());
-//        assertEquals(1, numberOfBooks());
-//    }
-//
-//    @Test
-//    @DisplayName("Test: Delete an article with a quote")
-//    void deleteArticleWithQuote() {
-//        model.deleteSourceByIndex(2);
-//        assertEquals(2, numberOfSources());
-//        assertEquals(2, numberOfQuotes());
-//        assertEquals(0, numberOfArticles());
-//    }
-//
-//    @Test
-//    @DisplayName("Change source of quote from book to article")
-//    void changeSourceOfQuoteFromBookToArticle() {
-//        model.setQuoteToEdit(firstQuote());
-//        model.setSourceToEdit(firstQuote().getSource());
-//        Quote quote = firstQuote();
-//        assert quote.getSource() instanceof Book;
-//        Article article = new Article("Test", "https://www.test.com");
-//        quote.setSource(article);
-//
-//        model.updateQuote(quote);
-//
-//        assertTrue(quote.getSource() instanceof Article);
-//        assertEquals(4, numberOfSources());
-//        assertEquals(2, numberOfArticles());
-//        assertEquals(2, numberOfBooks());
-//    }
-//
-//    @Test
-//    @DisplayName("Test if timestamp of last visit is updated accordingly for article if quote is added")
-//    void testTimestampOfLastVisitIsUpdatedForArticleIfQuoteIsAdded() {
-//        when(quoteRepository.create(any(Quote.class))).thenReturn(firstQuote());
-//        when(articleRepository.create(any(Article.class))).thenReturn(firstArticle());
-//
-//        firstArticle().setLastVisited(new Timestamp(0));
-//
-//        Quote quote = new Quote("Test", firstArticle());
-//        model.addQuote(quote);
-//        Timestamp timestamp1 = new Timestamp(firstArticle().getLastVisited().getTime());
-//
-//        try {
-//            Thread.sleep(20);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        model.addQuote(quote);
-//        Timestamp timestamp2 = new Timestamp(firstArticle().getLastVisited().getTime());
-//
-//        assertTrue(timestamp2.after(timestamp1));
-//    }
-//
-//    // ############################## Load test ##############################
-//
-//    @Test
-//    @DisplayName("Test: Create 1000 quotes with 1000 sources in under 1 second")
-//    void create1000QuotesWith1000Sources() {
-//        Instant start = Instant.now();
-//        for (int i = 0; i < 1000; i++) {
-//            model.addQuote(new Quote("Test", new Book("Test", new Author("Test", "Test"))));
-//        }
-//        Instant end = Instant.now();
-//
-//        long durationInMillis = Duration.between(start, end).toMillis();
-//        assertTrue(durationInMillis < 1000);
-//    }
-//
+    @Test
+    @DisplayName("Test adding a new book")
+    void addBook() {
+        Book book = new Book("Test", new Author("Test", "Test"));
+        when(bookService.create(any(Book.class))).thenReturn(book);
+        model.addBook(book);
+        assertEquals(4, numberOfSources());
+        assertEquals(3, numberOfBooks());
+    }
+
+    @Test
+    @DisplayName("Test updating sources")
+    void updateSource() {
+        updateBook();
+        updateArticle();
+    }
+
+    private void updateBook() {
+        model.setSourceToEdit(firstSource());
+
+        assert firstSource() instanceof Book;
+        Book bookToUpdate = firstBook();
+        Book updatingBook = new Book("Test", bookToUpdate.getAuthor());
+        when(bookService.update(bookToUpdate)).thenReturn(new Book("Test", bookToUpdate.getAuthor()));
+
+
+        model.updateSource(updatingBook);
+        assertEquals("Test", firstSource().getTitle());
+        assertEquals(3, numberOfSources());
+        assertEquals(2, numberOfBooks());
+
+        verify(bookService, times(1)).update(updatingBook);
+    }
+
+    private void updateArticle() {
+        model.setSourceToEdit(firstArticle());
+
+        assert model.getSourceByIndex(2).equals(firstArticle());
+        Article articleToUpdate = firstArticle();
+        Article updatingArticle = new Article("Test", "https://www.test.com");
+        when(articleService.update(articleToUpdate)).thenReturn(new Article("Test", "https://www.test.com"));
+
+        model.updateSource(updatingArticle);
+        assertEquals("Test", firstArticle().getTitle());
+        assertEquals("https://www.test.com", firstArticle().getUrl());
+        assertEquals(3, numberOfSources());
+        assertEquals(1, numberOfArticles());
+
+        verify(articleService, times(1)).update(updatingArticle);
+    }
+
+    @Test
+    @DisplayName("Test deleting sources")
+    void deleteSourceByIndex() {
+        Book source = (Book) model.getSourceByIndex(0);
+        doNothing().when(bookService).delete(source);
+
+        model.deleteSourceByIndex(0);
+        assertEquals(2, numberOfSources());
+        assertEquals(1, numberOfBooks());
+        assertEquals(1, numberOfArticles());
+
+        verify(bookService, times(1)).delete(source);
+    }
+
+    // ######### EDGE CASES #########
+    @Test
+    @DisplayName("Test: Change the book of a quote by changing its title")
+    void changeBookTitleOfQuote() {
+        when(quoteService.update(any(Quote.class))).thenReturn(firstQuote());
+        when(bookService.update(any(Book.class))).thenReturn(firstBook());
+
+        model.setQuoteToEdit(firstQuote());
+        Quote quote = firstQuote();
+        Book book = (Book) quote.getSource();
+
+        book.setTitle("Test");
+        model.updateSource(book);
+        model.updateQuote(quote);
+
+        assertEquals("Test", firstQuote().getSource().getTitle());
+
+        verify(quoteService, times(1)).update(quote);
+        verify(bookService, times(1)).update(book);
+    }
+
+    @Test
+    @DisplayName("Test: Change the book of a quote by changing its author to a new author")
+    void changeAuthorOfBookOfQuote() {
+        model.setQuoteToEdit(firstQuote());
+        Quote quote = firstQuote();
+        Book book = (Book) quote.getSource();
+
+        book.setAuthor(new Author("Test", "Test"));
+        model.updateSource(book);
+        model.updateQuote(quote);
+
+        assertTrue(model.getAuthors().stream().anyMatch(author -> author.equals(new Author("Test", "Test"))));
+        assertEquals(2, numberOfAuthors());
+    }
+
+    @Test
+    @DisplayName("Test: Change author of existing book to new author")
+    void changeAuthorOfExistingBook() {
+        model.setSourceToEdit(firstSource());
+        firstBook().setAuthor(new Author("Max", "Frisch"));
+        model.updateSource(firstBook());
+
+        assertEquals(2, numberOfAuthors());
+        assertTrue(model.getAuthors().stream().anyMatch(author -> author.equals(new Author("Max", "Frisch"))));
+    }
+
+    @Test
+    @DisplayName("Test: Add a book with an existing author (object)")
+    void addBookWithExistingAuthor() {
+        Author author = firstBook().getAuthor();
+        Book book = new Book("Test", author);
+
+        when(bookService.create(any(Book.class))).thenReturn(book);
+        model.addBook(book);
+
+        assertEquals(4, numberOfSources());
+        assertEquals(3, numberOfBooks());
+        assertEquals(1, numberOfAuthors());
+    }
+
+    @Test
+    @DisplayName("Test: Add a book with an existing author (String)")
+    void addBookWithExistingAuthorString() {
+        Author author = new Author("J.R.R.", "Tolkien");
+        Book book = new Book("Test", author);
+
+        when(bookService.create(any(Book.class))).thenReturn(book);
+        model.addBook(book);
+
+        assertEquals(4, numberOfSources());
+        assertEquals(3, numberOfBooks());
+        assertEquals(1, numberOfAuthors());
+    }
+
+    @Test
+    @DisplayName("Test: Add a quote with a new book with an existing author (String)")
+    void addQuoteWithBookWithExistingAuthor() {
+        Author author = new Author("J.R.R.", "Tolkien");
+        Book book = new Book("Test", author);
+        Quote quote = new Quote("Test", book);
+
+
+        when(bookService.create(book)).thenReturn(book);
+        when(quoteService.create(quote)).thenReturn(quote);
+
+        model.addQuote(quote);
+        assertEquals(4, numberOfQuotes());
+        assertEquals(4, numberOfSources());
+        assertEquals(3, numberOfBooks());
+        assertEquals(1, numberOfAuthors());
+    }
+
+    @Test
+    @DisplayName("Test: Change the article of a quote by replacing it with a new article")
+    void changeArticleOfQuote() {
+        model.setQuoteToEdit(thirdQuote());
+        Quote quote = thirdQuote();
+        Article newArticle = new Article("Test", "https://www.test.com");
+        quote.setSource(newArticle);
+        model.updateQuote(quote);
+
+        assertEquals("https://www.test.com", ((Article) thirdQuote().getSource()).getUrl());
+        assertEquals(4, numberOfSources());
+        assertEquals(2, numberOfArticles());
+    }
+
+    @Test
+    @DisplayName("Test: Delete a book with a quote")
+    void deleteBookWithQuote() {
+        model.deleteSourceByIndex(0);
+        assertEquals(2, numberOfSources());
+        assertEquals(2, numberOfQuotes());
+        assertEquals(1, numberOfBooks());
+    }
+
+    @Test
+    @DisplayName("Test: Delete an article with a quote")
+    void deleteArticleWithQuote() {
+        model.deleteSourceByIndex(2);
+        assertEquals(2, numberOfSources());
+        assertEquals(2, numberOfQuotes());
+        assertEquals(0, numberOfArticles());
+    }
+
+    @Test
+    @DisplayName("Change source of quote from book to article")
+    void changeSourceOfQuoteFromBookToArticle() {
+        model.setQuoteToEdit(firstQuote());
+        model.setSourceToEdit(firstQuote().getSource());
+        Quote quote = firstQuote();
+        assert quote.getSource() instanceof Book;
+        Article article = new Article("Test", "https://www.test.com");
+        quote.setSource(article);
+
+        model.updateQuote(quote);
+
+        assertTrue(quote.getSource() instanceof Article);
+        assertEquals(4, numberOfSources());
+        assertEquals(2, numberOfArticles());
+        assertEquals(2, numberOfBooks());
+    }
+
+
+    // ############################## Load test ##############################
+
+    @Test
+    @DisplayName("Test: Create 1000 quotes with 1000 sources in under 1 second")
+    void create1000QuotesWith1000Sources() {
+        Instant start = Instant.now();
+        for (int i = 0; i < 1000; i++) {
+            model.addQuote(new Quote("Test", new Book("Test", new Author("Test", "Test"))));
+        }
+        Instant end = Instant.now();
+
+        long durationInMillis = Duration.between(start, end).toMillis();
+        assertTrue(durationInMillis < 1000);
+    }
+
     // ############################## Helper methods ##############################
 
     private Quote firstQuote() {
