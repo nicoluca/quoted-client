@@ -14,7 +14,7 @@ public class QuoteService implements Create<Quote>, ReadAll<Quote>, Update<Quote
     private final ReadAllDao<Quote> readAllDao = new ReadAllDao<>(Quote.class, Config.QUOTES_URL);
     private final UpdateDao<Quote> updateDao = new UpdateDao<>(Quote.class, Config.QUOTES_URL);
     private final DeleteDao<Quote> deleteDao = new DeleteDao<>(Quote.class, Config.QUOTES_URL);
-    private final ReadDao<Quote> readRandomQuoteDao = new ReadDao<>(Quote.class, Config.QUOTES_URL + "/random");
+    private final ReadDao<Quote> readRandomQuoteDao = new ReadDao<>(Quote.class, Config.QUOTES_URL);
 
     private final HttpService httpService = Config.HTTP_SERVICE;
 
@@ -38,8 +38,8 @@ public class QuoteService implements Create<Quote>, ReadAll<Quote>, Update<Quote
         return updateDao.update(quote);
     }
 
-    public Optional<Quote> readRandomQuote() {
-        return readRandomQuoteDao.read("random");
+    public Quote readRandomQuote() {
+        return readRandomQuoteDao.read("random").orElseThrow();
     }
 
 }

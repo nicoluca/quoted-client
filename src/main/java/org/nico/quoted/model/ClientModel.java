@@ -85,7 +85,7 @@ public class ClientModel extends EditViewModel {
                 .findFirst()
                 .orElseThrow()));
 
-        log.info("Server info.");
+        log.info("Retrieved data from server.");
     }
 
     private void registerChangeListeners() {
@@ -166,17 +166,7 @@ public class ClientModel extends EditViewModel {
     }
 
     public Quote getRandomQuote() {
-        if (quotes.size() == 0)
-            return new Quote("No quotes found", new Article("No source found", "-"));
-        if (quotes.size() == 1)
-            return quotes.get(0);
-
-        Quote randomQuote;
-        do {
-            randomQuote = quotes.get((int) (Math.random() * quotes.size()));
-        } while (randomQuote.equals(lastRandomQuote));
-        lastRandomQuote = randomQuote;
-        return randomQuote;
+        return quoteService.readRandomQuote();
     }
 
     public void updateQuote(Quote quote) {

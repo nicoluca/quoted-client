@@ -22,6 +22,7 @@ public class HttpServiceImpl implements HttpService {
     @Override
     public Optional<String> get(String url) {
         final HttpGet httpGet = new HttpGet(url);
+        log.info("Getting from " + url);
         return execute(httpGet);
     }
 
@@ -29,37 +30,34 @@ public class HttpServiceImpl implements HttpService {
     @Override
     public String post(String url, String payload) {
         final HttpPost httpPost = new HttpPost(url);
-        httpPost.setHeader("Content-type", "application/json");
-        httpPost.setHeader("Accept", "application/json"); // If this is not set, no json is returned
-        HttpEntity entity = new StringEntity(payload, "UTF-8");
-        httpPost.setEntity(entity);
-
-        Optional<String> result = execute(httpPost);
-
-        if (result.isEmpty())
-            throw new RuntimeException("Error while posting " + url + ": " + payload);
-
-        return result.get();
+        log.info("Posting to " + url + " with payload: " + payload);
+        return execute(httpPost, payload);
     }
 
     @Override
     public String put(String url, String payload) {
         final HttpPut httpPut = new HttpPut(url);
-        httpPut.setHeader("Content-type", "application/json");
-        httpPut.setHeader("Accept", "application/json"); // If this is not set, no json is returned
-        HttpEntity entity = new StringEntity(payload, "UTF-8");
-        httpPut.setEntity(entity);
+        log.info("Putting to " + url + " with payload: " + payload);
+        return execute(httpPut, payload);
+    }
 
-        Optional<String> result = execute(httpPut);
+    private String execute(HttpEntityEnclosingRequestBase request, String payload) {
+        request.setHeader("Content-type", "application/json");
+        request.setHeader("Accept", "application/json"); // If this is not set, no json is returned
+        HttpEntity entity = new StringEntity(payload, "UTF-8");
+        request.setEntity(entity);
+
+        Optional<String> result = execute(request);
 
         if (result.isEmpty())
-            throw new RuntimeException("Error while posting " + url + ": " + payload);
+            throw new RuntimeException("Error while posting to " + request.getURI() + " with payload: " + payload);
 
-        return result.get();    }
-
+        return result.get();
+    }
     @Override
     public void delete(String url) {
         final HttpDelete httpDelete = new HttpDelete(url);
+        log.info("Deleting from " + url);
         execute(httpDelete);
     }
 
