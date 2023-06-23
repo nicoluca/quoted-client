@@ -13,7 +13,9 @@ import org.nico.quoted.service.QuoteService;
 import org.nico.quoted.service.SourceService;
 
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class ClientModel extends EditViewModel {
@@ -39,6 +41,7 @@ public class ClientModel extends EditViewModel {
 
     public ClientModel(ServiceModel serviceModel) {
 
+        // Services
         this.sourceService = serviceModel.getSourceService();
         this.bookService = serviceModel.getBookService();
         this.quoteService = serviceModel.getQuoteService();
@@ -57,11 +60,18 @@ public class ClientModel extends EditViewModel {
         this.resetForm = new SimpleBooleanProperty();
 
         // Initialisation
-        readRepositories();
+        readServer();
         registerChangeListeners();
     }
 
-    private void readRepositories() {
+    private void readServer() {
+        readSources();
+        readQuotes();
+        log.info("Retrieved data from server.");
+    }
+
+    private void readSources() {
+        log.info("Reading sources from server.");
         this.sources.addAll(sourceService.readAll());
 
         this.books.addAll(
@@ -79,14 +89,16 @@ public class ClientModel extends EditViewModel {
                         .map(Book::getAuthor)
                         .distinct()
                         .toList());
+        log.info("Read " + this.sources.size() + " sources from server.");
+    }
 
+    private void readQuotes() {
+        log.info("Reading quotes from server.");
         this.quotes.addAll(quoteService.readAll());
-        this.quotes.forEach(quote -> quote.setSource(sources.stream()
-                .filter(source -> source.getId() == quote.getSource().getId())
-                .findFirst()
-                .orElseThrow()));
-
-        log.info("Retrieved data from server.");
+        Map<Long, Source> sourceMap = this.sources.stream()
+                .collect(Collectors.toMap(Source::getId, source -> source));
+        this.quotes.forEach(quote -> quote.setSource(sourceMap.get(quote.getSource().getId())));
+        log.info("Read " + this.quotes.size() + " quotes from server.");
     }
 
     private void registerChangeListeners() {
@@ -344,7 +356,6 @@ public class ClientModel extends EditViewModel {
         this.articles.set(articleIndex, article);
     }
 
-
     private ListChangeListener<Book> bookListChangeListener() {
         return c -> {
             while (c.next()) {
@@ -359,7 +370,6 @@ public class ClientModel extends EditViewModel {
                         book.setId(bookService.update(book).getId());
                     });
 
-                    // TODO happening on server side
                     cleanAuthors();
                 }
 
@@ -400,16 +410,10 @@ public class ClientModel extends EditViewModel {
                     c.getAddedSubList().forEach(author -> {
                         if (!authors.contains(author))
                             authors.add(author);
-
                     });
                 }
 
-                // TODO
-                //else if (c.wasAdded())
-                //    c.getAddedSubList().forEach(authorRepository::create);
-
-                //else if (c.wasRemoved())
-                //    c.getRemoved().forEach(authorRepository::delete);
+                // Adding and removals are handled on server side
             }
         };
     }
@@ -420,14 +424,11 @@ public class ClientModel extends EditViewModel {
                 if (c.wasReplaced())
                     c.getAddedSubList().forEach(articleService::update);
 
-                //
-                //else if (c.wasAdded())
-                //    c.getAddedSubList().forEach(articleService::create);
+                // Article is added when quote is added
 
                 else if (c.wasRemoved())
                     c.getRemoved().forEach(sourceService::delete);
             }
         };
     }
-
 }
