@@ -49,10 +49,6 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5'
     implementation 'org.apache.httpcomponents.core5:httpcore5:5.2.1'
 
-    // Gson
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation 'com.google.code.gson:gson:2.10.1'
-
     // Junit 5
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.+'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.+'

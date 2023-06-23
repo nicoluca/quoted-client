@@ -33,7 +33,7 @@ This user manual will make use of screenshots of the application. Red boxes/anno
 - Books, Websites/Articles and authors will be automatically merged if they are identical, i.e. if they have the same title, author or URL. This is case-insensitive.
 
 ### Non-Functional Features
-- The application has been tested with up to 1000 quotes and 1000 sources on a 2021 MacBook.
+- The application has been tested with up to 1000 quotes and 1000 sources on a 2021 M1 Pro MacBook.
 
 ## General Application Usage
 
@@ -47,13 +47,13 @@ To add a quote, fill or copy/paste into the main text field.
 
 To add a source to the quote (mandatory) either select an existing book from the choicebox, create a new book via the respective button, or fill in the the URL text field after checking the URL checkbox.
 
-The quote will be saved to the database when you click the "Add Quote" button you will briefly see a success message. If any input was invalid, you will see a respective error message.
+The quote will be saved to the server-side database when you click the "Add Quote" button you will briefly see a success message. If any input was invalid, you will see a respective error message.
 
 <img src="images/add_quote.png" width="500" alt="Add Quote">
 
 ## Reviewing Random Quotes
 
-To review a random quote, select the "Random" tab. You will see a random quote and its source (if quotes are present in the database). You can click the "Next" button to see another random quote.
+To review a random quote, select the "Random" tab. You will see a random quote and its source (if quotes are present in the server-side database). You can click the "Next" button to see another random quote.
 
 <img src="images/random_quote.png" width="500" alt="Random Quote">
 
@@ -77,7 +77,7 @@ You can use all this functionality before editing/deleting quotes.
 
 ## Adding Sources
 
-If the source of a quote is a Website, it will be automatically added to the database when you add the quote and paste/fill in the URL, if not yet present.
+If the source of a quote is a Website, it will be automatically added to the server-side database when you add the quote and paste/fill in the URL, if not yet present.
 
 To add a book, select the "Sources" tab and click the "Add Book" button. Fill in the respective fields and click the "Add Book" button to add a book, or press the respective button already described in the "New" tab.
 
@@ -98,7 +98,7 @@ You can use this functionality before editing/deleting sources.
 To edit or delete a quote, select the "Quotes" tab. You can search for the quote you want to edit/delete using the search functionality described in the Searching Quotes section.
 
 ### Deleting Quotes
-To delete a quote, click the "Delete" button in the row of the respective quote. The quote will be deleted from the database.
+To delete a quote, click the "Delete" button in the row of the respective quote. The quote will be deleted from the server.
 
 ### Editing Quotes
 To edit a quote, select the quote in the right table and click the "Edit" button. The following window allows you to edit the quote text and source. Press "Confirm" to save the changes.
@@ -110,9 +110,9 @@ To edit a quote, select the quote in the right table and click the "Edit" button
 To edit or delete a source, select the "Sources" tab. You can search for the source you want to edit/delete using the search functionality described in the [Searching Sources](#searching-sources) section.
 
 ### Deleting Sources
-To delete a source, click the "Delete" button in the row of the respective source. The source will be deleted from the database.
+To delete a source, click the "Delete" button in the row of the respective source. The source will be deleted from the server.
 
-⚠️If you delete a source, all quotes that have this source will be deleted as well.
+⚠️ If you delete a source, all quotes that have this source will be deleted as well.
 
 To delete all 'empty' sources, i.e. sources that are not associated with any quotes, click the "Delete Empty Sources" button.
 

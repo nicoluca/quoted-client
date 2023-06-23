@@ -4,10 +4,8 @@ module org.nico.quoted {
     requires org.slf4j;
     requires static lombok;
 
-    // Required for Hibernate
     requires httpclient;
     requires httpcore;
-    requires com.google.gson;
     requires java.sql;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.databind;
