@@ -117,7 +117,6 @@ class ClientModelTest {
     @Test
     @DisplayName("Test returning a random quote")
     void getRandomQuote() {
-        when(quoteService.readRandomQuote()).thenReturn(firstQuote());
         assertNotNull(model.getRandomQuote());
     }
 
@@ -149,10 +148,14 @@ class ClientModelTest {
     @Test
     @DisplayName("Test filtering quotes by source")
     void getQuotesBySource() {
+        when(quoteService.create(any(Quote.class))).thenReturn(new Quote("Test", firstSource()));
+
         assertEquals(1, model.getQuotesBySource(firstSource()).size());
         Quote quote = new Quote("Test", firstSource());
         model.addQuote(quote);
         assertEquals(2, model.getQuotesBySource(firstSource()).size());
+
+        verify(quoteService, times(1)).create(any(Quote.class));
     }
 
     @Test
@@ -369,6 +372,10 @@ class ClientModelTest {
     @Test
     @DisplayName("Test: Create 1000 quotes with 1000 sources in under 1 second")
     void create1000QuotesWith1000Sources() {
+        when(quoteService.create(any(Quote.class))).thenReturn(new Quote());
+        when(bookService.create(any(Book.class))).thenReturn(new Book());
+        when(articleService.create(any(Article.class))).thenReturn(new Article());
+
         Instant start = Instant.now();
         for (int i = 0; i < 1000; i++) {
             model.addQuote(new Quote("Test", new Book("Test", new Author("Test", "Test"))));

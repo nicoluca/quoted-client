@@ -13,6 +13,7 @@ import org.nico.quoted.service.QuoteService;
 import org.nico.quoted.service.SourceService;
 
 import java.sql.Timestamp;
+import java.util.Random;
 
 @Slf4j
 public class ClientModel extends EditViewModel {
@@ -166,7 +167,11 @@ public class ClientModel extends EditViewModel {
     }
 
     public Quote getRandomQuote() {
-        return quoteService.readRandomQuote();
+        Quote randomQuote = quotes.get(new Random().nextInt(quotes.size()));
+        if (randomQuote.equals(lastRandomQuote))
+            return getRandomQuote();
+        lastRandomQuote = randomQuote;
+        return randomQuote;
     }
 
     public void updateQuote(Quote quote) {
@@ -249,24 +254,33 @@ public class ClientModel extends EditViewModel {
                         } else
                             sources.add(quote.getSource());
 
-                        quoteService.update(quote);
+                        quote.setId(quoteService.update(quote).getId());
                     });
                 }
 
                 else if (c.wasAdded()) {
                     log.info("Quote was added");
                     c.getAddedSubList().forEach(quote -> {
-                        if (!sources.contains(quote.getSource()))
+                        if (!sources.contains(quote.getSource())) {
                             sources.add(quote.getSource());
-                        else
+
+                            if (quote.getSource() instanceof Article article) {
+                                article.setLastVisited(new Timestamp(System.currentTimeMillis()));
+                                article = articleService.create(article);
+                                quote.setSource(article);
+                            }
+                        }
+                        else {
                             quote.setSource(sources.get(sources.indexOf(quote.getSource())));
 
-                        if (quote.getSource() instanceof Article article) {
-                            article.setLastVisited(new Timestamp(System.currentTimeMillis()));
-                            articleService.update(article);
+                            if (quote.getSource() instanceof Article article) {
+                                article.setLastVisited(new Timestamp(System.currentTimeMillis()));
+                                articleService.update(article);
+                            }
                         }
 
-                        quoteService.create(quote);
+
+                        quote.setId(quoteService.create(quote).getId());
                     });
                 }
 
@@ -337,9 +351,10 @@ public class ClientModel extends EditViewModel {
                         else
                             authors.add(book.getAuthor());
 
-                        bookService.update(book);
+                        book.setId(bookService.update(book).getId());
                     });
 
+                    // TODO happening on server side
                     cleanAuthors();
                 }
 
@@ -350,7 +365,7 @@ public class ClientModel extends EditViewModel {
                         else
                             authors.add(book.getAuthor());
 
-                        bookService.create(book);
+                        book.setId(bookService.create(book).getId());
                     });
 
                 else if (c.wasRemoved()) {

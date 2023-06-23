@@ -56,7 +56,7 @@ public class HttpServiceImpl implements HttpService {
         Optional<String> result = execute(request);
 
         if (result.isEmpty())
-            throw new RuntimeException("Error while posting to " + request.getURI() + " with payload: " + payload);
+            throw new RuntimeException("Error while posting/putting to " + request.getURI() + " with payload: " + payload);
 
         return result.get();
     }
@@ -66,7 +66,7 @@ public class HttpServiceImpl implements HttpService {
                      (CloseableHttpResponse) httpClient.execute(request)) {
 
             if (response.getStatusLine().getStatusCode() == 404)
-                return Optional.empty();
+                throw new RuntimeException("404 Not Found while retrieving " + request.getURI());
             else if (statusCodeNot2xx(response))
                 throw new RuntimeException("Unknown error while retrieving " + request.getURI() + ": " + response.getStatusLine().getStatusCode());
 
