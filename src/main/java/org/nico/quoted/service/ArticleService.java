@@ -13,7 +13,6 @@ public class ArticleService implements Update<Article>, Create<Article> {
 
     private final CreateDao<Article> createDao = new CreateDao<>(Article.class, Config.ARTICLES_URL);
 
-
     @Override
     public Article update(Article article) {
         return updateDao.update(article);

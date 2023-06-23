@@ -7,5 +7,4 @@ public class Launcher {
         QuoteApplication.main(args);
     }
 
-
 }
