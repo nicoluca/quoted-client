@@ -115,8 +115,13 @@ class ClientModelTest {
     }
 
     @Test
-    @DisplayName("Test returning a random quote")
+    @DisplayName("Test returning a random quote for multiple, single and no quotes")
     void getRandomQuote() {
+        assertNotNull(model.getRandomQuote());
+        model.deleteQuote(model.getQuoteByIndex(0));
+        model.deleteQuote(model.getQuoteByIndex(0));
+        assertNotNull(model.getRandomQuote());
+        model.deleteQuote(model.getQuoteByIndex(0));
         assertNotNull(model.getRandomQuote());
     }
 

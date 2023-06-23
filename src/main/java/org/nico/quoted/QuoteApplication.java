@@ -44,7 +44,7 @@ public class QuoteApplication extends Application {
     private static void checkServerHealth() {
         try {
             log.info("Checking server health");
-            HttpResponse response = HttpUtil.get(Config.SERVER_URL + Config.HEALTH_ENDPOINT);
+            HttpResponse response = HttpUtil.get(Config.HEALTH_URL);
 
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK)
                 showServerNotAvailableAlert();

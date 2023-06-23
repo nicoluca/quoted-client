@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.nico.quoted.config.Config;
 import org.nico.quoted.dao.*;
 import org.nico.quoted.domain.Quote;
-import org.nico.quoted.http.HttpService;
 
 import java.util.List;
 
@@ -13,11 +12,7 @@ public class QuoteService implements Create<Quote>, ReadAll<Quote>, Update<Quote
 
     private final CreateDao<Quote> createDao = new CreateQuoteDao(Quote.class, Config.SOURCE_URL);
     private final ReadAllDao<Quote> readAllDao = new ReadAllDao<>(Quote.class, Config.QUOTES_URL);
-    private final UpdateDao<Quote> updateDao = new UpdateDao<>(Quote.class, Config.QUOTES_URL);
     private final DeleteDao<Quote> deleteDao = new DeleteDao<>(Quote.class, Config.QUOTES_URL);
-    private final ReadDao<Quote> readRandomQuoteDao = new ReadDao<>(Quote.class, Config.QUOTES_URL);
-
-    private final HttpService httpService = Config.HTTP_SERVICE;
 
     @Override
     public Quote create(Quote quote) {
@@ -43,5 +38,4 @@ public class QuoteService implements Create<Quote>, ReadAll<Quote>, Update<Quote
         delete(quote);
         return create(quote);
     }
-
 }

@@ -7,7 +7,7 @@ import org.nico.quoted.config.Config;
 import org.nico.quoted.domain.Book;
 import org.nico.quoted.http.HttpServiceImpl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 

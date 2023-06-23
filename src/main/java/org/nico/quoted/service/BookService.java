@@ -1,9 +1,12 @@
 package org.nico.quoted.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.nico.quoted.dao.*;
-import org.nico.quoted.domain.Book;
 import org.nico.quoted.config.Config;
+import org.nico.quoted.dao.Create;
+import org.nico.quoted.dao.CreateDao;
+import org.nico.quoted.dao.Update;
+import org.nico.quoted.dao.UpdateDao;
+import org.nico.quoted.domain.Book;
 
 @Slf4j
 public class BookService implements Create<Book>, Update<Book> {

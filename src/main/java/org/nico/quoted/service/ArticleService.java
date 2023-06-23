@@ -1,7 +1,10 @@
 package org.nico.quoted.service;
 
 import org.nico.quoted.config.Config;
-import org.nico.quoted.dao.*;
+import org.nico.quoted.dao.Create;
+import org.nico.quoted.dao.CreateDao;
+import org.nico.quoted.dao.Update;
+import org.nico.quoted.dao.UpdateDao;
 import org.nico.quoted.domain.Article;
 
 public class ArticleService implements Update<Article>, Create<Article> {

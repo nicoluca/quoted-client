@@ -6,92 +6,91 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="491.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.nico.quoted.ui.controller.form.BookFormViewController">
    <HBox prefHeight="200.0" prefWidth="491.0">
-      <children>
-         <GridPane prefHeight="200.0" prefWidth="366.0">
-            <columnConstraints>
-               <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
-            <rowConstraints>
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            </rowConstraints>
+      <GridPane prefHeight="200.0" prefWidth="366.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+         </rowConstraints>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+         </padding>
+         <Label text="Title">
             <padding>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               <Insets top="10.0"/>
             </padding>
-            <Label text="Title">
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Author (First &amp; Last Name)" GridPane.rowIndex="1">
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </GridPane.margin>
-            </Label>
-            <TextField fx:id="titleTextField" text="*" GridPane.columnIndex="1">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
+            <GridPane.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </GridPane.margin>
+         </Label>
+         <Label text="Author (First &amp; Last Name)" GridPane.rowIndex="1">
+            <padding>
+               <Insets top="10.0"/>
+            </padding>
+            <GridPane.margin>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="titleTextField" text="*" GridPane.columnIndex="1">
+            <GridPane.margin>
+               <Insets left="10.0" right="10.0"/>
+            </GridPane.margin>
+         </TextField>
+         <Button fx:id="coverPathButton" mnemonicParsing="false" onAction="#onCoverPathButtonClicked" text="Open Cover"
+                 GridPane.rowIndex="3">
+            <GridPane.margin>
+               <Insets left="10.0" right="10.0"/>
+            </GridPane.margin>
+         </Button>
+         <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirmButtonClicked" text="Confirm"
+                 GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <GridPane.margin>
+               <Insets left="10.0" right="10.0"/>
+            </GridPane.margin>
+         </Button>
+         <TextField fx:id="coverPathTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <GridPane.margin>
+               <Insets left="10.0" right="10.0"/>
+            </GridPane.margin>
+         </TextField>
+         <Label fx:id="errorLabel" style="-fx-text-fill: red;" styleClass="ErrorClass" text="Error Message"
+                GridPane.rowIndex="4">
+            <padding>
+               <Insets left="10.0" right="10.0"/>
+            </padding>
+         </Label>
+         <Label text="ISBN" GridPane.rowIndex="2">
+            <padding>
+               <Insets right="10.0"/>
+            </padding>
+         </Label>
+         <TextField fx:id="isbnTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <GridPane.margin>
+               <Insets left="10.0" right="10.0"/>
+            </GridPane.margin>
+         </TextField>
+         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+            <TextField fx:id="authorFirstNameTextField" prefHeight="26.0" prefWidth="78.0" text="*">
+               <HBox.margin>
+                  <Insets right="10.0"/>
+               </HBox.margin>
             </TextField>
-            <Button fx:id="coverPathButton" mnemonicParsing="false" onAction="#onCoverPathButtonClicked" text="Open Cover" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </Button>
-            <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#onConfirmButtonClicked" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </Button>
-            <TextField fx:id="coverPathTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <Label fx:id="errorLabel" style="-fx-text-fill: red;" styleClass="ErrorClass" text="Error Message" GridPane.rowIndex="4">
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </Label>
-            <Label text="ISBN" GridPane.rowIndex="2">
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-            </Label>
-            <TextField fx:id="isbnTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="10.0" right="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <TextField fx:id="authorFirstNameTextField" prefHeight="26.0" prefWidth="78.0" text="*">
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <TextField fx:id="authorLastNameTextField" prefHeight="26.0" prefWidth="93.0" text="*" />
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-         </GridPane>
-         <ImageView fx:id="coverImageView" fitHeight="180.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
-            <HBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </HBox.margin>
-         </ImageView>
-      </children>
+            <TextField fx:id="authorLastNameTextField" prefHeight="26.0" prefWidth="93.0" text="*"/>
+         </HBox>
+      </GridPane>
+      <ImageView fx:id="coverImageView" fitHeight="180.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+         <HBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+         </HBox.margin>
+      </ImageView>
    </HBox>
 </AnchorPane>

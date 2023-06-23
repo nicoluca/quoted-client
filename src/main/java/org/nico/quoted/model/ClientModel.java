@@ -167,6 +167,11 @@ public class ClientModel extends EditViewModel {
     }
 
     public Quote getRandomQuote() {
+        if (quotes.isEmpty())
+            return new Quote("No quotes found.", new Article("No Source found.", "-"));
+        if (quotes.size() == 1)
+            return quotes.get(0);
+
         Quote randomQuote = quotes.get(new Random().nextInt(quotes.size()));
         if (randomQuote.equals(lastRandomQuote))
             return getRandomQuote();
