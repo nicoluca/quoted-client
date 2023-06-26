@@ -11,7 +11,6 @@ public class CreateQuoteDao extends CreateDao<Quote> {
         super(type, sourceUrl);
     }
 
-    // TODO test
     // Used for unit testing, to inject a mock HttpService
     public CreateQuoteDao(Class<Quote> type, String url, HttpService httpService) {
         super(type, url, httpService);

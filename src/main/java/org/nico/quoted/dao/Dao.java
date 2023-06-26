@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.nico.quoted.config.Config;
 import org.nico.quoted.http.HttpService;
 
-public abstract class Dao<T> {
+abstract class Dao<T> {
     protected Class<T> type;
     protected final String url;
     protected final HttpService httpService;

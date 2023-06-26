@@ -4,7 +4,7 @@ A JavaFX client-side quote management application.
 ## Description
 This is a simple quote management desktop application. It allows you to create, edit, delete and view quotes and their respective sources and persist them in a database. You can also review random quotes and search quotes and sources by keyword.
 
-It requires a server-side application to be running. The server-side application can be found [here](https://github.com/nicoluca/quoted-server).
+It requires a server-side application to be running, as it talks to a server via REST APIs to store, retrieve and edit entities. The server-side application can be found [here](https://github.com/nicoluca/quoted-server).
 
 ## Features
 - Create, edit, delete and view quotes
